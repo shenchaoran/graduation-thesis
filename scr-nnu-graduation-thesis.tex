@@ -1,4 +1,3 @@
-
 \documentclass[degree=master,tocarialchapter]{thuthesis}
 % 选项
 %   degree=[bachelor|master|doctor|postdoctor], % 必选，学位类型
@@ -12,6 +11,7 @@
 % \usepackage{thuthesis}
 \usepackage{url}
 \usepackage{enumitem}
+\usepackage{graphicx}
 
 % 定义所有的图片文件在 figures 子目录下
 \graphicspath{{figures/}}
@@ -21,15 +21,13 @@
 
 
 \begin{document}
-\title{开放式地理模型对比系统构建方法研究——以陆地生态系统碳循环模型为例 $\rho$ Series\thanks{No procrastination}}
-\date{2017\\ December}
-\author{John Doe\\ Magic Department\thanks{I am no longer a member of this department}, Richard Miles University 
-	\and Richard Row, \LaTeX\ Academy}
-\renewcommand\maketitle
-\clearpage
+
+% \maketitle
 
 %%% 封面部分
 \frontmatter
+
+\includepdf{cover/cover.pdf} %%%%% 封面 %%%%%%%%%%%%
 % \input{data/cover}
 % 如果使用授权说明扫描页，将可选参数中指定为扫描得到的 PDF 文件名，例如：
 % \makecover[scan-auth.pdf]
@@ -69,9 +67,9 @@
 % 注意：至少需要引用一篇参考文献，否则下面两行可能引起编译错误。
 % 如果不需要参考文献，请将下面两行删除或注释掉。
 % 数字式引用
-% \bibliographystyle{thuthesis-numeric}
+\bibliographystyle{thuthesis-numeric}
 % 作者-年份式引用
-\bibliographystyle{thuthesis-author-year}
+% \bibliographystyle{thuthesis-author-year}
 \bibliography{ref/refs}
 
 
