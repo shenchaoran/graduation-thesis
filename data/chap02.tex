@@ -135,10 +135,10 @@
     本文采用MERRA 2（Modern Era Ｒetrospective-analysis for Ｒesearch and
     Applications 2）气象数据集，MERRA是NASA为卫星提供的在大气再分析资料，致力于天气和气候时间尺度与水循环相关研究，具有较高的空间分辨率和较完整的时间序列范围，气象要素包括平均温、最高温、最低温、相对湿度、降水量、风速和云量。本文的数据时间范围从1982年到2013年共32年，以日为时间分辨率。数据原始空间分辨率为$0.625^{\circ} \times 0.5^{\circ}$，对其进行重采样转换为$0.5^{\circ} \times 0.5^{\circ}$，以符合全球离散网格点的空间分布。
 
-    \item \textbf{土壤数据集}
+    \item \textbf{土壤数据集：}
     主要包括土壤的颗粒组成成分，即沙粒含量、黏粒含量、粉粒含量、土壤深度，由中山大学土壤——大气相互作用研究组开发~\ref{shangguan2014global}。数据的空间分辨率为$0.0085^{\circ} \times 0.0107^{\circ}$，对其进行重采样转换为$0.5^{\circ} \times 0.5^{\circ}$。数据详情参考 \href{http://globalchange.bnu.edu.cn/research/soilw}{http://globalchange.bnu.edu.cn/research/soilw}
 
-    \item \textbf{植被功能类型数据集}
+    \item \textbf{植被功能类型数据集：}
     % 植被功能类型使用
     生态过程模型普遍采用植被功能类型作为植被基本处理单元，本文所选的三个模型也是如此。由于这三个模型内部对植被功能类型的划分不同，因此对原始数据进行类型映射，如表~\ref{tab:IBIS-PFT-map}, ~\ref{tab:Biome-BGC-PFT-map}, ~\ref{tab:LPJ-PFT-map}所示，分别为三个模型的植被功能类型映射表。
 
@@ -202,7 +202,7 @@
         \end{threeparttable}
     \end{table}
 
-    \item \textbf{通量观测数据集}
+    \item \textbf{通量观测数据集：}
     全球通量观测网络（FLUXNET）是一个以全球广泛分布的通量塔为基础的全球通量观测网络。通量观测站点遍布世界主要国家，在北美、欧洲、亚洲、非洲都有它的区域网络存在（如亚洲通量网AsiaFlux、美洲通量网AmeriFlux、中国通量网ChinaFlux）。到如今为止，累计有800多个活跃和历史的通量测定站点，分布在全球大部分气候空间和代表性生物群系中。覆盖的植被功能类型包括热带森林、温带针叶和阔叶森林、寒带森林、农田、草原、灌木丛、苔原和湿地。它在全球范围内连续测量大气状态变量，如温度、湿度、风速、降雨量、大气二氧化碳、植被生产力、生物量等。本文使用的是La Thuile数据集，包括站点每天的温度、降水、光合有效辐射比例（FPAR）、GPP、NEP，共计有231个通量观测站点，累计900余个站点$\cdot$年次数据，作为观测数据集与模型模拟的结果进行站点尺度上的对比。站点分布如图~\ref{fig:Thuile-site-POI}所示。
 
     \begin{figure}
@@ -212,10 +212,10 @@
         \label{fig:Thuile-site-POI}
     \end{figure}
 
-    \item \textbf{MODIS GPP/NPP数据集}
-    MODIS MOD17 A3提供了时空连续的遥感GPP/NPP产品，MODIS/GPP产品以其他MODIS产品为基础计算而得，时间范围从2000年到2015年，时间分辨率为8天，空间分辨率为$0.0083^{\circ} \times 0.0083^{\circ}$。本文使用MODIS GPP/NPP 数据集作为全球尺度上的对比验证数据集，与三个模型模拟的结果进行对比分析。
+    \item \textbf{MODIS GPP/NPP数据集：}
+    MODIS MOD17 A3提供了时空连续的遥感GPP/NPP产品，MODIS/GPP产品以其他MODIS产品为基础计算而得，时间范围从2000年到2015年，时间分辨率为8天，空间分辨率为$0.0083^{\circ} \times 0.0083^{\circ}$，对其进行重采样转换为$0.5^{\circ} \times 0.5^{\circ}$。本文使用MODIS GPP/NPP 数据集作为全球尺度上的对比验证数据集，与三个模型模拟的结果进行对比分析。
 
-    \item \textbf{其他数据集}
+    \item \textbf{其他数据集：}
     模型还需要网格点的物理常量数据，包括有格点高程数据、短波反射率等。其中高程数据使用的是DEM数据
 \end{enumerate}
 
