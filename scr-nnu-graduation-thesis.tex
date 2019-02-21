@@ -12,8 +12,30 @@
 \usepackage{url}
 \usepackage{enumitem}
 \usepackage{graphicx}
-\usepackage{multirow}
+% \usepackage{subfigure}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{float} 
+\usepackage{makecell, multirow}
 \usepackage{threeparttable}
+\usepackage{textcomp}
+\usepackage{array}
+\usepackage{lscape}
+\usepackage{CJK}
+\usepackage{geometry}
+\usepackage{booktabs, tabularx}
+\usepackage{tabu}
+
+\usepackage{xpatch}
+\makeatletter
+\chardef\TPT@@@asteriskcatcode=\catcode`*
+\catcode`*=11
+\xpatchcmd{\threeparttable}
+  {\TPT@hookin{tabular}}
+  {\TPT@hookin{tabular}\TPT@hookin{tabu}}
+  {}{}
+\catcode`*=\TPT@@@asteriskcatcode
+\makeatother
 % \usepackage[colorlinks=true]{hyperref}
 
 % 定义所有的图片文件在 figures 子目录下
