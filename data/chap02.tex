@@ -140,8 +140,7 @@
 如前文所分析，生态过程模型一般都需要气象数据集、土壤数据集和植被功能类型数据集，而在进行对比时，要确保使用相同的通用数据集。而由于不同模型对这些数据在时空分辨率、植被类型等方面的要求不同，因此，本文采用相同的数据域，针对每个模型的特殊要求，对原始数据进行数据处理。
 
 \subsection{气象数据集}
-本文采用MERRA 2（Modern Era Ｒetrospective-analysis for Ｒesearch and
-Applications 2）气象数据集，MERRA是NASA为卫星提供的在大气再分析资料，致力于天气和气候时间尺度与水循环相关研究，具有较高的空间分辨率和较完整的时间序列范围，气象要素包括平均温、最高温、最低温、相对湿度、降水量、风速和云量。本文的数据时间范围从1982年到2013年共32年，以日为时间分辨率。数据原始空间分辨率为$0.625^{\circ} \times 0.5^{\circ}$，对其进行重采样转换为$0.5^{\circ} \times 0.5^{\circ}$，以符合全球离散网格点的空间分布。
+本文采用MERRA 2（Modern Era Retrospective-analysis for Research and Applications 2）气象数据集，MERRA是NASA为卫星提供的在大气再分析资料，致力于天气和气候时间尺度与水循环相关研究，具有较高的空间分辨率和较完整的时间序列范围，气象要素包括平均温、最高温、最低温、相对湿度、降水量、风速和云量。本文的数据时间范围从1982年到2013年共32年，以日为时间分辨率。数据原始空间分辨率为$0.625^{\circ} \times 0.5^{\circ}$，对其进行重采样转换为$0.5^{\circ} \times 0.5^{\circ}$，以符合全球离散网格点的空间分布。
 
 \subsection{土壤数据集}
 主要包括土壤的颗粒组成成分，即沙粒含量、黏粒含量、粉粒含量、土壤深度，由中山大学土壤——大气相互作用研究组开发~\ref{shangguan2014global}。数据的空间分辨率为$0.0085^{\circ} \times 0.0107^{\circ}$，对其进行重采样转换为$0.5^{\circ} \times 0.5^{\circ}$。数据详情参考 \href{http://globalchange.bnu.edu.cn/research/soilw}{http://globalchange.bnu.edu.cn/research/soilw}
