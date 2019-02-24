@@ -143,21 +143,41 @@
 元数据是关于数据的数据，它主要描述数据的内容、质量、表示方式、空间参照系、管理方式、数据的所有者、数据的提供方式和数据集的其他特征等。地理信息元数据可以用来管理和维护空间数据，方便查询和检索空问数据，为用户提供数据内容，质量状态和相关特性的数据编目，为地理信息共享提供了基础。UDX由通用数据表达（UDX Schema）和通用数据交换（UDX Data）两部分构成，UDX Schema的作用是对数据的结构和语义内涵、空间参考、单位量纲等进行详尽的描述，UDX Data则是严格匹配于UDX Schema结构的具体数据实体。UDX Data和UDX Schema都用XML序列化表达。
 UDX的理念是提供一种“中间数据格式”，在模型集成时提供统一的数据视图为多个模型提供数据。但是，在模型独立运行时，UDX就显得比较臃肿。
 
-
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=.8\textwidth]{UML-data-description-interface}
+    \caption{数据描述文档设计}
+    \label{fig:UML-data-description-interface}
+\end{figure}
 
 为适应本文系统的架构，本文使用JSON Schema来具体地表达UDX Schema，使用原始数据格式作为UDX Data，这样既可以详尽地描述数据的元数据，又可以避免数据到XML的序列化和反序列化映射过程。
 
-\subsubsection{空间参考资源库}
+\subsubsection{NetCDF的UDX Schema模板}
 
-\subsubsection{单位量纲资源库}
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=.8\textwidth]{UML-data-description-interface}
+    \caption{NetCDF描述文档}
+    \label{fig:UML-data-description-interface}
+\end{figure}
 
-\subsubsection{通用数据描述模板库}
+\subsubsection{CSV的UDX Schema模板}
 
-\begin{enumerate}[(1)]
-\item \textbf{NetCDF的UDX Schema模板}
-\item \textbf{CSV的UDX Schema模板}
-\item \textbf{Shapefile的UDX Schema模板}
-\end{enumerate}
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=.8\textwidth]{UML-data-description-interface}
+    \caption{NetCDF描述文档}
+    \label{fig:UML-data-description-interface}
+\end{figure}
+
+\subsubsection{Shapefile的UDX Schema模板}
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=.8\textwidth]{UML-data-description-interface}
+    \caption{NetCDF描述文档}
+    \label{fig:UML-data-description-interface}
+\end{figure}
 
 \subsection{碳循环相关数据资源的服务化封装}
 \subsubsection{WMS/WFS/WCS}
@@ -169,7 +189,14 @@ UDX的理念是提供一种“中间数据格式”，在模型集成时提供�
 \section{开放式碳循环模型资源接入方法}
 % 从支撑模型运行的角度出发，并结合地理模型对比的需求，梳理了地理模型的运行特征，并以结构化的文档描述模型资源，
 
-\subsection{碳循环模型资源运行特征分析}
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=1\textwidth]{mdl}
+    \caption{模型服务的封装、发布和应用}
+    \label{fig:mdl}
+\end{figure}
+
+\subsection{碳循环模型资源特征分析}
 % 运行分类：简单型、时间推进型、条件语句型、多子过程的集成
 % 运行进度
 \begin{enumerate}[(1)]
@@ -182,8 +209,12 @@ UDX的理念是提供一种“中间数据格式”，在模型集成时提供�
 
 \end{enumerate}
 
+% 运行平台、语言、编译型解释型、有无源代码
+
+
 \subsection{碳循环模型资源描述方法}
-模型服务的描述方法是模型服务化的基础，其难点在于对于模型依赖数据的结构的有效表达和对于运行接口的标准化设计。模型服务描述文档应该是面向人的，通过模型服务描述文档提供的信息，模型服务使用者就能够方便地了解和使用模型，并能够理解模型的返回结果；同时模型服务描述文档又是面向机器的，通过模型服务描述文档提供的模型运行输入输出选项，能够判断出模型运行数据的完备性，并在用户发送请求时将模型调用起来。因此，本文将模型服务的描述文档设计为如图~\ref{fig:mdl}所示，其中AttributeSet表示基本信息描述接口，面向人的理解；Beheavior表示模型的运行行为接口，面向机器理解模型的运行要求；Runtime表示模型的软硬件环境依赖，也是面向机器，支持模型能够成功调用起来。
+模型服务的描述方法是模型服务化的基础，其难点在于对于模型依赖数据的结构的有效表达和对于运行接口的标准化设计。模型服务描述文档应该是面向人的，通过模型服务描述文档提供的信息，模型服务使用者就能够方便地了解和使用模型，并能够理解模型的返回结果；同时模型服务描述文档又是面向机器的，通过模型服务描述文档提供的模型运行输入输出选项，能够判断出模型运行数据的完备性，并在用户发送请求时将模型调用起来。因此，本文将模型服务的描述文档设计为如图~\ref{fig:mdl}所示，
+其中AttributeSet表示基本信息描述接口，面向人的理解；Beheavior表示模型的运行行为接口，面向机器理解模型的运行要求；Runtime表示模型的软硬件环境依赖，也是面向机器，支持模型能够成功调用起来。
 
 模型描述文档由JSON形式表达，与本文选择的具体技术体系有关：一方面它与MongoDB数据库结构同构，有助于增删查改，另一方面它与后台服务器Node.js天生兼容，解析起来方便。
 
@@ -197,26 +228,48 @@ UDX的理念是提供一种“中间数据格式”，在模型集成时提供�
 \subsubsection{基本信息描述接口设计}
 % 名称、分类、作者、版本、
 % 面向人和及其理解
+基本信息
 模型的基本信息包括模型名称、关键字、DOI、摘要、版本信息，并添加了wiki字段，使用markdown以可扩展的方式允许模型拥有者编辑。
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=.8\textwidth]{UML-model-description-interface}
+    \caption{基本信息描述接口设计}
+    \label{fig:UML-model-description-interface}
+\end{figure}
 
 \subsubsection{运行信息描述接口设计}
 % 存储路径、文件名、类型（编译、解释）、
 % 两个粒度：单模型运行和多模型集成
 运行信息接口包括两部分：模型的输入输出列表和数据的格式
 
-\subsubsection{软硬件依赖环境信息描述接口设计}
-% 
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=1\textwidth]{UML-model-invoke-interface}
+    \caption{运行信息描述接口设计}
+    \label{fig:UML-model-invoke-interface}
+\end{figure}
+
+\subsubsection{部署信息描述接口设计}
+% 软硬件依赖
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=1\textwidth]{UML-model-deployment-interface}
+    \caption{部署信息描述接口设计}
+    \label{fig:UML-model-deployment-interface}
+\end{figure}
 
 \subsection{碳循环模型资源的封装和服务发布}
 \subsubsection{模型运行接口设计}
 % 解释型、编译型
-% 模型代理
-\subsubsection{服务封装}
-\subsubsection{服务发布}
 
-% \section{模型资源和数据资源的耦合方法}
-% \subsection{基于UDX Schema的数据规格检查与匹配}
-% \subsection{基于数据抽取和重构的耦合方法}
+\subsubsection{服务封装}
+% 几种方式：模型代理、源码封装
+
+\subsubsection{服务部署和发布}
+% 数据库录入条目、服务部署
+
 
 \section{开放式碳循环模型对比方法}
 

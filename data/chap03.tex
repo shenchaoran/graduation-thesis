@@ -89,6 +89,13 @@
 
 针对第\ref{sec:scene}的模拟情景分析，陆地生态系统碳循环模型在对比时可以归纳出三个主要关注点：研究问题、对比方法和模型运行参数的设定。如图~\ref{fig:cmip-business-abstraction}所示，本文将对比业务的开展归纳为三个描述文档的创建：对比话题、对比方案、对比任务。其中，\textbf{对比话题}中指明了研究问题、对比情景和对比要素；\textbf{对比方案}配置了对比参与者和对比方法，对比方案不包括具体的输入数据、观测数据和模拟结果，他表示的仅仅是对比的配置项，从而实现对比过程的可共享性和可重用性；\textbf{对比任务}描述的是对比方案配置输入数据和观测数据实体的结果。模型在对比任务中开始具体的运算，并将运算结果与观测数据进行统计学对比和可视化对比。1个对比话题可以对应多个对比方案，一个对比方案通过配置不同的标准数据集可以对应多个对比任务。以本文的研究内容为例，可以创建如\ref{tab:topic-solution-task-example}表的对比话题、对比方案、对比任务。通过本文的三层模型抽象表达实现了对比方案的共享和重用，简化了模型对比的难度，并将最后的对比结果公开发布为服务，使对比过程公开透明，更加具有可信度。
 
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=1\textwidth]{UML-topic-solution-task}
+    \caption{陆地生态系统碳循环模型对比业务抽象和归纳}
+    \label{fig:UML-topic-solution-task}
+\end{figure}
+
 % \renewcommand{\arraystretch}{1.5}
 \begin{landscape}
 \begin{table}
