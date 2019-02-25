@@ -1,20 +1,14 @@
 \chapter{开放式对比资源接入方法}
-本文将数据、模型和对比方法称之为对比资源，这三者的开放性决定了对比结果的公开性、公平性和准确性。其中数据资源贯穿于整个对比流程，从原始输入数据的公开共享，到向模型严格要求的结构的输入数据的重构匹配，再到支撑模型的正确运算和输出，最后与观测数据一并传递给模型对比方法，每一步都有数据的身影。将数据资源开放式接入到系统框架下，一方面是对资源的公开共享，另一方面可以用来检测误差来源于对比的哪一步。模型资源作为对比评估的对象，更需要以开放式的方式公开出来。此外，对模型的标准化封装和服务化，可以去除地理模型的异构性和复杂性，促进模型的推广应用和改进发展。模型资源和数据资源的开放式、服务化、标准化接入，使模型对比工作不仅仅局限于本文现有的模型资源和数据资源，使它遵循特定的接口执行对比流程，从而实现了模型和数据的可扩展性接入，为更多的模型对比提供了可能性。对比方法...
+本文将数据、模型和对比方法称之为对比资源，这三者的开放性决定了对比结果的公开性、公平性和准确性。
+其中数据资源贯穿于整个对比流程，从原始输入数据的公开共享，到向模型严格要求的结构的输入数据的重构匹配，再到支撑模型的正确运算和输出，最后与观测数据一并传递给模型对比方法，每一步都有数据的身影。将数据资源开放式接入到系统框架下，一方面是对资源的公开共享，另一方面可以用来检测误差来源于对比的哪一步。模型资源作为对比评估的对象，更需要以开放式的方式公开出来。此外，对模型的标准化封装和服务化，可以去除地理模型的异构性和复杂性，促进模型的推广应用和改进发展。模型资源和数据资源的开放式、服务化、标准化接入，使模型对比工作不仅仅局限于本文现有的模型资源和数据资源，使它遵循特定的接口执行对比流程，从而实现了模型和数据的可扩展性接入，为更多的模型对比提供了可能性。对比方法...
 
 \section{开放式碳循环相关数据资源接入方法}
-\label{sec:data-desc}
-网络空间中的数据按照其组织结构可以分为结构化数据、半结构化数据和非结构化数据，地理模型在运行时强烈依赖于输入数据的结构，所以半结构和非结构化数据的结构化描述是数据应用时最重要的一部分。本章首先从数据格式、尺度、内涵、编排四个方面详细地分析了碳循环相关数据资源的特征，然后采用通用数据表达——交换模型（Universal Data Description eXchange Model，UDX)）~\cite{乐松山2016面向地理模型共享与集成的数据适配方法研究}的设计理念，通过UDX Schema来描述碳循环相关的数据资源，以帮助数据资源接入、介绍和展示。最后遵循OGC WMS、WFS、WCS标准，使用GeoServer发布碳循环数据服务，实现了空间数据的在线预览和查询检索，对于对比过程中需要进行的数据抽取和重组，设计了数据重构服务以支持他的网络化应用。
+网络空间中的数据按照其组织结构可以分为结构化数据、半结构化数据和非结构化数据，地理模型在运行时强烈依赖于输入数据的结构，所以半结构化和非结构化数据的半结构化描述是数据应用时最重要的一部分。
+本章首先从数据格式、尺度、编排三个方面详细地分析了碳循环相关数据资源的特征，然后采用通用数据表达——交换模型（Universal Data Description eXchange Model，UDX)）~\cite{乐松山2016面向地理模型共享与集成的数据适配方法研究}的设计理念，通过UDX Schema来描述碳循环相关的数据资源，以帮助数据资源接入、介绍和展示。最后遵循OGC WMS、WFS、WCS标准，使用GeoServer发布碳循环数据服务，实现了空间数据的在线预览和查询检索，对于对比过程中需要进行的数据抽取和重组，设计了数据重构服务以支持他的网络化应用。
 
 \subsection{碳循环相关数据资源结构特征分析}
-% 格式：nc, csv, shp, txt
-% 数据内涵
-% 数据量
-% 数据编排
-% 时空特性
-% 来源、层次、时空多尺度、离散
-
 \subsubsection{数据格式分析}
-碳循环相关数据主要有几种格式：NetCDF、CSV、Shapefile和TXT，如表~\ref{tab:data-format-feature}所示，除了TXT其他数据都是结构化的。
+碳循环相关数据主要有几种格式：NetCDF、CSV、Shapefile和TXT，如表~\ref{tab:data-format-feature}所示，这些数据都是非结构化的。
 
 \begin{table}[H]
     \centering
@@ -128,60 +122,83 @@
 
 \end{enumerate}
 
-\subsubsection{数据内涵分析}
-
-
 \subsubsection{数据编排分析}
+由于三个模型对于数据的要求不完全相同，所以合理的数据编排对数据检索、下载、模型运行都是至关重要的。如图~\ref{fig:data-split-map}所示，每套数据集存放在固定的路径下，可由数据库解析到。在运行一个格点时，首先从网格点shapefile的属性表中获取他的编号，再对应到具体的数据集和模型下面，可以获取详细的输入输出文件列表。
 
-\subsection{碳循环相关数据资源结构化描述方法}
-% 放弃 UDX
-% 对领域通用数据格式进行结构化描述
-% 元数据 UDX的设计
-% 本文对UDX的应用及修改
-% JSON schema
-% data schema
-% 在各种匹配情景的关联作用
-元数据是关于数据的数据，它主要描述数据的内容、质量、表示方式、空间参照系、管理方式、数据的所有者、数据的提供方式和数据集的其他特征等。地理信息元数据可以用来管理和维护空间数据，方便查询和检索空问数据，为用户提供数据内容，质量状态和相关特性的数据编目，为地理信息共享提供了基础。UDX由通用数据表达（UDX Schema）和通用数据交换（UDX Data）两部分构成，UDX Schema的作用是对数据的结构和语义内涵、空间参考、单位量纲等进行详尽的描述，UDX Data则是严格匹配于UDX Schema结构的具体数据实体。UDX Data和UDX Schema都用XML序列化表达。
-UDX的理念是提供一种“中间数据格式”，在模型集成时提供统一的数据视图为多个模型提供数据。但是，在模型独立运行时，UDX就显得比较臃肿。
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=1\textwidth]{data-split-map}
+    \caption{陆地生态系统碳循环模型输入数据编排}
+    \label{fig:data-split-map}
+\end{figure}
+
+\subsection{碳循环相关数据资源描述方法}
+\label{sec:data-desc}
+元数据是关于数据的数据，它主要描述数据的内容、质量、表示方式、空间参照系、管理方式、数据的所有者、数据的提供方式和数据集的其他特征等。地理信息元数据可以用来管理和维护空间数据，方便查询和检索空问数据，为用户提供数据内容，质量状态和相关特性的数据编目，为地理信息共享提供了基础。
+对于数据的描述分为两部分：领域通用格式数据的描述和自定义结构数据的描述。对于前者，本文设计了如图~\ref{UML-data-description-interface}所示的描述文档，针对每种格式数据各自的特点，以可扩展的形式对其进行描述。对于自定义结构的数据，本文采用示例数据的形式描述。
 
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=.8\textwidth]{UML-data-description-interface}
-    \caption{数据描述文档设计}
+    \caption{数据描述接口设计}
     \label{fig:UML-data-description-interface}
 \end{figure}
 
-为适应本文系统的架构，本文使用JSON Schema来具体地表达UDX Schema，使用原始数据格式作为UDX Data，这样既可以详尽地描述数据的元数据，又可以避免数据到XML的序列化和反序列化映射过程。
-
-\subsubsection{NetCDF的UDX Schema模板}
-
-\begin{figure}[!htbp]
-    \centering
-    \includegraphics[width=.8\textwidth]{UML-data-description-interface}
-    \caption{NetCDF描述文档}
-    \label{fig:UML-data-description-interface}
-\end{figure}
-
-\subsubsection{CSV的UDX Schema模板}
+如图~\ref{fig:data-desc-example}，对于Table数据的描述，主要包括解析数据的表头和列信息组成，表头信息包括有无表头、跳过行数、分隔符、起始列号、终止列号、步长信息。列信息包括数据缩放因子、偏移量、描述和单位信息组成。
+对于NetCDF数据的描述，包括维度和变量信息。他们都包括名称、缺省值、缩放因子、偏移量等信息。
 
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=.8\textwidth]{UML-data-description-interface}
-    \caption{NetCDF描述文档}
-    \label{fig:UML-data-description-interface}
-\end{figure}
-
-\subsubsection{Shapefile的UDX Schema模板}
-
-\begin{figure}[!htbp]
-    \centering
-    \includegraphics[width=.8\textwidth]{UML-data-description-interface}
-    \caption{NetCDF描述文档}
-    \label{fig:UML-data-description-interface}
+    \includegraphics[width=.8\textwidth]{data-desc-example}
+    \caption{Table和NetCDF数据描述文档示例}
+    \label{fig:data-desc-example}
 \end{figure}
 
 \subsection{碳循环相关数据资源的服务化封装}
-\subsubsection{WMS/WFS/WCS}
+\subsubsection{WMS、WFS、WCS三种服务的发布}
+为实现一套与厂商无关的空间数据互操作规范，开放地理空间信息联盟（OGC）制定了WMS、WFS、WCS服务标准，具体接口如表~\ref{tab:OGC-WMS-WFS-WCS}所示。其中WMS（Web Map Service）利用具有地理空间信息的数据制作地图，在国际规范中，地图是地理数据的可视化表现，WMS返回的地图并非是地图数据，而是地图图像，格式上可以是PNG、GIF、JPEG、SVG等~\cite{OGC-WMS}。WFS（Web Feature Service）通过GML（Geography Markup Language）传递地理空间数据，它支持在基于HTTP协议的分布式计算平台上对地理要素进行增删查改等操作，并在这些操作过程中保证了地理数据变化的一致性~\cite{OGC-WFS}。WCS（Web Coverage Service）在网络上以覆盖（Coverage）的形式共享地理空间数据，能够返回栅格时空范围中任意指定点的值，实现了栅格影像数据集的共享~\cite{OGC-WCS}。
+
+\begin{table}
+    \centering
+    \caption{OGC WMS、WFS、WCS接口}
+    \label{tab:OGC-WMS-WFS-WCS}
+    \begin{threeparttable}
+        \begin{tabu} to .9\hsize{ X[lm] X[lm] X[lm]}
+            \toprule[1.5pt]
+            类型 & 接口 & 描述 \\
+            \midrule[1.5pt]
+            \multirow{3}{*}{WMS} & GetCapabilities & 返回服务级元数据，包括对服务信息内容和可接受请求参数的描述 \\
+            \cmidrule(lr){2-3}
+            & GetMap & 返回一幅地图影像 \\
+            \cmidrule(lr){2-3}
+            & GetFeatureInfo & 返回地图上要素的空间实体信息 \\
+            \hline
+            \multirow{5}{*}{WFS} & GetCapabilities & 返回服务级元数据 \\
+            \cmidrule(lr){2-3}
+            & DescribeFeatureType & 返回表示要素结构的XML文档 \\
+            \cmidrule(lr){2-3}
+            & GetFeature & 返回GML形式的要素实例 \\
+            \cmidrule(lr){2-3}
+            & Transaction & 增删查改事务请求 \\
+            \cmidrule(lr){2-3}
+            & LockFeature & 在事务期间对一个或多个要素实例上锁 \\
+            \hline
+            \multirow{3}{*}{WCS} & GetCapabilities & 返回描述服务和数据集的XML文档 \\
+            \cmidrule(lr){2-3}
+            & DescribeCoverage & 返回对覆盖的详细描述 \\
+            \cmidrule(lr){2-3}
+            & GetCoverage & 使用覆盖格式（图片）返回地理位置的值或属性 \\
+            \bottomrule[1.5pt]
+        \end{tabu}
+        \begin{tablenotes}
+            \footnotesize
+            \item 详细接口参考OGC~\cite{OGC-WMS}~\cite{OGC-WFS}~\cite{OGC-WCS}。
+        \end{tablenotes}
+    \end{threeparttable}
+\end{table}
+
+
+
 \subsubsection{数据下载服务}
 % 数据编排解析
 \subsubsection{数据处理服务}
@@ -208,15 +225,19 @@ UDX的理念是提供一种“中间数据格式”，在模型集成时提供�
 
     \item \textbf{模型异构性分析}
     
+    地理模型从开发视角上有很多不同的分类体系，如表~\ref{tab:model-language-classify}所示，这些分类中，本文暂不考虑有用户交互的模型。
+
     \begin{table}
         \centering
         \caption{开发视角上的模型分类}
         \label{tab:model-language-classify}
         \begin{threeparttable}
-            \begin{tabu} to .9\hsize{X[cm] X[cm] X[cm]}
+            \begin{tabu} to .9\hsize{X[lm] | X[lm] X[lm]}
                 \toprule[1.5pt]
+                \bigstrut
                 分类标准 & 一级分类 & 二级分类 \\
                 \midrule[1.5pt]
+                \bigstrut
                 \multirow{8}{*}{语言} & \multirow{5}{*}{编译型} & C \\
                 & & C++ \\
                 & & C\# \\
@@ -246,6 +267,7 @@ UDX的理念是提供一种“中间数据格式”，在模型集成时提供�
 
 
 \subsection{碳循环模型资源描述方法}
+\label{sec:ms-desc}
 模型服务的描述方法是模型服务化的基础。模型服务描述文档应该是面向人的，通过模型服务描述文档提供的信息，模型服务使用者就能够方便地了解和使用模型，并能够理解模型的返回结果；同时模型服务描述文档又是面向机器的，通过模型服务描述文档提供的模型运行输入输出选项，能够判断出模型运行数据的完备性，并在用户发送请求时将模型调用起来。因此，本文将模型服务的描述文档设计为如图~\ref{fig:mdl}。其中AttributeSet表示基本信息描述接口，面向人的理解；Beheavior表示模型的运行行为接口，面向机器理解模型的运行接口；Runtime表示模型的软硬件环境依赖，也是面向机器，表示模型所依赖的软硬件环境信息，从而支持模型能够成功调用起来。
 模型服务描述的难点在于对于模型依赖数据的结构的有效表达和对于运行输入输出的合理描述。对于前者，本文采用第~\ref{sec:data-desc}的方法，即采用领域通用标准数据的描述加上示例数据具体展示的形式，对于后者，将在第~\ref{sec:io-interface}节介绍。
 
@@ -261,6 +283,7 @@ UDX的理念是提供一种“中间数据格式”，在模型集成时提供�
 
 \begin{enumerate}[(1)]
 \item \textbf{基本信息描述接口设计}
+
 基本信息的描述如图~\ref{fig:UML-model-description-interface}所示，包括模型名称、作者、关键字、所属分类体系、DOI、wiki和计算节点信息。其中计算节点信息描述了模型服务的IP、端口和路由前缀等信息，从而在模型请求时能够解析出对应的URL。而wiki的设定允许模型服务使用者也能够维护模型服务的介绍，在经过模型服务拥有者的审核后，会补充到模型服务的描述文档中，这样就可以弥补描述接口的不足之处。
 
 \begin{figure}[!htbp]
@@ -285,6 +308,7 @@ UDX的理念是提供一种“中间数据格式”，在模型集成时提供�
 \end{figure}
 
 \item \textbf{部署信息描述接口设计}
+
 部署信息的描述接口如图~\ref{fig:UML-model-deployment-interface}所示，包括模型运行所需的软件和硬件依赖环境。通过与计算节点的软硬件环境数据库相匹配可以得到部署环境是否匹配，当环境相匹配时才能调用成功。
 
 \begin{figure}[!htbp]
@@ -295,16 +319,36 @@ UDX的理念是提供一种“中间数据格式”，在模型集成时提供�
 \end{figure}
 \end{enumerate}
 
-\subsection{碳循环模型资源的封装和服务发布}
-\subsubsection{模型运行接口设计}
-% 解释型、编译型
+\subsection{碳循环模型资源的封装、部署、发布}
 
 \subsubsection{服务封装}
+% 接口设计
 % 几种方式：模型代理、源码封装
+% 对于执行链的封装
+在计算机领域，封装是对实体进行包装或组合形成具有稳定接口的新实体的方法和技术。~\cite{胡迪2015地理模型的服务化封装方法研究}通过封装，可以屏蔽原有程序的实现细节，提高模型的可复用性和可维护性，降低用户的使用难度。封装可以体现在程序设计的各个层次上，如函数、类、模块、组件、系统、可执行程序和Web服务这些粒度上都可以进行封装，本文的封装将模型包装成具有标准接口的控制台应用程序。
+
+模型封装最关键的是运行接口的设计，而模型运行接口的设计本质上是设计一个命令行参数解析标准，将输入输出选项映射给程序内存变量，业界有很多成熟的标准，如libc的getopt/getopt\_long接口、google的gflags接口等。本文采用的getopt/getopt\_long接口，它在很多其他语言上都有对应的移植版本，方便对不同语言模型封装的实现。getopt/getopt\_long接口支持单字符选项、多字符选项和可选参数选项，可以方便地生成帮助信息。通过getopt的标准化，模型的调用命令可表示为“exeName -a -i="filepath1" -p="10" -o="filepath3"”或“exeName -a --inputFile1="filepath2" --parameter1="10" --outputFile1="filepath3"”。其中选项列表来自于运行信息描述文档，以“-”开头表示单字符选项，以“--”开头表示多字符选项，不带等号的如“-a”为参数选项。对于IBIS的封装，标准化后调用方式可表示为“IBIS --meteorology="meteorology\_file\_path" --soil="soil\_file\_path" --output="output\_file\_save\_path"”。对于解释型的语言，需要在命令前面加上解释器，如Biome-BGC模型的调用方式可表示为“node Biome-BGC.js -a --ini="ini\_config\_path" --met="meteorology\_file\_path" --co2="co2\_file\_path" --epc="PFT\_parameters\_file\_path" --output="output\_file\_path"”。
+
+模型封装根据有无源码可以分为源码封装和模型代理封装，如图~\ref{fig:source-encap-proxy-encap}所示，源码封装直接对模型输入输出接口做出修改使其标准化，模型代理封装通过写一个模型代理壳将IO标准化，然后通过子进程启动模型完成封装。按照模型是否包含集成分为简单模型封装和包含集成流程的模型的封装。Biome-BGC模型的执行过程包括spin-up模式和正常模式，整个运行过程中有一个简单的串联集成过程，如图~\ref{fig:ms-encap-with-integration}所示，正常模式的运行依赖于spin-up模式，通过Node.js脚本可以非常方便的串联集成。
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=1\textwidth]{source-encap-proxy-encap}
+    \caption{源码封装和模型代理封装}
+    \label{fig:source-encap-proxy-encap}
+\end{figure}
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=1\textwidth]{ms-encap-with-integration}
+    \caption{Biome-BGC的封装}
+    \label{fig:ms-encap-with-integration}
+\end{figure}
 
 \subsubsection{服务部署和发布}
 % 数据库录入条目、服务部署
-
+% 运行环境
+服务部署和发布是将封装好的模型程序迁移到目标计算节点上的过程，主要包括模型服务描述文档数据库条目的录入和模型运行软硬件环境的匹配。对于模型服务描述文档，本文将数据库设计与第\ref{sec:ms-desc}节的描述接口同构，可以直接录入。对于软件环境。。。。对于硬件环境，本文所用的三个模型对硬件要求都不高，可以直接部署在普通PC机上。
 
 \section{开放式碳循环模型对比方法}
 
