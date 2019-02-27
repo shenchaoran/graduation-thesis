@@ -8,7 +8,7 @@
 
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=1\textwidth]{CMIP-architecture}
+    \includegraphics[width=.85\textwidth]{CMIP-architecture}
     \caption{陆地生态系统碳循环模型开放式对比框架}
     \label{fig:CMIP-architecture}
 \end{figure}
@@ -16,53 +16,58 @@
 \section{陆地生态系统碳循环模型对比情景和业务分析归纳}
 \subsection{对比情景分析和总结}
 \label{sec:scene}
-% 对比情景总结 参考CMIP5/CMIP6
-% 碳循环模型研究的几个关键问题
 % TODO 根据实验前提，详细介绍对比方案中的情景
 陆地生态系统碳循环模型的应用广泛，未来的发展方向也主要停留在以下几个关键问题上：
 \begin{enumerate}[(1)]
 \item \textbf{陆地生态系统碳循环模型对历史植被生长的模拟}
 
-在CMIP5和CMIP6的设计中，都设定了历史情景模拟，即根据历史时期的太阳常数、温室气体浓度、臭氧浓度、气溶胶浓度等观测资料来模拟气候因子，是气候系统模式参与CMIP项目的必要实验。而陆地生态系统碳循环模型作为气候系统模式机理中的一部分子过程，也需要对历史时期进行模拟，来评估模型的模拟能力。本文设定的历史情景是使用历史气象观测资料、CO2浓度数据、土壤数据等分析GPP、NPP、NEP、Biomass等生理生态指标，是所有对比内容的基础。
+在CMIP5和CMIP6的设计中，都设定了历史情景模拟，即根据历史时期的太阳常数、温室气体浓度、臭氧浓度、气溶胶浓度等观测资料来模拟气候因子，是气候系统模式参与CMIP项目的必要实验。而陆地生态系统碳循环模型作为气候系统模式机理中的一个子过程，也需要对历史时期进行模拟，来评估模型的模拟能力。历史情景分析是最常见的模拟情景，本文将在实验案例中详细介绍模拟结果。
 
 \item \textbf{陆地生态系统碳循环模型的未来预测情景}
+% 参考顾雪峰博士论文
 
-在CMIP5和CMIP6中也设定了未来气候情景分析，即。。。在陆地生态系统碳循环对植被生产力的模拟方面，未来情景设定为气温、降水、CO2浓度的变化对植被生产力的影响，即研究陆地生态系统碳循环模型对气候变化（如温度、降水等）和CO2浓度的响应。CMIP5对未来100年全球气候变化的研究结果表明，全球平均气温从1990年到2100年上升$1.4~5.8^{\circ}C$~\cite{王绍武1995未来}~\cite{秦大河2003气候变化的事实与影响及对策}；全球平均降水将会增加，但是降水格局也发生了很大的变化，即有些地区降水增加，有些地区降水减少；未来大气CO2浓度最大升高到当前的2倍~\cite{griggs2002climate}。根据以上分析，未来预测情景可以设定如表~\ref{tab:future-scene}：
+在CMIP5和CMIP6中也设定了未来气候情景分析，即预测未来CO2浓度和气候因子（温度、降水）等指标的变化情况。在陆地生态系统碳循环模型对植被生产力的模拟方面，未来情景设定为气温、降水、CO2浓度的变化对植被生产力的影响，即研究陆地生态系统碳循环模型对气候变化（如温度、降水等）和CO2浓度的响应。CMIP5对未来100年全球气候变化的研究结果表明，全球平均气温从1990年到2100年上升$1.4\sim5.8^{\circ}C$~\cite{王绍武1995未来}~\cite{秦大河2003气候变化的事实与影响及对策}；全球平均降水将会增加，但是降水格局也发生了很大的变化，即有些地区降水增加，有些地区降水减少；未来大气CO2浓度最大升高到当前的2倍~\cite{griggs2002climate}。根据这些预测的未来气候情景，对温度、降水和CO2浓度的变化做出变量组合，表~\ref{tab:future-scene}可以表示一种参考的组合。
 
+% \hspace*{2cm}
 \begin{table}[!htbp]
     \centering
     \caption{陆地生态系统碳循环模型的未来预测情景参数设定}
     \label{tab:future-scene}
     \begin{threeparttable}
-        \begin{tabular}{l|l|l}
-            \toprule[1.5pt]
+        \begin{tabular}{lll}
+            \Xhline{2pt}
             {\textbf{因素}} & {\textbf{值}} & {\textbf{标记}} \\
-            \midrule[1.5pt]
-            \multirow{3}{*}{\textbf{气温}} & +2$^{\circ}C$ & Temp$_{1}$ \\
-            & +4$^{\circ}C$ & Temp$_{2}$ \\
-            & +6$^{\circ}C$ & Temp$_{3}$ \\
+            \Xhline{2pt}
+            \multirow{4}{*}{\textbf{气温}} & 不变 & $Temp_{0}$ \\
+            & +2$^{\circ}C$ & $Temp_{1}$ \\
+            & +4$^{\circ}C$ & $Temp_{2}$ \\
+            & +6$^{\circ}C$ & $Temp_{3}$ \\
             \hline
-            \multirow{8}{*}{\textbf{降水}} & 全年+10\% & Prec$_{a+10}$ \\
-            & 全年-10\% & Prec$_{a-10}$ \\
-            & 全年+20\% & Prec$_{a+20}$ \\
-            & 全年-20\% & Prec$_{a-20}$ \\
-            & 全年+30\% & Prec$_{a+30}$ \\
-            & 全年-30\% & Prec$_{a-30}$ \\
-            & 生长季+10\% & Prec$_{g+10}$ \\
-            & 生长季-10\% & Prec$_{g-10}$ \\
+            \multirow{7}{*}{\textbf{降水}} & 不变 & $Prec_0$ \\
+            & 全年+10\% & $Prec_{+10}$ \\
+            & 全年-10\% & $Prec_{-10}$ \\
+            & 全年+20\% & $Prec_{+20}$ \\
+            & 全年-20\% & $Prec_{-20}$ \\
+            & 全年+30\% & $Prec_{+30}$ \\
+            & 全年-30\% & $Prec_{-30}$ \\
             \hline
-            \multirow{2}{*}{\textbf{CO2浓度}} & 加倍 & CO2$_{*2}$ \\
-            & 加倍 & CO2$_{*2}$ \\
-            \bottomrule[1.5pt]
+            \multirow{2}{*}{\textbf{CO2浓度}} & 不变 & $CO2_0$ \\
+            & 两倍 & $CO2_{*2}$ \\
+            \hline
+            \multirow{4}{*}{\textbf{多因素}} & 温度增加、降水增加 & $Temp_{3} + Prec_{+10}$ \\
+            & 温度增加、降水减少 & $Temp_{3} + Prec_{-10}$ \\
+            & 温度增加、降水增加、CO2浓度翻倍 & $Temp_{3} + Prec_{+10} + CO2_{*2}$ \\
+            & 温度增加、降水减少、CO2浓度翻倍 & $Temp_{3} + Prec_{-10} + CO2_{*2}$\\
+            \Xhline{2pt}
         \end{tabular}
     \end{threeparttable}
 \end{table}
 
 \item \textbf{陆地生态系统碳循环模型的敏感性分析情景}
+% 和对温度、降水、CO2的响应比较像，这里针对的是模型参数
 
 在模型评价中，不确定分析研究的是模型参数、驱动变量等不确定性因素发生变化时，所引起的模型模拟结果的变化和变化程度。敏感性分析是模型不确定分析的一种常用方法，它用来研究和预测不确定性因素发生变化时，对模型结果影响程度的分析方法，又称为灵敏度分析。敏感性分析通常用来评估模型参数的重要性，分为总体敏感性分析和局部敏感性分析。局部敏感性分析相对来说更加简单，他分析单个模型参数对模拟结果的影响，但是他忽略了模型之间多个参数的相互作用对模拟结果的影响；全局敏感性分析不仅分析单个参数对模拟结果的影响，还分析参数之间的相互作用对结果的总影响，但计算起来比较复杂，耗费时间。
-
-在本文中，将敏感性分析也理解为一种对比情景，即在不同的模型参数下模拟结果的对比，可以与正常模拟与观测数据的对比采用相同的对比方法。敏感性分析的情景设定和未来预测情景参数相同，来评估生态过程模型对气候因子（温度、降水）和CO2浓度的敏感性。
+在本文中，将敏感性分析也理解为一种对比情景，即在不同的模型参数下模拟结果的对比，可以与正常模拟与观测数据的对比采用相同的对比方法。敏感性分析的情景设定需要从每个模型中选出一系列关键参数，根据参数的取值设定具体的情景，由于本文的研究重点不在于此，不做详细设定。
 
 \item \textbf{陆地生态系统碳循环模型的参数校准情景}
 
@@ -70,15 +75,13 @@
 
 \end{enumerate}
 
-由于模型模拟的实验情景丰富多样，本文只选取了部分情景进行模拟，包括历史模拟情景、未来预测情景和敏感性分析情景。
-
 \subsection{对比业务抽象和归纳}
 % 对比分析、名词解释
 % topic solution task
 % 案例
 % 意义：可共享 可重用
 
-在进行对比业务抽象和归纳之前，先对本文中的一些名字做出解释：本文将GPP、NPP、NEP、Biomass、LAI等模拟要素称之为\textbf{对比要素}；将模型对比过程中所需要的所有数据称之为\textbf{对比数据集}，一套对比数据集包括有输入数据集、观测数据集。其中输入数据集由气象数据集、土壤数据集、植被功能类型数据集、DEM数据集等组成，每个具体的数据集可以选择可替换的模块，如气象数据集既可以采用MERRA 2再分析资料，又可以使用CRU再分析资料。在第\ref{sec:model-data}节中具体介绍的数据本文称之为标准对比数据集，作为系统分析的基础原始数据，而在其之上参照表~\ref{tab:future-scene}对数据进行的一系列修改，比如对温度$\pm2^{\circ}C$，对降水$\pm10\%$等，本文称之为衍生对比数据集。每一个模拟情景都有一套相对应的对比数据集。本文将参与对比的模型称之为\textbf{对比参与者}。
+在进行对比业务抽象和归纳之前，先对本文中的一些名字做出解释：本文将GPP、NPP、NEP、Biomass、LAI等模拟指标称之为\textbf{对比要素}；将模型对比过程中所需要的所有数据称之为\textbf{对比数据集}，一套对比数据集包括有输入数据集、观测数据集。其中输入数据集由气象数据集、土壤数据集、植被功能类型数据集、DEM数据集等组成，每个具体的数据集可以选择可替换的模块，如气象数据集既可以采用MERRA 2再分析资料，又可以使用CRU再分析资料。在第\ref{sec:model-data}节中具体介绍的数据本文称之为标准对比数据集，作为系统分析的基础原始数据，而在其之上参照表~\ref{tab:future-scene}对数据进行的一系列修改，比如对温度$\pm2^{\circ}C$，对降水$\pm10\%$等，本文称之为衍生对比数据集。每一个模拟情景都有一套相对应的对比数据集。本文将参与对比的模型称之为\textbf{对比参与者}。
 
 \begin{figure}[!htbp]
     \centering
@@ -87,45 +90,42 @@
     \label{fig:cmip-business-abstraction}
 \end{figure}
 
-针对第\ref{sec:scene}的模拟情景分析，陆地生态系统碳循环模型在对比时可以归纳出三个主要关注点：研究问题、对比方法和模型运行参数的设定。如图~\ref{fig:cmip-business-abstraction}所示，本文将对比业务的开展归纳为三个描述文档的创建：对比话题、对比方案、对比任务。其中，\textbf{对比话题}中指明了研究问题、对比情景和对比要素；\textbf{对比方案}配置了对比参与者和对比方法，对比方案不包括具体的输入数据、观测数据和模拟结果，他表示的仅仅是对比的配置项，从而实现对比过程的可共享性和可重用性；\textbf{对比任务}描述的是对比方案配置输入数据和观测数据实体的结果。模型在对比任务中开始具体的运算，并将运算结果与观测数据进行统计学对比和可视化对比。1个对比话题可以对应多个对比方案，一个对比方案通过配置不同的标准数据集可以对应多个对比任务。以本文的研究内容为例，可以创建如\ref{tab:topic-solution-task-example}表的对比话题、对比方案、对比任务。通过本文的三层模型抽象表达实现了对比方案的共享和重用，简化了模型对比的难度，并将最后的对比结果公开发布为服务，使对比过程公开透明，更加具有可信度。
+陆地生态系统碳循环模型在各种情景中可以归纳出三个主要关注点：研究问题、对比方法和模型运行数据的设定。这三点可以抽象为对比话题、对比方案和对比任务三个层次，如图~\ref{fig:cmip-business-abstraction}所示，对比业务的开展对应为对比话题、对比方案和对比任务创建和执行上。其中，\textbf{对比话题}中指明了研究问题、对比情景和对比要素；\textbf{对比方案}配置了对比参与者和对比方法，对比方案不包括具体的输入数据、观测数据和模拟结果，他表示的仅仅是对比的配置项，从而实现对比过程的可共享性、可重用性和可重现性；\textbf{对比任务}描述的是对比方案配置输入数据和观测数据实体的结果。模型在对比任务中开始具体的运算，并将运算结果与观测数据进行统计学对比和可视化对比。1个对比话题可以对应多个对比方案，一个对比方案通过配置不同的标准数据集可以对应多个对比任务。图~\ref{fig:UML-topic-solution-task}展示了对比话题、对比方案和对比任务的详细接口设计。
 
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=1\textwidth]{UML-topic-solution-task}
-    \caption{陆地生态系统碳循环模型对比业务抽象和归纳}
+    \caption{对比话题、对比方案和对比任务的接口设计UML图}
     \label{fig:UML-topic-solution-task}
 \end{figure}
 
-% \renewcommand{\arraystretch}{1.5}
-\begin{landscape}
+以植被生产力的对比为例，如表\ref{tab:topic-solution-task-example}所示，针对全球历史时期的植被生产力创建一个对比话题，对比要素包括有GPP、NPP、NEP等，这一个话题关联两个对比方案，其中对比参与者相同，都是IBIS、Biome-BGC和LPJ三个模型，第一个方案研究的是站点尺度，它使用的对比方法包括统计学和可视化两大类，通过配置不同的站点数据可以对应231个对比任务；第二个方案研究的是全球范围，它使用的对比方法只有可视化对比方法，只能创建一个相应的对比任务。这样的三层抽象使对比方案可共享与重用，简化了模型对比的难度，并将最后的对比结果公开发布为服务，使对比过程公开透明，更加具有可信度。
+
+% TODO 从 pdf 导入吧
 \begin{table}
     \centering
     \caption{针对全球植被生产力评估的对比话题、对比方案和对比任务}
     \label{tab:topic-solution-task-example}
     \begin{threeparttable}
-        \begin{tabu} to .9\hsize{X[1] | X[1]| X[1.5]| X[3]| X[3]| X[4]| X[1] }
-            \toprule[1.5pt]
-            \multicolumn{2}{c}{\makecell[b]{对比话题}} & \multicolumn{2}{|c|}{\makecell[b]{对比方案}} & \multicolumn{3}{c}{\makecell[b]{对比任务}} \\
+        \begin{tabular}{l | l | l | l | l }
+            \Xhline{1.5pt}
+            \multicolumn{2}{c}{\makecell[b]{对比话题}} & \multicolumn{2}{|c|}{\makecell[b]{对比方案}} & \multicolumn{1}{l}{\makecell[b]{对比任务}} \\
             \hline
-            \multirow{2}{*}{\makecell{模\\拟\\情\\景}} & \multirow{2}{*}{\makecell{对比\\要素}} & \multirow{2}{*}{\makecell{对比\\参与者}} & \multirow{2}{*}{\makecell{对比方法}} & \multicolumn{2}{|c|}{\makecell{对比数据集}} & \multirow{2}{*}{\makecell{对比\\结果}} \\
-            \cmidrule(lr){5-6}
-            & & & & \makecell{输入数据集} & \makecell{对比参考数据集} & \\
-            \midrule[1.5pt]
-            \multirow{4}{*}{\makecell{历\\史\\情\\景}} & \multirow{5}{*}{\makecell{GPP\\NPP\\NEP\\Biomass}} & \multirow{3}{*}{\makecell{IBIS\\Biome-BGC\\LPJ}} & \multirow{2}{*}{\makecell{泰勒图\\时间序列折线图\\热力图\\箱图等}} & 标准输入数据集 & FLUXNET La Thuile CN-Cha（长白山）站点 & - \\
-            \cmidrule(lr){5-7}
-            &  &  &  & 标准输入数据集 & ......（共231个站点） & - \\
-            \cmidrule(lr){3-7}
-            &  & \multirow{2}{*}{\makecell{IBIS\\Biome-BGC\\LPJ}} & \makecell{等值线图\\偏差等值线图} & 标准输入数据集 & MODIS MOD 17 A3 & - \\
-            \cmidrule(lr){5-7}
-            &  &  &  & 衍生输入数据集 & MODIS MOD 17 A3 & - \\
-            \bottomrule[1.5pt]
-        \end{tabu}
+            模拟情景 & 对比要素 & \makecell{对比参与者} & \makecell{对比方法} & 数据区域 \\
+            
+            \Xhline{1.5pt}
+            \multirow{3}{*}{历史情景} & \multirow{3}{2cm}{GPP \quad NPP \quad NEP\ } & \multirow{3}{*}{\makecell{IBIS\\Biome-BGC\\LPJ}} & \multirow{2}{*}{\makecell{统计学对比方法\\可视化对比方法}} & CN-Cha（长白山）站点 \\
+            \cline{5-5}
+            &  &  &  & 其他站点，共231个 \\
+            \cline{4-5}
+            &  &  & 可视化对比方法 & 全球 \\
+            \Xhline{1.5pt}
+        \end{tabular}
     \end{threeparttable}
 \end{table}
-\end{landscape}
 
 \subsection{对比系统功能模块设计}
-本文将系统的主要功能模块设计为如图\ref{fig:system-module}，功能模块分为资源模块、对比业务模块、结果展示模块和用户模块。其中最核心的两个功能单元是模型服务的执行和对比任务的执行。
+本文将系统的主要功能模块设计为如图\ref{fig:system-module}，功能模块分为资源模块、对比业务模块、结果展示模块和用户模块，其中资源模块包括模型资源和数据资源，对比业务模块则对应于对比话题、对比方案和对比任务，结果展示模块基于所有对比任务的对比结果，以网站的形式发布出去。
 
 \begin{figure}[!htbp]
     \centering
@@ -138,7 +138,8 @@
 % GIS的发展：硬耦合->组件->服务
 % 本文的架构：服务式、服务化的意义
 % REST API
-自60年代Tomlinson首先提出GIS并建立世界上第一个地理信息系统开始，GIS已经取得了突飞猛进的发展，从最开始的面向土地信息管理的GIS到适用于各种各样丰富专题如城市规划、交通管理、自然资源管理等的GIS。GIS在系统构建经历了从集成式到组件式再到基于服务的Web GIS的发展历程。其中集成式GIS功能丰富全面但系统复杂、庞大、成本高昂，而且不能与其他系统集成；组件式GIS通过多元空间数据无缝集成技术（Seamless Integration of Multisource Spatial-data，SIMS）解决了多源异构数据的访问，并且具有可扩展、可共享和可重用能力，但是组件只能应用于本地计算机；基于Web Service的Web GIS则通过定义空间数据和模型的标准描述协议，实现了数据、模型及计算资源的共享，具备可扩展性、跨平台性，使GIS真正实现大众化。本文的对比系统基于Web Service技术，通过服务实现陆地生态系统碳循环模型的在线对比，一方面实现了地理资源的开放式共享和重用，另一方面也可以使对比过程公开化、透明化，使对比结果能够方便地复现。下面将详细介绍本文中的开放式地理资源库。
+
+% 自60年代Tomlinson首先提出GIS并建立世界上第一个地理信息系统开始，GIS已经取得了突飞猛进的发展，从最开始的面向土地信息管理的GIS到适用于各种各样丰富专题如城市规划、交通管理、自然资源管理等的GIS。GIS在系统构建经历了从集成式到组件式再到基于服务的Web GIS的发展历程。其中集成式GIS功能丰富全面但系统复杂、庞大、成本高昂，而且不能与其他系统集成；组件式GIS通过多元空间数据无缝集成技术（Seamless Integration of Multisource Spatial-data，SIMS）解决了多源异构数据的访问，并且具有可扩展、可共享和可重用能力，但是组件只能应用于本地计算机；基于Web Service的Web GIS则通过定义空间数据和模型的标准描述协议，实现了数据、模型及计算资源的共享，具备可扩展性、跨平台性，使GIS真正实现大众化。本文的对比系统基于Web Service技术，通过服务实现陆地生态系统碳循环模型的在线对比，一方面实现了地理资源的开放式共享和重用，另一方面也可以使对比过程公开化、透明化，使对比结果能够方便地复现。下面将详细介绍本文中的开放式地理资源库。
 
 \subsection{模型服务资源库}
 % 这里介绍所有API，第四章详细介绍模型服务的调用API
@@ -150,9 +151,9 @@
     \label{tab:model-service-API}
     \begin{threeparttable}
         \begin{tabu} to 1\hsize{X}
-            \toprule[1.5pt]
-            \midrule[1.5pt]
-            \bottomrule[1.5pt]
+            \Xhline{1.5pt}
+            \Xhline{1.5pt}
+            \Xhline{1.5pt}
         \end{tabu}
     \end{threeparttable}
 \end{table}
@@ -167,9 +168,9 @@
     \label{tab:model-service-API}
     \begin{threeparttable}
         \begin{tabu} to 1\hsize{X}
-            \toprule[1.5pt]
-            \midrule[1.5pt]
-            \bottomrule[1.5pt]
+            \Xhline{1.5pt}
+            \Xhline{1.5pt}
+            \Xhline{1.5pt}
         \end{tabu}
     \end{threeparttable}
 \end{table}
@@ -178,24 +179,48 @@
 
 
 % \renewcommand{\arraystretch}{1.5}
+% TODO min and max
 \begin{table}[!htbp]
-    \centering
-    \caption{陆地生态系统碳循环植被生产力单位量纲库}
+    \caption{对比要素及其单位量纲}
     \label{tab:std-metrics}
-    \begin{threeparttable}
-        \begin{tabu}{ X[l m] X[5 l m] X[4 l m] X[l m] X[c m] X[c m]}
-            \toprule[1.5pt]
-            \textbf{名称} & \textbf{长名} & \textbf{描述} & \textbf{单位} & \textbf{最小值} & \textbf{最大值}  \\
-            \midrule[1.5pt]
-            GPP & Gross ecosystem production & 总初级生产力 & $gC m^2 d^{-1}$ & 0 & 100 \\
-            NPP & Net ecosystem production & 净第一性生产力 & $gC m^2 d^{-1}$ & 0 & 100 \\
-            NEP & NEP & 净生态系统生产力 & $gC m^2 d^{-1}$ & -100 & 100 \\
-            NEE & NEE & 净生态系统碳交换 & $gC m^2 d^{-1}$ & -100 & 100 \\
-            Biomass & Biomass & 生物量 & $gC m^2 d^{-1}$ & 0 & - \\
-            ET & ET & 径流 & $mm d^{-1}$ & 0 & - \\
-            \bottomrule[1.5pt]
-        \end{tabu}
-    \end{threeparttable}
+    \begin{subtable}[t]{.6\linewidth}
+        \centering
+        \caption{陆地生态系统碳水循环要素表}
+        \label{tab:c-w-feature}
+        \begin{tabular}{llrrr}
+            \Xhline{1.5pt}
+            \textbf{名称} & \textbf{单位} & \textbf{最小值} & \textbf{最大值}  \\
+            \Xhline{1.5pt}
+            $GPP$ & $gC m^2 d^{-1}$ & 0 & 100 \\
+            $NPP$ & $gC m^2 d^{-1}$ & 0 & 100 \\
+            $NEP$ & $gC m^2 d^{-1}$ & -100 & 100 \\
+            $NEE$ & $gC m^2 d^{-1}$ & -100 & 100 \\
+            $Biomass$ & $gC m^2 d^{-1}$ & 0 & - \\
+            $R_A$ & $gC m^2 d^{-1}$ & 0 & 100 \\
+            $R_H$ & $gC m^2 d^{-1}$ & 0 & 100 \\
+            $ET$ & $mm d^{-1}$ & 0 & 100\\
+            $Runoff$ & $mm d^{-1}$ & - & - \\
+            $LAI$ & $1$ &  & \\
+            \Xhline{1.5pt}
+        \end{tabular}
+    \end{subtable}%
+    \begin{subtable}[t]{.3\linewidth}
+        \centering
+        \caption{单位量纲表}
+        \label{tab:unit-dimension}
+        \begin{tabular}{ll}
+            \Xhline{1.5pt}
+            \textbf{单位} & \textbf{量纲}  \\
+            \Xhline{1.5pt}
+            \multirow{3}{*}{$gC m^2 d^{-1}$} & 质量（$M$） \\
+            & 长度（$L$） \\
+            & 时间（$T$） \\
+            \hline
+            \multirow{2}{*}{$mm d^{-1}$} & 长度（$L$） \\
+            & 时间（$T$） \\
+            \Xhline{1.5pt}
+        \end{tabular}
+    \end{subtable}
 \end{table}
 
 \subsection{数据重构服务资源库}
@@ -210,9 +235,8 @@
 
 
 \section{基于微服务的分布式网络架构设计}
-% 介绍分布式服务、微服务
-% 介绍本文的分布式网络结构，微服务的体现
-分布式将不同物理区域的计算资源组织整合起来，与分布式相对应的是传统的集中式。分布式能够有效利用多个分布式节点上的计算能力和数据共享能力，从而提高服务端的性能。
+% 开放性应体现在：可共享和重用（业务流程归纳）、计算和对比过程公开化（服务化）、模型和数据资源可扩展（微服务注册和发现）、大规模计算场景下体系稳定可用（微服务LB）、自动化易用（科学工作流）
+分布式将不同物理区域的计算资源组织整合起来，与传统的集中式相对比，分布式能够有效利用多个分布式节点上的计算能力和数据共享能力，从而提高服务端的性能。
 微服务是一种分布式的系统架构风格，由Martin Fowler提出~\cite{fowler2014microservices}，微服务是颗粒比较小的服务，一个大型的复杂软件可以由多个微服务组成。微服务采用UNIX的设计哲学，每种服务只做一件事，是一种松耦合的能够被独立开发和部署的无状态化服务。微服务通过服务来实现应用的组件化，微服务中将组件定义为可被独立替换和升级的软件单元，在应用架构设计中通过将整体应用切分成可独立部署的微服务方式进行组件化设计。这种设计方式使得应用程序效率高、灵活性强、可用性高、可扩展性强。
 
 本文基于微服务的分布式网络架构，设计了三种服务器：计算服务器、对比服务器和资源服务器，如图\ref{fig:network-archecture}所示，计算服务器负责模型服务的发布、注册、管理和调用；对比服务器作为门户网站的后台服务器，负责资源的汇总与展示、对比话题和方案的创建、计算任务的分发和对比结果的展示；资源服务器负责数据相关操作，包括数据存储、数据库管理、数据服务的发布和结果数据的缓存。其中计算服务器对外提供模型微服务，资源服务器对外提供数据微服务，三者通过资源交换和消息通信完成协同完成对比任务。
@@ -328,4 +352,14 @@
 
 
 \section{本章小结}
-开放式陆地生态系统碳循环模型的对比面临着两个关键问题：一是如何设计一个开放式的对比框架，它需要支持以可扩展的方式接入各种各样的地理资源，并且能够稳定地、自动化或半自动化地执行对比工作，二是这些对比资源以何标准接入框架。对于问题一，本章分别从对比情景和业务、地理资源组件库、分布式网络架构和自动化执行科学工作流引擎四个视角做出了详细的回答，对于问题二将在下一章详细论述。
+开放式对比系统的构建有两个关键问题：一是如何设计一个开放式的对比框架，二是这些对比资源如何接入框架。对于问题一，本章从对比业务、资源组件、网络架构和执行引擎四个角度进行了详细论述，设计的系统框架具有以下特点的：
+
+\begin{enumerate}[(a)]
+    \item 模型计算和对比可共享与重用；
+    \item 模型计算和对比过程公开化；
+    \item 模型和数据资源可扩展性地动态接入；
+    \item 大规模计算场景下稳定可用；
+    \item 以自动化实现其易用性。
+\end{enumerate} 
+
+对于问题二将在下一章详细论述。

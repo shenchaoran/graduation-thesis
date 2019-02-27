@@ -35,17 +35,17 @@
 \end{figure}
 
 陆地生态系统碳循环模型从机理上可分为统计模型、生态过程模型和遥感、过程耦合模型，如图~\ref{fig:carbon-model-class}所示。
-统计模型可分为气候统计模型和遥感统计模型。其中气候统计模型主要通过在温度、降水等气候因子与植被净初级生产力（Net Primary Productivity，NPP）的实测数据之间建立回归方程，代表性的有Miami模型（曼阿密模型）、Chikugo模型（筑后模型）和Thornth-waite Memorial模型（桑斯维特纪念模型）；
+统计模型可分为气候统计模型和遥感统计模型。其中气候统计模型主要通过在温度、降水等气候因子与植被净初级生产力（Net Primary Productivity，NPP）的实测数据之间建立回归方程，代表性的有Miami模型（曼阿密模型）~\cite{lieth1975modeling}、Chikugo模型（筑后模型）~\cite{seino1985agroclimatic}和Thornth-waite Memorial模型（桑斯维特纪念模型）~\cite{hai2012change}；
 遥感统计模型是基于遥感光谱指数建立的模型。由于总初级生产力（GPP）与截留光合有效辐射量和辐射的光合利用效率（LUE）成正比，而截留光合有效辐射与总光合有效辐射（PAR）和光合有效辐射截留率（FPAR）成正比。其中PAR可以通过气候学方法计算得到，FPAR可以通过遥感方法得到，因此，GPP可以表达为公式~\ref{eq:GPP}，NPP可以表达为公式~\ref{eq:NPP}
 
 \begin{align}
     &GPP(FPAR, PAR) = FPAR \cdot PAR \cdot LUE \cdot f(T, W, CO_2)
     \label{eq:GPP}  \\
-    &NPP = GPP - R_a
+    &NPP = GPP - R_A
     \label{eq:NPP}
 \end{align}
 
-式中，$f(T, W, CO_2)$表示温度T、土壤湿度W和大气中$CO_2$浓度对辐射的诗集光合利用效率的影响；$R_a$表示自养呼吸；代表性的模型有CASA、GLO-PEM、TURC、SIB2等
+式中，$f(T, W, CO_2)$表示温度T、土壤湿度W和大气中$CO_2$浓度对辐射的诗集光合利用效率的影响；$R_A$表示自养呼吸；代表性的模型有CASA、GLO-PEM、TURC、SIB2等
 % 遥感统计模型主要通过遥感光谱指数（如NDVI）与植被净初级生产力、生物量等数据间的相关关系进行统计回归。
 统计模型简单直观，具有较强的区域适用性，但其完全依赖于地面观测数据，对于不同的区域，模型不具备普适性和推广性。同时统计模型没有考虑陆地生态系统碳循环过程的内部机理，无法揭示生态系统与环境间的相互影响关系，不能用于对未来的预测研究~\cite{袁文平2014陆地生态系统植被生产力遥感模型研究进展}~\cite{谢馨瑶2018大尺度森林碳循环过程模拟模型综述}。
 
@@ -67,65 +67,25 @@
 % 起源、原理、结构、适用条件、输入数据、运行模式
 IBIS全称为集成生物圈模拟器（Integrated BIosphere Simulator），由美国威斯康星——麦迪逊大学Foley等~\cite{foley1996integrated}提出，随后，Kucharik等~\cite{kucharik2000testing}于2000年对其进行了改进，现在最新版本是IBIS 2.6。模型包括地表模块、土壤地球生物化学模块、植被物候模块和植被动态模块5个模块，属于动态植被类型模型。IBIS模型综合考虑了地球化学过程、地球物理过程和植被动态过程，能够耦合大气环流模式，在时间上适用于跨度从秒到数百年的碳循环过程，在空间上适用于区域尺度和全球尺度。
 
-IBIS模型的输入数据包括日分辨率的气象数据（平均温度、最大温度、最小温度、相对湿度、风速和云量）、土壤质地数据（沙粒含量、黏粒含量和粉粒含量）、植被功能类型（PFT）、网格点的经纬度。IBIS模型将植被功能类型分类及其参数如表~\ref{tab:IBIB-PFT}所示，其他详细参数见Foley等~\cite{foley1996integrated}，Kucharik等~\cite{kucharik2000testing}
-
-\begin{table}[!htbp]
-    \centering
-    \caption{IBIS模型植被功能类型及其生物量转换时间、碳分配系数及比叶面积}
-    \label{tab:IBIB-PFT}
-    \begin{threeparttable}
-        \begin{tabular}{l|cccccc}
-            \toprule[1.5pt] 
-            \multirow{2}{*}{\textbf{植被功能类型}} & \multicolumn{3}{c}{\textbf{生物量转换时间}} & \multicolumn{2}{c}{\textbf{碳分配系数}} & \multirow{2}{*}{\textbf{比叶面积}} \\ 
-            \cmidrule(lr){2-4} \cmidrule(lr){5-6}
-            & \textbf{叶} & \textbf{根} & \textbf{干} & \textbf{叶} & \textbf{根} &  \\ 
-            \midrule[1.5pt]
-%            热带阔叶常绿林& 
-%            热带落叶干旱落叶林
-            温带常绿针叶&    2.50 & 1.00 & 50.00 & 0.30 & 0.40 & 25 \\ 
-            温带落叶阔叶&    1.00 & 1.00 & 50.00 & 0.30 & 0.20 & 26 \\ 
-            温带落叶针叶&    1.00 & 1.00 & 50.00 & 0.30 & 0.20 & 25 \\ 
-            寒温带常绿针叶&  2.50 & 1.00 & 100.00 &0.30  & 0.40 &25  \\ 
-            寒温带落叶阔叶&  1.00 & 1.00 & 100.00 &0.30  & 0.20 &25  \\ 
-            寒温带落叶针叶&  1.00 & 1.00 & 100.00 &0.30  & 0.20 &25  \\ 
-            落叶灌木&        1.00 & 1.00 & 5.00 & 0.45 &0.35  &  23\\ 
-            草本&           1.50 & 1.00 & 0.00 &  0.45& 0.55 & 23 \\ 
-            \bottomrule[1.5pt]
-        \end{tabular}
-        \begin{tablenotes}
-            \footnotesize
-            \item 数据来源于Foley等~\cite{foley1996integrated}、Kurcharik等~\cite{kucharik2000testing}
-          \end{tablenotes}
-    \end{threeparttable}
-\end{table}
-
-% 温带常绿针叶林&  &  &  &  &  &  \\ 
-% 温带针阔叶混交林&  &  &  &  &  &  \\ 
-% 温带硬阔叶林&  &  &  &  &  &  \\ 
-% 温带软阔叶林&  &  &  &  &  &  \\ 
-% 蒙古栎林&  &  &  &  &  &  \\ 
-% 温带杂木林&  &  &  &  &  &  \\ 
-% 寒温带兴安落叶松林&  &  &  &  &  &  \\ 
-% \bottomrule[1.5pt] 
+IBIS模型的输入数据包括日分辨率的气象数据（平均温度、最大温度、最小温度、相对湿度、风速和云量）、土壤质地数据（沙粒含量、黏粒含量和粉粒含量）、植被功能类型（PFT）、网格点的经纬度。IBIS模型将植被功能类型分为12种，其中林地分为热带常绿阔叶林、热带干旱落叶阔叶林、温带常绿阔叶林、温带常绿针叶林、温带阔叶林、北方常绿针叶林、北方干旱落叶阔叶林、北方冷落叶针叶林，灌木和草地分为常绿灌木、冷落叶灌木、C3草本植物、C4草本植物，其他详细参数见Foley等~\cite{foley1996integrated}，Kucharik等~\cite{kucharik2000testing}
 
 \subsubsection{Biome-BGC模型}
-Biome-BGC模型由美国蒙拿大大学森林学院陆地动态数值模拟团队（Numerical Terradynamic Simulation Group，NTSG）基于FOREST-BGC模型改进而来，广泛应用于模拟植被、凋落物、土壤中的碳、氮、水等物质的循环过程~\ref{Thornton2001Modeling}。模型使用静态植被类型，属于生物地球化学循环模型，包括的生理生态过程有光合作用、蒸散发、生态系统呼吸、分解、光合产物的分配以及植物的死亡，基本原理是物质和能量守恒定律，即进入生态系统中的武陟和能量，等于离开生态系统的与生态系统中累积的之和。模型的植被功能类型被分为7类：落叶阔叶林、常绿阔叶林、常绿针叶林、灌木林、落叶针叶林、C3草本植物和C4草本植物。每种植被功能类型具有许多对应的生理生态参数。该模型在时间上适用于？，在空间上适用于区域尺度和全球尺度。
+Biome-BGC~\cite{thornton1998regional}~\cite{kimball1997simulating}~\cite{white2000parameterization}模型由美国蒙拿大大学森林学院陆地动态数值模拟团队（Numerical Terradynamic Simulation Group，NTSG）基于FOREST-BGC模型改进而来，广泛应用于模拟植被、凋落物、土壤中的碳、氮、水等物质的循环过程~\ref{Thornton2001Modeling}。模型使用静态植被类型，属于生物地球化学循环模型，包括的生理生态过程有光合作用、蒸散发、生态系统呼吸、分解、光合产物的分配以及植物的死亡，基本原理是物质和能量守恒定律，即进入生态系统中的物质和能量，等于离开生态系统的与生态系统中累积的之和。模型的植被功能类型被分为7类：落叶阔叶林、常绿阔叶林、常绿针叶林、灌木林、落叶针叶林、C3草本植物和C4草本植物，每种植被功能类型对应一套生理生态参数。该模型在空间上适用于区域尺度和全球尺度。
 
 Biome-BGC模型的运行分为两阶段：spin-up阶段是获取模拟的初始状态，第二步是使用第一阶段的结果参数正式运行模拟程序，。初始状态的获取有两种方法，一是直接输入长期定点观测的参数值，二是运行模型自带的spin-up程序。在spin-up过程中，将模拟起点时的碳氮存量设为极低的值（叶片的碳存量为0.001$kg C/m^2$，其他库的碳氮存量均为0），反复模拟数千年，直到连续两年土壤碳差值小于0.005$kg C/m^2$，或达到设定的最大迭代年数为止，这时认为系统达到稳定状态~\cite{thornton2005ecosystem}~\cite{pietsch2005bgc}。
 
 
 \subsubsection{LPJ模型}
-LPJ（Lund-potsdam-Jena Model，LPJ）模型建立在Biome3模型的基础上，包括的植被生理过程包括光合作用、呼吸作用、植被冠层能量交换、土壤水平衡等。LPJ模型适用于大尺度、中尺度以及全球尺度范围内的碳循环模拟。LPJ模型的植被功能类型分为21种，其中8种木本（覆盖热带、温带和寒带，常绿、雨绿和夏绿，针叶和阔叶）（不区分林木和灌木），2种草地（覆盖热带和温带），11种作物功能类型。LPJ模型的时间分辨率是1月，Venevsky~\ref{venevsky2007sever}对运行时间步长进行了修改，时间步长变成了1天。为了和IBIS模型与Biome-BGC模型的时间分辨率一致，本文应用的是Venevsky的LPJ-Daily。LPJ模型的运行也分为两个阶段：spin-up阶段假设没有植被（全为裸土地）和生物量，进行1000年积分知道植被覆盖和土壤碳达到平衡态；常规运行阶段使用spin-up阶段运行出的平衡态作为初始值进行模拟。
+% 11种作物功能类型
+LPJ（Lund-potsdam-Jena Model，LPJ）模型建立在Biome3模型的基础上，包括的植被生理过程包括光合作用、呼吸作用、植被冠层能量交换、土壤水平衡等。LPJ模型适用于大尺度、中尺度以及全球尺度范围内的碳循环模拟。LPJ模型的时间步长是1月，Venevsky~\ref{venevsky2007sever}对运行时间步长进行了修改，时间步长变成了1天。为了和IBIS模型与Biome-BGC模型的时间分辨率一致，本文应用的是Venevsky的LPJ-Daily。如无特殊说明，本文后面所说的LPJ均指LPJ-Daily。LPJ模型的植被功能类型分为10种，包括热带常绿阔叶林、热带雨绿阔叶林、温带常绿针叶林、温带常绿阔叶林、温带夏绿针叶林、北方常绿针叶林、北方夏绿针叶林、北方夏绿阔叶林、C3草本植物和C4草本植物。LPJ模型的运行也分为两个阶段：spin-up阶段假设没有植被（全为裸土地）和生物量，进行1000年积分直到植被覆盖和土壤碳达到平衡态；常规运行阶段使用spin-up阶段运行出的平衡态作为初始值进行模拟。与Biome-BGC不同的是，LPJ模型在内部将两个阶段直接串联在一起，不用分两步运行。
 
-
-\subsubsection{三个模型的特征对比}
-% 表
 
 \section{陆地生态系统碳循环相关数据}
 ~\label{sec:model-data}
 % 缺图：a陆面掩膜；b PFT；c DEM
 % CO2 1982-2014 时间序列图
 % FLUXNET 站点图（按PFT分类）
+% 缺表：三个模型需要的数据对比表
 本文所选的三个模型均以网格点为基本模拟单位，针对全球范围内的区域，本文使用$0.5^{\circ} \times 0.5^{\circ}$的经纬网划分格点，并筛选去除海洋和裸土地的格点，最终在全球范围内共有40595个格点。
 
 如前文所分析，生态过程模型一般都需要气象数据集、土壤数据集和植被功能类型数据集，而在进行对比时，要确保使用相同的通用数据集。而由于不同模型对这些数据在时空分辨率、植被类型等方面的要求不同，因此，本文采用相同的数据域，针对每个模型的特殊要求，对原始数据进行数据处理。
@@ -146,12 +106,12 @@ LPJ（Lund-potsdam-Jena Model，LPJ）模型建立在Biome3模型的基础上，
     \label{tab:IBIB-PFT-map}
     \begin{threeparttable}
         \begin{tabular}{lcccccc}
-            \toprule[1.5pt]
+            \Xhline{1.5pt}
             \multirow{2}{*}{\textbf{植被功能类型}} & \multicolumn{3}{c}{\textbf{生物量转换时间}} & \multicolumn{2}{c}{\textbf{碳分配系数}} & \multirow{2}{*}{\textbf{比叶面积}} \\ 
-            \cmidrule(lr){2-4} \cmidrule(lr){5-6}
+            \cline{2-4} \cline{5-6}
             & \textbf{叶} & \textbf{根} & \textbf{干} & \textbf{叶} & \textbf{根} &  \\ 
-            \midrule[1.5pt]
-            \bottomrule[1.5pt]
+            \Xhline{1.5pt}
+            \Xhline{1.5pt}
         \end{tabular}
         \begin{tablenotes}
             \footnotesize
@@ -166,12 +126,12 @@ LPJ（Lund-potsdam-Jena Model，LPJ）模型建立在Biome3模型的基础上，
     \label{tab:Biome-BGC-PFT-map}
     \begin{threeparttable}
         \begin{tabular}{lcccccc}
-            \toprule[1.5pt] 
+            \Xhline{1.5pt} 
             \multirow{2}{*}{\textbf{植被功能类型}} & \multicolumn{3}{c}{\textbf{生物量转换时间}} & \multicolumn{2}{c}{\textbf{碳分配系数}} & \multirow{2}{*}{\textbf{比叶面积}} \\ 
-            \cmidrule(lr){2-4} \cmidrule(lr){5-6}
+            \cline{2-4} \cline{5-6}
             & \textbf{叶} & \textbf{根} & \textbf{干} & \textbf{叶} & \textbf{根} &  \\ 
-            \midrule[1.5pt]
-            \bottomrule[1.5pt]
+            \Xhline{1.5pt}
+            \Xhline{1.5pt}
         \end{tabular}
         \begin{tablenotes}
             \footnotesize
@@ -186,12 +146,12 @@ LPJ（Lund-potsdam-Jena Model，LPJ）模型建立在Biome3模型的基础上，
     \label{tab:LPJ-PFT-map}
     \begin{threeparttable}
         \begin{tabular}{lcccccc}
-            \toprule[1.5pt] 
+            \Xhline{1.5pt} 
             \multirow{2}{*}{\textbf{植被功能类型}} & \multicolumn{3}{c}{\textbf{生物量转换时间}} & \multicolumn{2}{c}{\textbf{碳分配系数}} & \multirow{2}{*}{\textbf{比叶面积}} \\ 
-            \cmidrule(lr){2-4} \cmidrule(lr){5-6}
+            \cline{2-4} \cline{5-6}
             & \textbf{叶} & \textbf{根} & \textbf{干} & \textbf{叶} & \textbf{根} &  \\ 
-            \midrule[1.5pt]
-            \bottomrule[1.5pt]
+            \Xhline{1.5pt}
+            \Xhline{1.5pt}
         \end{tabular}
         \begin{tablenotes}
             \footnotesize
@@ -217,9 +177,9 @@ LPJ（Lund-potsdam-Jena Model，LPJ）模型建立在Biome3模型的基础上，
     \label{tab:site-PFT-stat}
     \begin{threeparttable}
         \begin{tabular}{c}
-            \toprule[1.5pt] 
-            \midrule[1.5pt]
-            \bottomrule[1.5pt]
+            \Xhline{1.5pt} 
+            \Xhline{1.5pt}
+            \Xhline{1.5pt}
         \end{tabular}
     \end{threeparttable}
 \end{table}

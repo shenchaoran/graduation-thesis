@@ -14,35 +14,35 @@
     \caption{数据格式和特征}
     \label{tab:data-format-feature}
     \begin{threeparttable}
-        \begin{tabu} to .9\hsize{{X[3cm] | *{4}X[cm]}}
-            \toprule[1.5pt]
-            数据名称 & 数据类型 & 后缀名 & 维数 & 描述 \\
-            \midrule[1.5pt]
-            划分后的网格点 & \multirow{2}{*}{矢量数据} & \multirow{2}{*}{Shapefile} & \multirow{2}{*}{2维} & \multirow{2}{*}{} \\
-            % \cmidrule(lr){1-1}
-            观测站点 & & & & \\
+        \begin{tabular}{lll|l}
+            \Xhline{1.5pt}
+            数据格式 & 数据类型 & 维数 & 数据名称 \\
+            \Xhline{1.5pt}
+            \multirow{2}{*}{Shapefile} & \multirow{2}{*}{矢量数据} & \multirow{2}{*}{2维} & 网格点 \\
+            \cline{4-4}
+            & & & 观测站点 \\
             \hline
-            DEM & \multirow{5}{*}{场数据} & \multirow{5}{*}{NetCDF} & \multirow{5}{*}{n维} & \multirow{5}{*}{} \\
-            % \cmidrule(lr){1-1}
-            MERRA 2 & & & & \\
-            % \cmidrule(lr){1-1}
-            Soil & & & & \\
-            % \cmidrule(lr){1-1}
-            PFT(植被功能类型) & & & & \\
-            % \cmidrule(lr){1-1}
-            全球计算结果 & & & & \\
+            \multirow{5}{*}{NetCDF} & \multirow{5}{*}{场数据} & \multirow{5}{*}{n维} & DEM \\
+            \cline{4-4}
+            & & & MERRA 2 \\
+            \cline{4-4}
+            & & & Soil \\
+            \cline{4-4}
+            & & & PFT \\
+            \cline{4-4}
+            & & & 全球计算结果 \\
             \hline
-            网格点输入气象数据 & \multirow{2}{*}{二维表} & \multirow{2}{*}{\makecell{CSV}} & \multirow{2}{*}{2维} & \multirow{2}{*}{} \\
-            % \cmidrule(lr){1-1}
-            网格点计算结果 & & & & \\
+            \multirow{2}{*}{\makecell{CSV}} & \multirow{2}{*}{二维表} & \multirow{2}{*}{2维} & 网格点输入气象数据 \\
+            \cline{4-4}
+            & & & 网格点计算结果 \\
             \hline
-            CO2浓度序列(.txt) & \multirow{3}{*}{文本数据} & \multirow{3}{*}{\makecell{TXT}} & \multirow{3}{*}{1维} & \multirow{3}{*}{} \\
-            % \cmidrule(lr){1-1}
-            PFT参数(.epc) & & & & \\
-            % \cmidrule(lr){1-1}
-            Biome-BGC的运行配置文件(.ini) & & & & \\
-            \bottomrule[1.5pt]
-        \end{tabu}
+            \multirow{3}{*}{\makecell{TXT}} & \multirow{3}{*}{文本数据} & \multirow{3}{*}{1维} & CO2浓度 \\
+            \cline{4-4}
+            & & & PFT \\
+            \cline{4-4}
+            & & & Biome-BGC的运行配置 \\
+            \Xhline{1.5pt}
+        \end{tabular}
     \end{threeparttable}
 \end{table}
 
@@ -56,21 +56,21 @@
         \caption{NetCDF数据的维度和变量列表}
         \label{tab:nc-dim-var}
         \begin{threeparttable}
-            \begin{tabu} to .9\hsize{X[lm] X[lm] X[lm]}
-                \toprule[1.5pt]
+            \begin{tabular}{lll}
+                \Xhline{1.5pt}
                 数据名称 & 维度 & 变量 \\
-                \midrule[1.5pt]
+                \Xhline{1.5pt}
                 DEM & 经度、维度 & 高程 \\
                 \hline
-                MERRA 2 & 经度、维度、时间 & 最低温、最高温、平均温、相对湿度、降水、风速、云量 \\
+                MERRA 2 & 经度、维度、时间 & \multicolumn{1}{m{0.4\columnwidth}}{最低温、最高温、平均温、相对湿度、降水、风速、云量} \\
                 \hline
-                Soil & 经度、维度 & 沙粒含量、黏粒含量、粉粒含量 \\
+                Soil & 经度、维度 & \multicolumn{1}{m{0.4\columnwidth}}{沙粒含量、黏粒含量、粉粒含量} \\
                 \hline
-                PFT(植被功能类型) & 经度、维度 & 植被类型编号 \\
+                PFT & 经度、维度 & 植被类型编号 \\
                 \hline
-                全球计算结果 & 经度、维度、时间 & GPP、NPP、NEP、Biomass、ET \\
-                \bottomrule[1.5pt]
-            \end{tabu}
+                全球计算结果 & 经度、维度、时间 & \multicolumn{1}{m{0.4\columnwidth}}{GPP、NPP、NEP、Biomass、ET} \\
+                \Xhline{1.5pt}
+            \end{tabular}
         \end{threeparttable}
     \end{table}
 
@@ -104,18 +104,18 @@
         \caption{碳循环模拟的空间多尺度特征}
         \label{tab:spatial-multi-resulotion}
         \begin{threeparttable}
-            \begin{tabu} to \hsize{{*{5}X[lm]}}
-                \toprule[1.5pt]
+            \begin{tabular}{lrrrr}
+                \Xhline{1.5pt}
                 数据名称 & 经度分辨率 & 纬度分辨率 & 北纬边界 & 南纬边界 \\
-                \midrule[1.5pt]
-                模拟输入和输出 & 0.5$^{\circ}$ & 0.5$^{\circ}$ & 82.25 & -54.75 \\
-                MERRA 2 & 0.625$^{\circ}$ & 0.5$^{\circ}$ & 90 & -90 \\
-                DEM & 0.5$^{\circ}$ & 0.5$^{\circ}$ & 89.75 & -89.75 \\
-                土壤 & 0.0085$^{\circ}$ & 0.0107$^{\circ}$ & 90 & -90 \\
-                植被功能类型 & 0.66$^{\circ}$ & 0.5$^{\circ}$ & 90 & -90 \\
-                MODIS 17 A3 GPP/NPP & 0.0083$^{\circ}$ & 0.0083$^{\circ}$ & 80 & -60 \\
-                \bottomrule[1.5pt]
-            \end{tabu}
+                \Xhline{1.5pt}
+                模拟输入和输出 & $0.5^\circ$ & $0.5^\circ$ & $82.25^\circ$ & $-54.75^\circ$ \\
+                MERRA 2 & $0.625^\circ$ & $0.5^\circ$ & $90^\circ$ & $-90^\circ$ \\
+                DEM & $0.5^\circ$ & $0.5^\circ$ & $89.75^\circ$ & $-89.75^\circ$ \\
+                土壤 & $0.0085^\circ$ & $0.0107^\circ$ & $90^\circ$ & $-90^\circ$ \\
+                植被功能类型 & $0.66^\circ$ & $0.5^\circ$ & $90^\circ$ & $-90^\circ$ \\
+                MODIS 17 A3 GPP/NPP & $0.0083^\circ$ & $0.0083^\circ$ & $80^\circ$ & $-60^\circ$ \\
+                \Xhline{1.5pt}
+            \end{tabular}
         \end{threeparttable}
     \end{table}
 
@@ -165,33 +165,34 @@
     \caption{OGC WMS、WFS、WCS接口}
     \label{tab:OGC-WMS-WFS-WCS}
     \begin{threeparttable}
-        \begin{tabu} to .9\hsize{ X[lm] X[lm] X[lm]}
-            \toprule[1.5pt]
+%        \begin{tabular}{ l | l p{0.5\columnwidth}} 
+        \begin{tabular}{ l | l l}
+            \Xhline{1.5pt}
             类型 & 接口 & 描述 \\
-            \midrule[1.5pt]
-            \multirow{3}{*}{WMS} & GetCapabilities & 返回服务级元数据，包括对服务信息内容和可接受请求参数的描述 \\
-            \cmidrule(lr){2-3}
+            \Xhline{1.5pt}
+            \multirow{3}{*}{WMS} & GetCapabilities & \multicolumn{1}{m{0.6\columnwidth}}{返回服务级元数据，包括对服务信息内容和可接受请求参数的描述} \\
+            \cline{2-3}
             & GetMap & 返回一幅地图影像 \\
-            \cmidrule(lr){2-3}
+            \cline{2-3}
             & GetFeatureInfo & 返回地图上要素的空间实体信息 \\
             \hline
             \multirow{5}{*}{WFS} & GetCapabilities & 返回服务级元数据 \\
-            \cmidrule(lr){2-3}
+            \cline{2-3}
             & DescribeFeatureType & 返回表示要素结构的XML文档 \\
-            \cmidrule(lr){2-3}
+            \cline{2-3}
             & GetFeature & 返回GML形式的要素实例 \\
-            \cmidrule(lr){2-3}
+            \cline{2-3}
             & Transaction & 增删查改事务请求 \\
-            \cmidrule(lr){2-3}
+            \cline{2-3}
             & LockFeature & 在事务期间对一个或多个要素实例上锁 \\
             \hline
             \multirow{3}{*}{WCS} & GetCapabilities & 返回描述服务和数据集的XML文档 \\
-            \cmidrule(lr){2-3}
+            \cline{2-3}
             & DescribeCoverage & 返回对覆盖的详细描述 \\
-            \cmidrule(lr){2-3}
+            \cline{2-3}
             & GetCoverage & 使用覆盖格式（图片）返回地理位置的值或属性 \\
-            \bottomrule[1.5pt]
-        \end{tabu}
+            \Xhline{1.5pt}
+        \end{tabular}
         \begin{tablenotes}
             \footnotesize
             \item 详细接口参考OGC~\cite{OGC-WMS}~\cite{OGC-WFS}~\cite{OGC-WCS}。
@@ -263,18 +264,16 @@
         \caption{开发视角上的模型分类}
         \label{tab:model-language-classify}
         \begin{threeparttable}
-            \begin{tabu} to .9\hsize{X[lm] | X[lm] X[lm]}
-                \toprule[1.5pt]
-                \bigstrut
+            \begin{tabular}{l | l l}
+                \Xhline{1.5pt}
                 分类标准 & 一级分类 & 二级分类 \\
-                \midrule[1.5pt]
-                \bigstrut
+                \Xhline{1.5pt}
                 \multirow{8}{*}{语言} & \multirow{5}{*}{编译型} & C \\
                 & & C++ \\
                 & & C\# \\
                 & & Fortran \\
                 & & Java \\
-                \hline
+                \cline{2-3}
                 & \multirow{3}{*}{解释型} & Python\\
                 & & MATLAB \\
                 & & JavaScript \\
@@ -289,8 +288,8 @@
                 \hline
                 \multirow{2}{*}{表现形式} & 源代码 & \\
                 & 可执行程序 & \\
-                \bottomrule[1.5pt]
-            \end{tabu}
+                \Xhline{1.5pt}
+            \end{tabular}
         \end{threeparttable}
     \end{table}
 
