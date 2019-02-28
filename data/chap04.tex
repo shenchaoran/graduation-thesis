@@ -157,6 +157,7 @@
 \end{figure}
 
 \subsection{碳循环相关数据资源的服务化封装}
+\label{sec:data-service}
 \subsubsection{WMS、WFS、WCS三种服务的发布}
 \label{subsubsec:OGC}
 为实现一套与厂商无关的空间数据互操作规范，开放地理空间信息联盟（OGC）制定了WMS、WFS、WCS服务标准，具体接口如表~\ref{tab:OGC-WMS-WFS-WCS}所示。其中WMS（Web Map Service）利用具有地理空间信息的数据制作地图，在国际规范中，地图是地理数据的可视化表现，WMS返回的地图并非是地图数据，而是地图图像，格式上可以是PNG、GIF、JPEG、SVG等~\cite{OGC-WMS}。WFS（Web Feature Service）通过GML（Geography Markup Language）传递地理空间数据，它支持在基于HTTP协议的分布式计算平台上对地理要素进行增删查改等操作，并在这些操作过程中保证了地理数据变化的一致性~\cite{OGC-WFS}。WCS（Web Coverage Service）在网络上以覆盖（Coverage）的形式共享地理空间数据，能够返回栅格时空范围中任意指定点的值，实现了栅格影像数据集的共享~\cite{OGC-WCS}。
@@ -353,7 +354,7 @@
 \end{enumerate}
 
 \subsection{碳循环模型资源的封装、部署、发布}
-
+\label{subsec:ms-encapp}
 \subsubsection{服务封装}
 % 接口设计
 % 几种方式：模型代理、源码封装

@@ -266,6 +266,4 @@ TSWLatexianTemp*
 # standalone packages
 *.sta
 *.pdf
-scr-nnu-graduation-thesis.pdf
-scr-nnu-graduation-thesis.pdf
-scr-nnu-graduation-thesis.pdf
+/scr-nnu-graduation-thesis.pdf
