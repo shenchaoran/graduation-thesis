@@ -139,19 +139,19 @@
 
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=.8\textwidth]{UML-data-description-interface}
+    \includegraphics[width=1\textwidth]{jpg/ModelComparison!4-1-data-description-interface_4}
     \caption{数据描述接口设计}
-    \label{fig:UML-data-description-interface}
+    \label{fig:ModelComparison!4-1-data-description-interface_4}
 \end{figure}
 
-为适应本系统的需求，本文并没有采用这些数据描述标准，而是采用自定义结构进行结构化描述。对于数据的描述分为两部分：领域通用格式数据的描述和自定义结构数据的描述。对于前者，本文设计了如图~\ref{UML-data-description-interface}所示的描述文档，针对每种格式数据各自的特点，以可扩展的形式对其进行描述。对于自定义结构的数据，本文采用示例数据的形式描述。
+为适应本系统的需求，本文并没有采用这些数据描述标准，而是采用自定义结构进行结构化描述。对于数据的描述分为两部分：领域通用格式数据的描述和自定义结构数据的描述。对于前者，本文设计了如图~\ref{ModelComparison!4-1-data-description-interface_4}所示的描述文档，针对每种格式数据各自的特点，以可扩展的形式对其进行描述。对于自定义结构的数据，本文采用示例数据的形式描述。
 
 如图~\ref{fig:data-desc-example}，对于Table数据的描述，主要包括解析数据的表头和列信息组成，表头信息包括有无表头、跳过行数、分隔符、起始列号、终止列号、步长信息。列信息包括数据缩放因子、偏移量、描述和单位信息组成。
 对于NetCDF数据的描述，包括维度和变量信息。他们都包括名称、缺省值、缩放因子、偏移量等信息。
 
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=.8\textwidth]{data-desc-example}
+    \includegraphics[width=1\textwidth]{data-desc-example}
     \caption{Table和NetCDF数据描述文档示例}
     \label{fig:data-desc-example}
 \end{figure}
@@ -318,13 +318,13 @@
 \begin{enumerate}[(1)]
 \item \textbf{基本信息描述接口设计}
 
-基本信息的描述如图~\ref{fig:UML-model-description-interface}所示，包括模型名称、作者、关键字、所属分类体系、DOI、wiki和计算节点信息。其中计算节点信息描述了模型服务的IP、端口和路由前缀等信息，从而在模型请求时能够解析出对应的URL。而wiki的设定允许模型服务使用者也能够维护模型服务的介绍，在经过模型服务拥有者的审核后，会补充到模型服务的描述文档中，这样就可以弥补描述接口的不足之处。
+基本信息的描述如图~\ref{fig:ModelCalculation!4-2-1-model-description-interface_1}所示，包括模型名称、作者、关键字、所属分类体系、DOI、wiki和计算节点信息。其中计算节点信息描述了模型服务的IP、端口和路由前缀等信息，从而在模型请求时能够解析出对应的URL。而wiki的设定允许模型服务使用者也能够维护模型服务的介绍，在经过模型服务拥有者的审核后，会补充到模型服务的描述文档中，这样就可以弥补描述接口的不足之处。
 
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=.8\textwidth]{UML-model-description-interface}
+    \includegraphics[width=1\textwidth]{jpg/ModelCalculation!4-2-1-model-description-interface_1}
     \caption{基本信息描述接口设计}
-    \label{fig:UML-model-description-interface}
+    \label{fig:ModelCalculation!4-2-1-model-description-interface_1}
 \end{figure}
 
 \item \textbf{运行信息描述接口设计}
@@ -332,24 +332,24 @@
 % 存储路径、文件名、类型（编译、解释）、
 % 两个粒度：单模型运行和多模型集成
 
-运行信息的描述接口如图~\ref{fig:UML-model-invoke-interface}所示，包括模型的可执行程序文件名、程序类型、解释器类型、输入数据、输出数据和参数以及各种数据的结构化元数据描述。本文将模型从开发语言上分为编译型和解释型两种，对于解释型的语言，需要记录模型的解释器，在运行时通过解释器调用才能运行。通过运行信息的描述，可以在用户调用时执行execute()函数，并返回子进程的pid，在需要时可以通过kill(pid)杀死进程。
+运行信息的描述接口如图~\ref{fig:ModelCalculation!4-2-2-model-invoke-interface_0}所示，包括模型的可执行程序文件名、程序类型、解释器类型、输入数据、输出数据和参数以及各种数据的结构化元数据描述。本文将模型从开发语言上分为编译型和解释型两种，对于解释型的语言，需要记录模型的解释器，在运行时通过解释器调用才能运行。通过运行信息的描述，可以在用户调用时执行execute()函数，并返回子进程的pid，在需要时可以通过kill(pid)杀死进程。
 
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=1.1\textwidth]{UML-model-invoke-interface}
+    \includegraphics[width=1\textwidth]{jpg/ModelCalculation!4-2-2-model-invoke-interface_0}
     \caption{运行信息描述接口设计}
-    \label{fig:UML-model-invoke-interface}
+    \label{fig:ModelCalculation!4-2-2-model-invoke-interface_0}
 \end{figure}
 
 \item \textbf{部署信息描述接口设计}
 
-部署信息的描述接口如图~\ref{fig:UML-model-deployment-interface}所示，包括模型运行所需的软件和硬件依赖环境。通过与计算节点的软硬件环境数据库相匹配可以得到部署环境是否匹配，当环境相匹配时才能调用成功。
+部署信息的描述接口如图~\ref{fig:ModelCalculation!4-2-3-model-deployment-interface_2}所示，包括模型运行所需的软件和硬件依赖环境。通过与计算节点的软硬件环境数据库相匹配可以得到部署环境是否匹配，当环境相匹配时才能调用成功。
 
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=1\textwidth]{UML-model-deployment-interface}
+    \includegraphics[width=1\textwidth]{jpg/ModelCalculation!4-2-3-model-deployment-interface_2}
     \caption{部署信息描述接口设计}
-    \label{fig:UML-model-deployment-interface}
+    \label{fig:ModelCalculation!4-2-3-model-deployment-interface_2}
 \end{figure}
 \end{enumerate}
 
@@ -367,7 +367,7 @@
 
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=1\textwidth]{source-encap-proxy-encap}
+    \includegraphics[width=.8\textwidth]{source-encap-proxy-encap}
     \caption{源码封装和模型代理封装}
     \label{fig:source-encap-proxy-encap}
 \end{figure}
