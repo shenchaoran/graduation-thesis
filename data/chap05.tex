@@ -1,13 +1,51 @@
 \chapter{原型系统与案例验证}
 
 \section{原型系统构建}
-\subsection{系统网站组织}
-\subsection{系统开发运行环境}
+\subsection{网络结构和开发环境}
 % 软件、硬件、开发语言、
 % 系统运行环境（服务端、客户端）
-\subsection{网络架构和系统功能模块设计}
-\subsection{陆地生态系统碳循环对比资源库}
-\subsection{开放式对比任务执行引擎}
+\subsubsection{网络结构}
+共包括4台服务器，模型计算服务器
+
+\begin{table}[H]
+    \centering
+    \caption{服务器部署配置}
+    \label{tab:data-format-feature}
+    \begin{threeparttable}
+        \begin{tabular}{lllllll}
+            \Xhline{1.5pt}
+            层级 & 地址 & 位置 & 硬件环境 & 软件环境 & 端口 & 部署的微服务 \\
+            \Xhline{1pt}
+            \multirow{3}{*}{模型计算层} & 172.21.213.177 & 刀片服务器 &  & Node.js & 6868 & IBIS微服务 \\
+            \cline{2-4}
+            & \multirow{2}{*}{192.168.190.128} & \multirow{2}{*}{本地虚拟机} & \multirow{2}{*}{} & \multirow{2}{*}{} & \multirow{2}{*}{6868} & Biome-BGC微服务 \\
+            \cline{4-4}
+            &&&&& LPJ微服务 \\
+            \hline
+            \multirow{4}{*}{数据管理层} & \multirow{4}{*}{172.21.213.177} & \multirow{2}{*}{刀片服务器} & 硬盘200GB & Node.js & \multirow{3}{*}{6868} & 数据上传服务 \\
+            \cline{4-4}
+            &&&&& 数据下载服务 \\
+            \cline{4-4}
+            &&&&& 数据重构服务 \\
+            \cline{3-4}
+            & & & & 8787 & WMS WFS WCS \\
+            \hline
+            模型对比层 & 223.2.35.73 & 本地PC机 & CPU: i7-4770 & & 9999 & 对比微服务 \\
+            \Xhline{1.5pt}
+        \end{tabular}
+    \end{threeparttable}
+\end{table}
+
+\subsubsection{开发环境}
+
+
+\subsection{服务容器和微服务}
+\begin{enumerate}[(1)]
+    \item \textbf{模型服务容器和模型服务}
+    \item \textbf{数据服务容器和数据服务}
+    \item \textbf{对比服务容器和对比服务}
+\end{enumerate}
+\subsection{陆地生态系统碳循环模型对比门户网站}
 
 \section{实验案例}
 \subsection{模型资源和数据资源}
