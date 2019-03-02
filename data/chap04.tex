@@ -1,3 +1,6 @@
+% TODO
+% 数据：封装后的结果图片
+% 模型：封装前后调用的对比
 \chapter{开放式对比资源接入方法}
 本文将数据、模型和对比方法称之为对比资源，这三者的开放性决定了对比结果的准确性、公开性和公平性。其中模型作为对比的对象，是本系统中最重要的要素之一。传统的模型对比方案将模型部署在本地环境运行，针对第\label{sec:scene}节分析的多对比情景需求，会造成难以共享和重现等问题，本章描述的模型服务化封装、部署和发布对此提出了对策；而数据资源作为支撑模型成功运行的必备要素，传统的基于数据拷贝的方式在这种情景下也不能满足要求，因此本章对数据资源的开放式接入也提出了相应的方案；在这两者的基础之上，将统计学对比方法和可视化对比方法也一并接入到框架之下，实现了模型的开放式对比。
 
@@ -135,6 +138,8 @@
 
 \subsection{碳循环相关数据资源描述方法}
 \label{sec:data-desc}
+% TODO: 为什么描述，为了解决上面分析而来的异构性
+
 元数据是关于数据的数据，它主要描述数据的内容、质量、表示方式、空间参照系、管理方式、数据的所有者、数据的提供方式和数据集的其他特征等。地理信息元数据可以用来管理和维护空间数据，方便查询和检索空问数据，为用户提供数据内容，质量状态和相关特性的数据编目，为地理信息共享提供了基础。对于数据的描述，国内外都有很多对应的研究，OGC采用XML Schema（如GOC Simple Feature规范）来描述GML，来支持WPS的运行~\cite{OGC-WPS}。OpenMI（Open Modelling Interface）设计了一套标准接口用于多模型集成耦合时对数据的定义、描述和传递~\cite{MOORE2005279}。乐松山设计的通用数据表达——交换模型（Universal Data Description eXchange Model，UDX），结合数据映射服务和数据重构服务，面向模型集成应用场景可以对数据结构进行结构化、语义化描述~\cite{乐松山2016面向地理模型共享与集成的数据适配方法研究}。
 
 \begin{figure}[!htbp]
@@ -161,7 +166,8 @@
 \subsubsection{WMS、WFS、WCS三种服务的发布}
 \label{subsubsec:OGC}
 为实现一套与厂商无关的空间数据互操作规范，开放地理空间信息联盟（OGC）制定了WMS、WFS、WCS服务标准，具体接口如表~\ref{tab:OGC-WMS-WFS-WCS}所示。其中WMS（Web Map Service）利用具有地理空间信息的数据制作地图，在国际规范中，地图是地理数据的可视化表现，WMS返回的地图并非是地图数据，而是地图图像，格式上可以是PNG、GIF、JPEG、SVG等~\cite{OGC-WMS}。WFS（Web Feature Service）通过GML（Geography Markup Language）传递地理空间数据，它支持在基于HTTP协议的分布式计算平台上对地理要素进行增删查改等操作，并在这些操作过程中保证了地理数据变化的一致性~\cite{OGC-WFS}。WCS（Web Coverage Service）在网络上以覆盖（Coverage）的形式共享地理空间数据，能够返回栅格时空范围中任意指定点的值，实现了栅格影像数据集的共享~\cite{OGC-WCS}。
-本文将网格点的Shapefile发布为WFS，通过界面上的交互查询到选择的格点要素，解析其属性后可以获取输入数据路径。将全球范围下的计算结果和对比结果NetCDF数据发布为WMS和WCS，可以在线查看和下载。
+
+图~\ref{fig:wms-example}是本文发布的图层，图~\ref{fig:wfs-example}是通过WFS查询要素属性的返回结果，图~\ref{fig:wcs-example}是通过WCS下载的全球GPP覆盖。
 
 \begin{table}
     \centering
@@ -203,8 +209,43 @@
     \end{threeparttable}
 \end{table}
 
+
+
+\begin{figure}[!htbp]
+    \centering
+
+    \subcaptionbox{WMS图层列表\label{wms-layers}}{\includegraphics[width=0.35\textwidth]{wms-layers}}
+    \hfill
+    \subcaptionbox{WMS图层预览\label{wms-example}}{\includegraphics[width=0.6\textwidth]{wms-example}}
+
+    \caption{WMS请求}
+    \label{fig:wms-example}
+\end{figure}
+
+\begin{figure}[!htbp]
+    \centering
+
+    \subcaptionbox{WFS请求\label{fig:wfs-example}}{\includegraphics[width=0.42\textwidth]{wfs-example}}
+    \hfill
+    \subcaptionbox{WCS请求\label{fig:wcs-example}}{\includegraphics[width=0.52\textwidth]{wcs-example}}
+
+    \caption{WFS和WCS}
+    \label{fig:wfs-wcs}
+\end{figure}
+
 \subsubsection{数据下载服务}
 数据下载服务主要是针对图~\ref{fig:data-arrange}设计的数据编排方式，在数据下载时，对数据路径进行反编码，查询到具体的数据条目，并通过HTTP协议返回给用户。
+
+% \begin{figure}[!htbp]
+%     \centering
+
+%     \subcaptionbox{数据上传服务\label{fig:data-upload-service}}{\includegraphics[width=0.4\textwidth]{data-upload-service}}
+%     \hfill
+%     \subcaptionbox{数据下载服务\label{fig:data-download-service}}{\includegraphics[width=0.4\textwidth]{data-download-service}}
+
+%     \caption{数据上传下载服务}
+%     \label{fig:wms-example}
+% \end{figure}
 
 \subsubsection{数据处理服务}
 % schema 匹配
@@ -238,66 +279,95 @@
     \label{fig:data-process-service}
 \end{figure}
 
+% TODO
+% \begin{figure}[!htbp]
+%     \centering
+
+%     \subcaptionbox{服务列表\label{fig:data-service-list}}{\includegraphics[width=0.4\textwidth]{wms-layers}}
+%     \hfill
+%     \subcaptionbox{服务调用\label{fig:data-service-invoke}}{\includegraphics[width=0.4\textwidth]{wms}} \\
+%     \subcaptionbox{输入数据\label{fig:data-service-input}}{\includegraphics[width=0.4\textwidth]{wms}}
+%     \hfill
+%     \subcaptionbox{输出数据\label{fig:data-service-output}}{\includegraphics[width=0.4\textwidth]{wms}}
+
+%     \caption{数据处理服务}
+%     \label{fig:wms-example}
+% \end{figure}
+
 
 \section{开放式碳循环模型资源接入方法}
 \label{sec:model-joinup}
-% 从支撑模型运行的角度出发，并结合地理模型对比的需求，梳理了地理模型的运行特征，并以结构化的文档描述模型资源，
-% 如图~\ref{ms-join-in}所示，模型资源的接入主要由服务定义、服务封装和服务部署三步组成。
+如图~\ref{fig:ms-step}所示，模型资源的接入主要由模型描述、服务封装、服务部署和服务发布四步组成，下文将按照这个步骤介绍模型资源的接入方法。
 
-% \begin{figure}[!htbp]
-%     \centering
-%     \includegraphics[width=1\textwidth]{mdl}
-%     \caption{模型服务的封装、部署和应用}
-%     \label{fig:ms-join-in}
-% \end{figure}
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=1\textwidth]{ms-step}
+    \caption{模型资源的接入流程}
+    \label{fig:ms-step}
+\end{figure}
 
-\subsection{碳循环模型资源特征分析}
-% 运行分类：简单型、时间推进型、条件语句型、多子过程的集成
-% 运行进度
+\subsection{碳循环模型资源异构特征分析}
+% 碳循环模型存在着很强的异构性，其开发语言、运行平台、表现形式和集成过程各不相同，具体如表~\ref{tab:model-language-classify}所示（本文暂不考虑需要用户交互的模型）。所以
+% 从运行角度，模型的异构性最明显的体现在其输入输出接口上，
+
+地理模型的发展和信息技术紧密相关，模型作为可执行应用程序的一种，其异构性最终体现在其运行特征上：
 \begin{enumerate}[(1)]
-    \item \textbf{模型参数策略特征}
-    
-    生态过程模型普遍采用植被功能类型（PFT）作为植被基本处理单元，通常将PFT划分为林地（覆盖热带、温带、寒带，常绿、落叶、针叶和阔叶等）、灌木（常绿和落叶等）、草地（$C_3$、$C_4$等）、农田（水稻、玉米、温带谷物、大豆、热带根系作物、太阳花、花生、油菜等）等类型。每种植被功能类型对应有许多植被生理生态参数。
-
-    \item \textbf{模型异构性分析}
-    % 集成、表现
-    地理模型从开发视角上有很多不同的分类体系，如表~\ref{tab:model-language-classify}所示，这些类别中，本文暂不考虑有用户交互的模型。
-
-    \begin{table}
-        \centering
-        \caption{开发视角上的模型分类}
-        \label{tab:model-language-classify}
-        \begin{threeparttable}
-            \begin{tabular}{l | l l}
-                \Xhline{1.5pt}
-                分类标准 & 一级分类 & 二级分类 \\
-                \Xhline{1.5pt}
-                \multirow{8}{*}{语言} & \multirow{5}{*}{编译型} & C \\
-                & & C++ \\
-                & & C\# \\
-                & & Fortran \\
-                & & Java \\
-                \cline{2-3}
-                & \multirow{3}{*}{解释型} & Python\\
-                & & MATLAB \\
-                & & JavaScript \\
-                \hline
-                \multirow{3}{*}{平台} & Windows & \\
-                & Linux & \\
-                & Unit & \\
-                \hline
-                \multirow{3}{*}{交互} & 无交互 & \\
-                & 图形用户界面交互 & \\
-                & 控制台用户界面交互 & \\
-                \hline
-                \multirow{2}{*}{表现形式} & 源代码 & \\
-                & 可执行程序 & \\
-                \Xhline{1.5pt}
-            \end{tabular}
-        \end{threeparttable}
-    \end{table}
-
+    \item \textbf{开发语言：}分为编译型和解释型，编译型包括C、C++、C\#、Fortran、Java等，解释型包括Python、MATLAB、JavaScript等。解释型语言在运行是需要解释器环境；
+    \item \textbf{运行平台：}包括Windows、Linux和Unix等；
+    \item \textbf{表现形式：}包括源代码、可执行程序、动态链接库、静态链接看、网络服务；
+    \item \textbf{执行流程：}分为简单类型和复杂类型，简单类型不需要集成，复杂类型由多个子过程组成，运行时需要集成；
+    \item \textbf{运行接口：}模型的数据读取方式各异，可以简单分为硬耦合方式、配置文件方式和命令行参数三种，每一类下又存在不同的具体标准，如图~\ref{fig:before-encap}，IBIS、Biome-BGC和LPJ的运行接口各不相同，其中IBIS和LPJ通过源代码硬耦合的方式，这种方式在更换数据时需要重新编译，及其不便；Biome-BGC通过将输入数据写在配置文件中，比硬耦合的方式更加灵活，但是不同模型的配置方式很难定义标准。
 \end{enumerate}
+
+针对这些运行方面的异构性，模型封装时只有屏蔽这些特征，才能以统一的方式接入到对比框架中。
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=1\textwidth]{before-encap}
+    \caption{IBIS、Biome-BGC和LPJ的运行接口}
+    \label{fig:before-encap}
+\end{figure}
+
+% \begin{table}
+%     \centering
+%     \caption{模型的异构性}
+%     \label{tab:model-language-classify}
+%     \begin{threeparttable}
+%         \begin{tabular}{l | l l}
+%             \Xhline{1.5pt}
+%             分类标准 & 一级分类 & 二级分类 \\
+%             \Xhline{1.5pt}
+%             \multirow{8}{*}{语言} & \multirow{5}{*}{编译型} & C \\
+%             & & C++ \\
+%             & & C\# \\
+%             & & Fortran \\
+%             & & Java \\
+%             \cline{2-3}
+%             & \multirow{3}{*}{解释型} & Python\\
+%             & & MATLAB \\
+%             & & JavaScript \\
+%             \hline
+%             \multirow{3}{*}{平台} & Windows & \\
+%             & Linux & \\
+%             & Unix & \\
+%             \hline
+%             \multirow{3}{*}{交互} & 无交互 & \\
+%             & 图形用户界面交互 & \\
+%             & 控制台用户界面交互 & \\
+%             \hline
+%             \multirow{5}{*}{表现形式} & 源代码 & \\
+%             & 可执行程序 & \\
+%             & 动态链接库 & \\
+%             & 静态链接库 & \\
+%             & 网络服务 & \\
+%             \hline
+%             \multirow{2}{*}{集成} & 不需集成 & \\
+%             & 由多步组成，需要集成 & \\
+%             \Xhline{1.5pt}
+%         \end{tabular}
+%     \end{threeparttable}
+% \end{table}
+
 
 
 \subsection{碳循环模型资源描述方法}
@@ -332,7 +402,7 @@
 % 存储路径、文件名、类型（编译、解释）、
 % 两个粒度：单模型运行和多模型集成
 
-运行信息的描述接口如图~\ref{fig:ModelCalculation!4-2-2-model-invoke-interface_0}所示，包括模型的可执行程序文件名、程序类型、解释器类型、输入数据、输出数据和参数以及各种数据的结构化元数据描述。本文将模型从开发语言上分为编译型和解释型两种，对于解释型的语言，需要记录模型的解释器，在运行时通过解释器调用才能运行。通过运行信息的描述，可以在用户调用时执行execute()函数，并返回子进程的pid，在需要时可以通过kill(pid)杀死进程。
+运行信息的描述接口如图~\ref{fig:ModelCalculation!4-2-2-model-invoke-interface_0}所示，包括模型的可执行程序文件名、程序类型、解释器类型、输入数据、输出数据和参数（本文将文件型的数据称为输入数据，将Number或String型的数据称为参数）以及各种数据的结构化元数据描述。本文将模型从开发语言上分为编译型和解释型两种，对于解释型的语言，需要记录模型的解释器，在运行时通过解释器调用才能运行。通过运行信息的描述，可以在用户调用时执行execute()函数，并返回子进程的pid，在需要时可以通过kill(pid)杀死进程。
 
 \begin{figure}[!htbp]
     \centering
@@ -354,11 +424,12 @@
 \end{enumerate}
 
 \subsection{碳循环模型资源的封装、部署、发布}
-\label{subsec:ms-encapp}
-\subsubsection{服务封装}
+\label{subsec:ms-encap}
+\subsubsection{模型封装}
 % 接口设计
 % 几种方式：模型代理、源码封装
 % 对于执行链的封装
+
 在计算机领域，封装是对实体进行包装或组合形成具有稳定接口的新实体的方法和技术。~\cite{胡迪2015地理模型的服务化封装方法研究}通过封装，可以屏蔽原有程序的实现细节，提高模型的可复用性和可维护性，降低用户的使用难度。封装可以体现在程序设计的各个层次上，如函数、类、模块、组件、系统、可执行程序和Web服务这些粒度上都可以进行封装，本文的封装将模型包装成具有标准接口的控制台应用程序。
 
 模型封装最关键的是运行接口的设计，而模型运行接口的设计本质上是设计一个命令行参数解析标准，将输入输出选项映射给程序内存变量，业界有很多成熟的标准，如libc的getopt/getopt\_long接口、google的gflags接口等。本文采用的getopt/getopt\_long接口，它在很多其他语言上都有对应的移植版本，方便对不同语言模型封装的实现。getopt/getopt\_long接口支持单字符选项、多字符选项和可选参数选项，可以方便地生成帮助信息。通过getopt/getopt\_long的标准化，模型的调用命令可表示为“exeName -a -i="filepath1" -p="10" -o="filepath3"”或“exeName -a --inputFile1="filepath2" --parameter1="10" --outputFile1="filepath3"”。其中选项列表来自于运行信息描述文档，以“-”开头表示单字符选项，以“--”开头表示多字符选项，不带等号的如“-a”为参数选项。对于IBIS的封装，标准化后调用方式可表示为“IBIS --meteorology="meteorology\_file\_path" --soil="soil\_file\_path" --output="output\_file\_save\_path"”。对于解释型的语言，需要在命令前面加上解释器，如Biome-BGC模型的调用方式可表示为“node Biome-BGC.js -a --ini="ini\_config\_path" --met="meteorology\_file\_path" --co2="co2\_file\_path" --epc="PFT\_parameters\_file\_path" --output="output\_file\_path"”。
@@ -378,6 +449,16 @@
     \caption{模型的串联集成封装，以Biome-BGC为例}
     \label{fig:ms-encap-with-integration}
 \end{figure}
+
+如图~\ref{fig:after-encap}所示，IBIS、Biome-BGC和LPJ三个模型封装后的调用方式一致，可以概括为“(interpreter) <main> -p -f=<value> --flag=<value>”。其中“interpreter”为解释器，当程序语言是解释型的时候才需要，“main”是入口程序名，“-p”是参数标识，“-f”是短标识，“--flag”是长标识。参数标识、短标识和长标识在模型运行描述文档中具体体现。
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=1\textwidth]{after-encap}
+    \caption{IBIS、Biome-BGC和LPJ封装后的运行接口}
+    \label{fig:after-encap}
+\end{figure}
+
 
 \subsubsection{服务部署和发布}
 % 数据库录入条目、服务部署
