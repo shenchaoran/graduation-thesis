@@ -75,16 +75,44 @@
 \end{figure}
 
 \subsection{陆地生态系统碳循环模型对比门户网站}
-面向开放式模型计算和对比的需求，本文构建了一个门户网站，如图~\ref{fig:portal-index}所示，作为对比方案和对比结果共享的入口。一方面可以将对比过程和结果公开化，降低碳循环模型的使用难度，另一方面可以激励模式组的模型通过封装加入进来，促进碳循环研究的发展。
+面向开放式模型计算和对比的需求，本文构建了一个门户网站，作为对比方案和对比结果共享的入口。一方面可以将对比过程和结果公开化，降低碳循环模型的使用难度，另一方面可以激励模式组的模型通过封装加入进来，促进碳循环研究的发展。门户网站的主要功能模块设计为如图\ref{fig:system-module}，功能模块分为资源模块、对比业务模块、结果展示模块和用户管理模块，其中资源模块包括模型资源和数据资源；对比业务模块则对应于对比话题、对比方案和对比任务；结果展示模块基于所有对比任务的执行结果，将对比结果展示出去；用户模块包括用户的个人资源管理。门户网站的登录、注册和首页如图~\ref{fig:portal-index}所示。
 
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=1\textwidth]{portal-index}
+    \includegraphics[width=1\textwidth]{system-module}
+    \caption{对比系统功能模块设计}
+    \label{fig:system-module}
+\end{figure}
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=.7\textwidth]{portal-index}
     \caption{门户网站首页和注册登录页面}
     \label{fig:portal-index}
 \end{figure}
 
+\begin{figure}[!htbp]
+    \centering
+    \subcaptionbox{模型资源和数据资源列表\label{fig:ms-data-resource}}{\includegraphics[width=.5\textwidth]{ms-data-resource}}
+    \hfill
+    \subcaptionbox{模型服务调用\label{fig:ms-invoke}}{\includegraphics[width=.43\textwidth]{ms-invoke}}
+    \caption{门户网站模型和数据资源}
+    \label{fig:portal-resource}
+\end{figure}
 
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=1\textwidth]{task-cfg-result}
+    \caption{对比任务配项和结果}
+    \label{fig:task-cfg-result}
+\end{figure}
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=.8\textwidth]{site-REPL}
+    \caption{站点级对比结果查询应用}
+    \label{fig:site-REPL}
+\end{figure}
 
 \section{实验案例}
 \subsection{模型资源和数据资源}
