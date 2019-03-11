@@ -470,21 +470,22 @@
 \subsection{碳循环模型对比方法}
 \subsubsection{统计学对比方法}
 \begin{align}
-    &SD = \sqrt{\frac{\sum\nolimits_{i=1}^{N}\left(x_i-\bar{x}\right)^2}{N}}
+    &SD = \sqrt{\frac{\sum\limits_{i=1}^{N}\left(x_i-\bar{x_i}\right)^2}{N}}
     \label{eq:SD} \\
-    &MSE = \frac{\sum\nolimits_{i=1}^{N}\left(y_i-Y_i\right)^2}{N}
-    \label{eq:MSE} \\
+    &SSE = \sum\limits_{i=1}^{N}\left(y_i-\hat{y_i}\right)^2 \\
+    &SST = \sum\limits_{i=1}^{N}\left(y_i-\bar{y_i}\right)^2 \\
+    &MSE = \frac{SSE}{n} \\
     % &MSE_S = \frac{}{N}
     % \label{eq:MSE-S} \\
     % &MSE_U = \frac{}{N}
     % \label{eq:MSE-U} \\
-    &RMSE = \sqrt{MSE} = \sqrt{\frac{\sum\nolimits_{i=1}^{N}\left(y_i-Y_i\right)^2}{N}}
+    &RMSE = \sqrt{MSE} = \sqrt{\frac{\sum\limits_{i=1}^{N}\left(y_i-\hat{y_i}\right)^2}{N}}
     \label{eq:RMSE}  \\
-    % &RMSE_r = \sqrt{\frac{\sum\nolimits_{_i=1}^{N}\left[\left(y_i-Y_i\right)/\bar{y}\right]^2}{N}} \times 100\%
+    % &RMSE_r = \sqrt{\frac{\sum\limits_{_i=1}^{N}\left[\left(y_i-\hat{y_i}\right)/\bar{y}\right]^2}{N}} \times 100\%
     % \label{eq:RMSE-R} \\
-    % &R^2 = 1 - \frac{\sum\nolimits_{i=1}^{N}\left(y_i-Y_i\right)^2}{}
-    % \label{eq:R^2}
-    &NSE = 1 - \frac{\sum\nolimits_{i=1}^{N}\left(y_i-Y_i\right)^2}{\sum\nolimits_{i=1}^{N}\left(Y_i - \bar{Y}\right)^2} 
+    &R^2 = \frac{SSR}{SST} = 1 - \frac{SSE}{SST} = 1 - \frac{\sum\limits_{i=1}^{N}\left(y_i-\hat{y_i}\right)^2}{\sum\limits_{i=1}^{N}\left(y_i-\bar{y_i}\right)^2}
+    \label{eq:R^2} \\
+    &NSE = 1 - \frac{\sum\limits_{t=1}^{T}\left(Q_o^t - Q_m^t\right)^2}{\sum\limits_{t=1}^{T}\left(Q_o^t - \bar{Q_o}\right)^2}
     \label{eq:NSE}
 \end{align}
 本文主要用以下几个统计变量评价IBIS、Biome-BGC、LPJ三个模型在网格点的模拟准确度：
@@ -495,11 +496,15 @@
 
 \item \textbf{均方根误差（Root Mean Square Error，记为$RMSE$）}
 
-均方根误差又称标准误差，表示有限观测数据中，观测值与真值的偏差。本文使用均方根误差表示网格点模拟值与观测值的偏差，从而反映模型的模拟能力。均方根误差可表示为公式~\ref{eq:RMSE}，其中$RMSE$表示均方根误差，$MSE$表示均方误差，$y_i(i=1,2,...,N)$为模拟数据，$Y_i$为观测数据。
+均方根误差又称标准误差，表示有限观测数据中，观测值与真值的偏差。本文使用均方根误差表示网格点模拟值与观测值的偏差，从而反映模型的模拟能力。均方根误差可表示为公式~\ref{eq:RMSE}，其中$RMSE$表示均方根误差，$MSE$表示均方误差，$y_i(i=1,2,...,N)$为观测数据，$\hat{y_i}$为预测数据。
+
+\item \textbf{决定系数（记为$R^2$）}
+
+决定系数反映因变量的全部变异能通过回归关系被自变量解释的比例，
 
 \item \textbf{效率系数（Nash-Sutcliffe coefficient，记为$NSE$）}
 
-效率系数用来评价模型模拟的好坏~\cite{gordon2003climate}，如公式~\ref{eq:NSE}所示，$NSE$等于1减去均方误差与观测值变异的比值。$NSE$值的范围从负无穷大到1，越接近1表示模型效果越好。如果模拟值的均方误差与观测值的方差相同，则$NSE$等于0；如果模拟值的均方误差大于观测值的方差，则$NSE$小于0；如果模拟值的均方误差小于观测值的方差并趋近于后者，则$NSE$趋近于1，表示模型具有很好的模拟能力。
+效率系数用来评价模型模拟的好坏~\cite{gordon2003climate}，如公式~\ref{eq:NSE}所示，式中，$Q_o$指观测值，$Q_m$指模拟值，$Q^t$指第t时刻的某个值，$\bar{Q_o}$表示观测值的平均值。$NSE$等于1减去均方误差与观测值变异的比值。$NSE$值的范围从负无穷大到1，越接近1表示模型效果越好。如果模拟值的均方误差与观测值的方差相同，则$NSE$等于0；如果模拟值的均方误差大于观测值的方差，则$NSE$小于0；如果模拟值的均方误差小于观测值的方差并趋近于后者，则$NSE$趋近于1，表示模型具有很好的模拟能力。
 
 \item \textbf{超级集合}
 

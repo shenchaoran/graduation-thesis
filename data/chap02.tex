@@ -182,12 +182,56 @@ LPJ（Lund-potsdam-Jena Model，LPJ）~\cite{sitch2003evaluation}模型建立在
     \label{tab:site-PFT-stat}
     \begin{threeparttable}
         \begin{tabular}{c}
-            \Xhline{1.5pt} 
+            \Xhline{1.5pt}
             \Xhline{1.5pt}
             \Xhline{1.5pt}
         \end{tabular}
     \end{threeparttable}
 \end{table}
+
+% 林地 草地 农田 湿地 灌木 草原 其他
+
+% WET     Permanent Wetlands                  永久湿地
+% CRO     Croplands                           农田
+% MF      Mixed Forests                       混交林
+% DBF     Deciduous Broadleaf Forests         落叶阔叶林          -
+% EBF     Evergreen Broadleaf Forests         常绿阔叶林          -
+% ENF     Evergreen Needleleaf Forests        常绿针叶林          -
+% DNF     Deciduous Needleleaf Forests        落叶针叶林          -
+% GRA     Grasslands                          草地                -
+% WSA     Woody Savannas                      多树草原            -
+% SAV     Savannas                            热带稀树草原
+% OSH     Open Shrublands                     稀疏灌丛            -
+% CSH     Closed Shrublands                   郁闭灌丛            -
+
+\begin{table}[!htbp]
+    \centering
+    \caption{植被功能类型分类表}
+    \label{tab:site-PFT-stat}
+    \begin{threeparttable}
+        \begin{tabular}{lllll}
+            \Xhline{1.5pt}
+            本文分类表 & FLUXNET & Biome-BGC & IBIS & LPJ \\
+            \Xhline{1.5pt}
+            \multirow{2}{*}{常绿针叶林} & \multirow{2}{*}{常绿针叶林} & \multirow{2}{*}{常绿针叶林} & 温带常绿针叶林 & \multirow{13}{*}{有分类体系，但是是根据气象数据和土壤数据计算出来，不做对应} \\
+            &&& 北方常绿针叶林 & \\
+            \multirow{3}{*}{落叶阔叶林} & \multirow{3}{*}{落叶阔叶林} & \multirow{3}{*}{落叶阔叶林} & 热带干旱落叶阔叶林 & \\
+            &&& 北方干旱落叶阔叶林 & \\
+            &&& 温带落叶阔叶林 & \\
+            \multirow{2}{*}{常绿阔叶林} & \multirow{2}{*}{常绿阔叶林}& \multirow{2}{*}{常绿阔叶林} & 热带常绿阔叶林 & \\
+            &&& 温带常绿阔叶林 & \\
+            落叶针叶林 & 落叶针叶林 & 落叶针叶林 & 落叶针叶林 & \\
+            \multirow{3}{*}{草本植物} & 草地 & \multirow{2}{*}{C3草本植物} & \multirow{2}{*}{C3草本植物} & \\
+            & 多树草原 & & & \\
+            & 热带稀树草原 & C4草本植物 & C4草本植物 & \\
+            & 稀疏灌木 & \multirow{2}{*}{灌木} & 常绿灌木 & \\
+            & 郁闭灌木 & & 冷落叶灌木 & \\
+            \Xhline{1.5pt}
+        \end{tabular}
+    \end{threeparttable}
+\end{table}
+
+
 
 \subsection{MODIS GPP/NPP数据集}
 MODIS MOD17 A3提供了时空连续的遥感GPP/NPP产品，MODIS/GPP产品以其他MODIS产品为基础计算而得，时间范围从2000年到2015年，时间分辨率为8天，空间分辨率为$0.0083^{\circ} \times 0.0083^{\circ}$，对其进行重采样转换为$0.5^{\circ} \times 0.5^{\circ}$。本文使用MODIS GPP/NPP 数据集作为全球尺度上的对比验证数据集，与三个模型模拟的结果进行对比分析。

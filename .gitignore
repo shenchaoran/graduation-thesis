@@ -267,3 +267,4 @@ TSWLatexianTemp*
 *.sta
 *.pdf
 /scr-nnu-graduation-thesis.pdf
+/figures/*.zip
