@@ -121,25 +121,24 @@ GPP是评估。。，本文以同样的气象数据、和土壤数据驱动IBIS�
 
 \subsection{基于植被功能类型的多站点差异性对比}
 由于每个站点的观测数据时间范围不同，在不同站点上不能选取相同的时间范围，本研究取模拟时间范围（1982-2013年）和观测站点的最长公共时间区间，将每个站点的模拟结果与观测数据进行对比，最后按照植被功能类型进行统计，得到不同植被功能类型下不同模型模拟的GPP和观测的GPP的平均值差异及相关系数表，如图~\ref{fig:heatmap-GPP-coef}所示，在CSH、ENF、MF三种植被类型中，四个模型模拟的相关系数都在0.6以上，而对EBF的模拟效果最差，相关性在0.21以下，同时，如图~\ref{fig:heatmap-GPP-mean}所示，IBIS模拟的GPP整体偏高2倍左右，总体来看，Biome-BGC和LPJ的模拟结果比MODIS在各种植被功能类型上都更要准确，其中，Biome-BGC无论是从相关性还是从均值分布上模拟能力都是最好的。
-按照表~\ref{tab:site-PFT-stat}所统计的8中站点植被功能类型，将151个站点的
+按照表~\ref{tab:site-PFT-stat}所统计的8中站点植被功能类型，将129个站点的分类统计。
 
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=1\textwidth]{scatter-GPP}
-    \caption{151个站点GPP模拟值和观测值分布}
+    \caption{129个站点GPP模拟值和观测值分布}
     \label{fig:api-gateway-children}
 \end{figure}
 
-\begin{figure}[!htbp]
-    \centering
-    \subcaptionbox{相关系数\label{fig:heatmap-GPP-coef}}{\includegraphics[width=.49\textwidth]{heatmap-GPP-coef}}
-    \hfill
-    \subcaptionbox{平均值\label{fig:heatmap-GPP-mean}}{\includegraphics[width=.49\textwidth]{heatmap-GPP-mean}}
-    \caption{IBIS、Biome-BGC、LPJ和MODIS不同植被功能类型模拟的GPP相关系数和平均值对比}
-    \label{fig:heatmap-coef-mean}
-\end{figure}
+% \begin{figure}[!htbp]
+%     \centering
+%     \subcaptionbox{相关系数\label{fig:heatmap-GPP-coef}}{\includegraphics[width=.49\textwidth]{heatmap-GPP-coef}}
+%     \hfill
+%     \subcaptionbox{平均值\label{fig:heatmap-GPP-mean}}{\includegraphics[width=.49\textwidth]{heatmap-GPP-mean}}
+%     \caption{IBIS、Biome-BGC、LPJ和MODIS不同植被功能类型模拟的GPP相关系数和平均值对比}
+%     \label{fig:heatmap-coef-mean}
+% \end{figure}
 
-% 表 mean MSE R （PFT）
 \begin{table}
     \centering
     \caption{IBIS、Biome-BGC、LPJ、MODIS和Fluxnet的GPP统计指标}
@@ -212,8 +211,8 @@ GPP是评估。。，本文以同样的气象数据、和土壤数据驱动IBIS�
 
 
 \subsection{基于全球网格点的时空格局对比}
-\subsubsection{时间变化}
-本文选取1982年到2013年的模拟结果，与MODIS产品进行交叉对比，图~\ref{fig:cmp-temporal}展示了四个模型模拟的时间变化规律，四个模型的年平均结果具有相同的变化趋势，，四个模型从月分布规律还是
+\subsubsection{时间变化对比}
+本文基于全球范围内划分的网格点的模拟结果，以MOD17A2的模拟结果进行交叉对比，如图~\ref{fig:GPP-annual}三个模型模拟的GPP都承缓慢上升趋势，其中Biome-BGC的结果和MODIS的模拟结果最为接近，而IBIS整体偏高，LPJ整体偏低。4个模型模拟的GPP季节分布规律如图~\ref{fig:GPP-monthly}，不论南北半球都是夏季GPP升高，冬季GPP降低。
 
 \begin{figure}[!htbp]
     \centering
@@ -230,7 +229,9 @@ GPP是评估。。，本文以同样的气象数据、和土壤数据驱动IBIS�
 \end{figure}
 
 
-\subsubsection{空间格局}
+\subsubsection{空间格局对比}
+% TODO 全球总GPP
+从空间格局上来看，Biome-BGC模拟结果与MOD17A2的结果最为接近，而IBIS全球范围内都偏高，而LPJ模拟的整体稍微偏低。从纬度的分布上来看，如图~\ref{fig:GPP-lat}，GPP的分布存在着明显的维度规律，在低纬度GPP最高，在低纬度GPP偏低。
 
 \begin{figure}[!htbp]
     \centering

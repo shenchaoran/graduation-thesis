@@ -89,7 +89,7 @@ LPJ（Lund-potsdam-Jena Model，LPJ）~\cite{sitch2003evaluation}模型建立在
 ~\label{sec:model-data}
 % 缺图：a陆面掩膜；b PFT；c DEM
 % CO2 1982-2014 时间序列图
-% FLUXNET 站点图（按PFT分类）
+% FLUXNET 站点图（按PFT分类）/按年份分类
 % 缺表：三个模型需要的数据对比表
 本文所选的三个模型均以网格点为基本模拟单位，针对全球范围内的区域，本文使用$0.5^{\circ} \times 0.5^{\circ}$的经纬网划分格点，并筛选去除海洋和裸土地的格点，最终在全球范围内共有40595个格点。
 
@@ -165,15 +165,22 @@ LPJ（Lund-potsdam-Jena Model，LPJ）~\cite{sitch2003evaluation}模型建立在
     \end{threeparttable}
 \end{table}
 
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{PFT}
+    \caption{植被功能类型图}
+    \label{fig:PFT}
+\end{figure}
+
 \subsection{通量观测数据集}
 % 举例的站点表
 全球通量观测网络（FLUXNET）是一个以全球广泛分布的通量塔为基础的全球通量观测网络。通量观测站点遍布世界主要国家，在北美、欧洲、亚洲、非洲都有它的区域网络存在（如亚洲通量网AsiaFlux、美洲通量网AmeriFlux、中国通量网ChinaFlux）。到如今为止，累计有800多个活跃和历史的通量测定站点，分布在全球大部分气候空间和代表性生物群系中。覆盖的植被功能类型包括热带森林、温带针叶和阔叶森林、寒带森林、农田、草原、灌木丛、苔原和湿地。它在全球范围内连续测量大气状态变量，如温度、湿度、风速、降雨量、大气二氧化碳、植被生产力、生物量等。本文使用的是La Thuile数据集，包括站点每天的温度、降水、光合有效辐射比例（FPAR）、GPP、NEP，共计有231个通量观测站点，累计900余个站点$\cdot$年次数据，作为观测数据集与模型模拟的结果进行站点尺度上的对比。站点分布如图~\ref{fig:Thuile-site-POI}所示。
 
 \begin{figure}[!htbp]
     \centering
-    %\includegraphics[width=0.9\textwidth]{Thuile-site-POI}
-    \caption{La Thuile观测站点分布}
-    \label{fig:Thuile-site-POI}
+    \includegraphics[width=1\textwidth]{sites-map}
+    \caption{129个FLUXNET观测站点分布}
+    \label{fig:sites-map}
 \end{figure}
 
 \begin{table}[!htbp]
