@@ -6,16 +6,19 @@
 \section{陆地生态系统碳循环}
 % 介绍主要过程：光合、呼吸等
 % 及影响因素
-地球系统碳循环是指碳在岩石圈、水圈、大气圈和生物圈之间，以各种形式相互转换和迁移的过程。碳元素主要分布于陆地生态系统、海洋、大气和化石燃料四个碳库，其中陆地生态系统中的碳库是含量最小的碳库，但由于其是人类活动聚集的场所，所以又是最为活跃的碳库。它主要由植物光和器官碳库、植物支持器官碳库、凋落物碳库和土壤有机物碳库四部分组成，如图~\ref{fig:land-carbon-cycling-structure}所示，植物通过光合作用将大气中的$CO_2$转换为碳水化合物，再通过自养呼吸、分配光合作用产物和死亡凋落过程把碳输送到大气、植物支持器官碳库和凋落物碳库；植物支持器官通过自养呼吸和死亡凋落把有机碳分别输送到大气和凋落物碳库；凋落物碳库通过异样呼吸和分解作用分别把碳输送到大气和土壤有机物碳库中；土壤有机物碳库最后通过异样呼吸把碳输送回大气碳库中。因此，碳在陆地生态系统中的转移路径为：大气——植物光合器官——植物支持器官——凋落物——土壤——大气，形成了一个首尾相连的闭环，因此，可以把陆地生态系统中碳的转移看成一个循环过程。
+地球系统碳循环是指碳在岩石圈、水圈、大气圈和生物圈之间，以各种形式相互转换和迁移的过程。如图~\ref{fig:carbon-cycling-structure}所示，碳元素主要分布于陆地、海洋、大气和化石燃料四个碳库，其中陆地生态系统中的碳库是含量最小的碳库，但由于其是人类活动聚集的场所，所以又是最为活跃的碳库。它主要由植物光和器官碳库、植物支持器官碳库、凋落物碳库和土壤有机物碳库四部分组成，如图~\ref{fig:land-carbon-cycling-structure}所示，植物通过光合作用将大气中的$CO_2$转换为碳水化合物，再通过自养呼吸、分配光合作用产物和死亡凋落过程把碳输送到大气、植物支持器官碳库和凋落物碳库；植物支持器官通过自养呼吸和死亡凋落把有机碳分别输送到大气和凋落物碳库；凋落物碳库通过异样呼吸和分解作用分别把碳输送到大气和土壤有机物碳库中；土壤有机物碳库最后通过异样呼吸把碳输送回大气碳库中~\cite{2004地球系统碳循环}~\cite{毛留喜2006陆地生态系统碳循环模型研究概述}。碳在陆地生态系统中的转移路径为：大气——植物光合器官——植物支持器官——凋落物——土壤——大气，形成了一个首尾相连的闭环，因此，可以把陆地生态系统中碳的转移看成一个循环过程。
 
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=0.9\textwidth]{land-carbon-cycling-structure}
-    \caption{陆地生态系统碳循环基本过程}
-    \label{fig:land-carbon-cycling-structure}
+    \subcaptionbox{地球系统碳循环基本框架\label{fig:carbon-cycling-structure}}{\includegraphics[width=.2\textwidth]{carbon-cycling-structure}}
+    \hfill
+    \subcaptionbox{陆地生态系统碳循环基本框架\label{fig:land-carbon-cycling-structure}}{\includegraphics[width=.7\textwidth]{land-carbon-cycling-structure}} \\
+    \caption{碳循环框架}
+    \label{fig:carbon-cycling}
 \end{figure}
 
 \section{陆地生态系统碳循环模型}
+% 总的部分介绍简洁一点
 % 介绍基本结构、特点、分类
 \label{sec:model}
 \subsection{陆地生态系统碳循环模型及其分类}
@@ -70,100 +73,127 @@
 \subsection{IBIS, Biome-BGC, LPJ模型简介}
 \subsubsection{IBIS模型}
 % 起源、原理、结构、适用条件、输入数据、运行模式
-IBIS全称为集成生物圈模拟器（Integrated BIosphere Simulator），由美国威斯康星——麦迪逊大学Foley等~\cite{foley1996integrated}提出，随后，Kucharik等~\cite{kucharik2000testing}于2000年对其进行了改进，现在最新版本是IBIS 2.6。模型包括地表模块、土壤地球生物化学模块、植被物候模块和植被动态模块5个模块，属于动态植被类型模型。IBIS模型综合考虑了地球化学过程、地球物理过程和植被动态过程，能够耦合大气环流模式，在时间上适用于跨度从秒到数百年的碳循环过程，在空间上适用的尺度包括斑块、景观、区域和全球。
+IBIS全称为集成生物圈模拟器（Integrated BIosphere Simulator），由美国威斯康星——麦迪逊大学Foley等~\cite{foley1996integrated}提出，随后，Kucharik等~\cite{Kucharik2000Testing}对其进行了改进，现在最新版本是IBIS 2.6。模型包括地表模块、土壤地球生物化学模块、植被物候模块和植被动态模块5个模块，属于动态植被类型模型。IBIS模型综合考虑了地球化学过程、地球物理过程和植被动态过程，能够耦合大气环流模式。模型时间步长为1小时，在空间上适用的尺度包括斑块、景观、区域和全球，属于植被动力学模型（DGVM）。模型的基本信息如表~\ref{tab:model-basic-cmp}第2列，输入输出项如表~\ref{tab:model-io-cmp}第4列，模型的植被功能类型综合考虑了气候区（北方、温带、热带）和植被类型（常绿林、落叶林、针叶林、混交林、草地、灌木等），具体划分类别如表~\ref{tab-PFTs}第3列所示。其他详细参数见Foley等~\cite{foley1996integrated}，Kucharik等~\cite{Kucharik2000Testing}
 
-IBIS模型的输入数据包括日分辨率的气象数据（平均温度、最大温度、最小温度、相对湿度、风速和云量）、土壤质地数据（沙粒含量、黏粒含量和粉粒含量）、植被功能类型（PFT）、网格点的经纬度。IBIS模型将植被功能类型分为12种，其中林地分为热带常绿阔叶林、热带干旱落叶阔叶林、温带常绿阔叶林、温带常绿针叶林、温带阔叶林、北方常绿针叶林、北方干旱落叶阔叶林、北方冷落叶针叶林，灌木和草地分为常绿灌木、冷落叶灌木、C3草本植物、C4草本植物，其他详细参数见Foley等~\cite{foley1996integrated}，Kucharik等~\cite{kucharik2000testing}
+\begin{table}[H]
+    \centering
+    \caption{IBIS、Biome-BGC和LPJ模型的基本信息对比}
+    \label{tab:model-basic-cmp}
+    \begin{threeparttable}
+        \begin{tabular}{llll}
+            \Xhline{1.5pt}
+             & IBIS & Biome-BGC & LPJ \\
+            \Xhline{1pt}
+            类型 & DGVM & 生物地球化学模型 & DGVM \\
+            时间分辨率 & 1小时 & 1天 & 1天 \\
+            空间分辨率 & $0.5^{\circ}, 1^{\circ}, 2^{\circ}, 4^{\circ}$ & 无明确限制 & $0.5^{\circ}$ \\
+            开发语言 & Fortran77 & C & Fortran90 \\
+            运行平台 & Windows/Linux & Windows/Linux & Windows/Linux \\
+            \Xhline{1.5pt}
+        \end{tabular}
+    \end{threeparttable}
+\end{table}
 
 \subsubsection{Biome-BGC模型}
-Biome-BGC~\cite{thornton1998regional}~\cite{kimball1997simulating}~\cite{white2000parameterization}模型由美国蒙拿大大学森林学院陆地动态数值模拟团队（Numerical Terradynamic Simulation Group，NTSG）基于FOREST-BGC模型改进而来，广泛应用于模拟植被、凋落物、土壤中的碳、氮、水等物质的循环过程~\ref{Thornton2001Modeling}。模型使用静态植被类型，属于生物地球化学循环模型，包括的生理生态过程有光合作用、蒸散发、生态系统呼吸、分解、光合产物的分配以及植物的死亡，基本原理是物质和能量守恒定律，即进入生态系统中的物质和能量，等于离开生态系统的与生态系统中累积的之和。模型的植被功能类型被分为7类：落叶阔叶林、常绿阔叶林、常绿针叶林、灌木林、落叶针叶林、C3草本植物和C4草本植物，每种植被功能类型对应一套生理生态参数。该模型在空间上适用于区域尺度和全球尺度。
+Biome-BGC~\cite{thornton1998regional}~\cite{kimball1997simulating}~\cite{white2000parameterization}模型由美国蒙拿大大学森林学院陆地动态数值模拟团队（Numerical Terradynamic Simulation Group，NTSG）基于FOREST-BGC模型改进而来，广泛应用于模拟植被、凋落物、土壤中的碳、氮、水等物质的循环过程~\ref{Thornton2001Modeling}。模型使用静态植被类型，属于生物地球化学循环模型，包括的生理生态过程有光合作用、蒸散发、生态系统呼吸、分解、光合产物的分配以及植物的死亡，基本原理是物质和能量守恒定律，即进入生态系统中的物质和能量，等于离开生态系统的与生态系统中累积的之和。模型的基本信息如表~\ref{tab:model-basic-cmp}第3列，输入输出项如表~\ref{tab:model-io-cmp}第5列，模型的植被功能类型被分为7类，具体如表~\ref{tab-PFTs}第4列所示，每种植被功能类型对应一套生理生态参数。该模型在空间上无明确的限制，适用于区域和全球尺度，模拟时间分辨率为1天。
 
-Biome-BGC模型的运行分为两阶段：spin-up阶段是获取模拟的初始状态，第二步是使用第一阶段的结果参数正式运行模拟程序，。初始状态的获取有两种方法，一是直接输入长期定点观测的参数值，二是运行模型自带的spin-up程序。在spin-up过程中，将模拟起点时的碳氮存量设为极低的值（叶片的碳存量为0.001$kg C/m^2$，其他库的碳氮存量均为0），反复模拟数千年，直到连续两年土壤碳差值小于0.005$kg C/m^2$，或达到设定的最大迭代年数为止，这时认为系统达到稳定状态~\cite{thornton2005ecosystem}~\cite{pietsch2005bgc}。
+Biome-BGC模型的运行分为两阶段：spin-up阶段是获取模拟的初始状态，第二步是使用第一阶段的结果参数正式运行。初始状态的获取有两种方法，一是直接输入长期定点观测的参数值，二是运行模型自带的spin-up程序。在spin-up过程中，将模拟起点时的碳氮存量设为极低的值（叶片的碳存量为$0.001kgC m^{-2}$，其他库的碳氮存量均为0），反复模拟数千年，直到连续两年土壤碳差值小于$0.005kgC m^{-2}$，或达到设定的最大迭代年数为止，这时认为系统达到稳定状态~\cite{thornton2005ecosystem}~\cite{pietsch2005bgc}。
 
+\begin{table}[H]
+    \centering
+    \caption{IBIS、Biome-BGC和LPJ模型的输入输出对比}
+    \label{tab:model-io-cmp}
+    \begin{threeparttable}
+        \begin{tabular}{l|l|l|ccc}
+            \Xhline{1.5pt}
+            \multicolumn{3}{c|}{数据} & IBIS & Biome-BGC & LPJ \\
+            \Xhline{1.5pt}
+            \multirow{15}{*}{输入} & \multirow{10}{*}{气象数据} & 平均温 & √ & √ & √ \\
+            & & 最高温 & √ & √ & \\
+            & & 最低温 & √ & √ & \\
+            & & 相对湿度 & √ & & \\
+            & & 降水 & √ & √ & √ \\
+            & & 风速 & √ & & \\
+            & & 云量 & √ & √ & \\
+            & & 白天时长 & & √ & \\
+            & & 短波辐射 & & √ & √ \\
+            & & 饱和水气压差 & & √ & \\
+            \cline{2-6}
+            & \multirow{3}{*}{土壤数据} & 沙粒、粉粒、黏粒含量 & √ & √ & \\
+            & & 土壤深度 & & √ &  \\
+            & & 土壤类型 & & & √ \\
+            \cline{2-6}
+            & \multicolumn{2}{l|}{高程} & & √ & \\
+            \cline{2-6}
+            & \multicolumn{2}{l|}{CO2浓度} & & √ & \\
+            \cline{2-6}
+            & \multicolumn{2}{l|}{植被功能类型} & √ & √ & \\
+            \hline
+            \multirow{3}{*}{输出} & \multicolumn{2}{l|}{地球生物化学通量} & √ & √ & √ \\
+            & \multicolumn{2}{l|}{潜在植被功能类型} & √ & & √ \\
+            & \multicolumn{2}{l|}{LAI} & √ & √ & √ \\
+            \Xhline{1.5pt}
+        \end{tabular}
+    \end{threeparttable}
+\end{table}
 
 \subsubsection{LPJ模型}
-% 11种作物功能类型
-LPJ（Lund-potsdam-Jena Model，LPJ）~\cite{sitch2003evaluation}模型建立在Biome3模型的基础上，包括的植被生理过程包括光合作用、呼吸作用、植被冠层能量交换、土壤水平衡等。LPJ模型适用于大尺度、中尺度以及全球尺度范围内的碳循环模拟。LPJ模型的时间步长是1月，Venevsky~\ref{venevsky2007sever}对运行时间步长进行了修改，时间步长变成了1天。为了和IBIS模型与Biome-BGC模型的时间分辨率一致，本文应用的是Venevsky的LPJ-Daily。如无特殊说明，本文后面所说的LPJ均指LPJ-Daily。LPJ模型的植被功能类型分为10种，包括热带常绿阔叶林、热带雨绿阔叶林、温带常绿针叶林、温带常绿阔叶林、温带夏绿针叶林、北方常绿针叶林、北方夏绿针叶林、北方夏绿阔叶林、C3草本植物和C4草本植物。LPJ模型的运行也分为两个阶段：spin-up阶段假设没有植被（全为裸土地）和生物量，进行1000年积分直到植被覆盖和土壤碳达到平衡态；常规运行阶段使用spin-up阶段运行出的平衡态作为初始值进行模拟。与Biome-BGC不同的是，LPJ模型在内部将两个阶段直接串联在一起，不用分两步运行。
+LPJ（Lund-potsdam-Jena Dynamic Global Vegetation Model，LPJ）~\cite{sitch2003evaluation}模型建立在Biome3模型的基础上，包括的植被生理过程包括光合作用、呼吸作用、植被冠层能量交换、土壤水平衡等。LPJ模型适用于大尺度、中尺度以及全球尺度范围内的碳循环模拟。LPJ模型的时间步长是1月，Venevsky~\ref{venevsky2007sever}对运行时间步长进行了修改，时间步长变成了1天。为了和IBIS模型与Biome-BGC模型的时间分辨率一致，本文应用的是Venevsky的LPJ-Daily（如无特殊说明，本文后面所说的LPJ均指LPJ-Daily）。模型的基本信息如表~\ref{tab:model-basic-cmp}第4列，输入输出项如表~\ref{tab:model-io-cmp}第6列，植被功能类型分为10种，具体如表~\ref{tab-PFTs}第5列所示。LPJ也属于DGVM，不需要输入初始植被功能类型，并且会输出终止年份的潜在植被功能类型。
 
+LPJ模型的运行也分为两个阶段：spin-up阶段假设没有植被（全为裸土地）和生物量，进行1000年积分直到植被覆盖和土壤碳达到平衡态；常规运行阶段使用spin-up阶段运行出的平衡态作为初始值进行模拟。与Biome-BGC不同的是，LPJ模型在内部将两个阶段直接串联在一起，不用分两步运行。
+
+\begin{table}[H]
+    \centering
+    \caption{IBIS、Biome-BGC和LPJ模型的植被功能类型分类标准}
+    \label{tab:PFTs}
+    \begin{threeparttable}
+        \begin{tabular}{lllll}
+            \Xhline{1.5pt}
+            大类 & IGBP & IBIS & Biome-BGC & LPJ \\
+            \Xhline{1.5pt}
+            \multirow{3}{*}{Grass} & GRA & GRA & C3 & C3 \\
+            & SAV & SAV & C4 & C4 \\
+            & WSA & - & - & - \\
+            \hline
+            \multirow{2}{*}{Shrub} & OSH & OSH & \multirow{2}{*}{Shrub} & \multirow{2}{*}{-} \\
+            & CSH & CSH & & \\
+            \hline
+            \multirow{3}{*}{DF} & DBF & Tropical & DBF & Raingreen \\
+             & DNF & Temperate & DNF & Summergreen \\
+             & - & Boreal & - & - \\
+             \hline
+            \multirow{4}{*}{EF} & EBF & Tropical & EBF & Tropical Broadleaf \\
+             & ENF & Temperate Boradleaf & ENF & Temperate Boradleaf \\
+             & - & Temperate Needleleaf & - & Temperate Needleleaf \\
+             & - & Boreal & - & Boreal Needleleaf \\
+             \hline
+             & MF & MF & - & \\
+             \hline
+             & CRO & - & & \\
+             \hline
+             & WET & - & & \\
+            \Xhline{1.5pt}
+        \end{tabular}
+    \end{threeparttable}
+\end{table}
 
 \section{陆地生态系统碳循环相关数据}
 ~\label{sec:model-data}
 % 缺图：a陆面掩膜；b PFT；c DEM
 % CO2 1982-2014 时间序列图
-% FLUXNET 站点图（按PFT分类）/按年份分类
 % 缺表：三个模型需要的数据对比表
-本文所选的三个模型均以网格点为基本模拟单位，针对全球范围内的区域，本文使用$0.5^{\circ} \times 0.5^{\circ}$的经纬网划分格点，并筛选去除海洋和裸土地的格点，最终在全球范围内共有40595个格点。
+本文所选的三个模型均以网格点为基本模拟单位，针对全球范围内的区域，本文使用$0.5^{\circ} \times 0.5^{\circ}$的经纬网划分格点，并筛选去除海洋、贫瘠土地、湿地和农田的格点，最终在全球范围内共有40595个格点。
 
 如前文所分析，生态过程模型一般都需要气象数据集、土壤数据集和植被功能类型数据集，而在进行对比时，要确保使用相同的通用数据集。而由于不同模型对这些数据在时空分辨率、植被类型等方面的要求不同，因此，本文采用相同的数据域，针对每个模型的特殊要求，对原始数据进行数据处理。
 
 \subsection{气象数据集}
-本文采用MERRA 2（Modern Era Retrospective-analysis for Research and Applications 2）气象数据集，MERRA是NASA为卫星提供的在大气再分析资料，致力于天气和气候时间尺度与水循环相关研究，具有较高的空间分辨率和较完整的时间序列范围，气象要素包括平均温、最高温、最低温、相对湿度、降水量、风速和云量。本文的数据时间范围从1982年到2013年共32年，以日为时间分辨率。数据原始空间分辨率为$0.625^{\circ} \times 0.5^{\circ}$，对其进行重采样转换为$0.5^{\circ} \times 0.5^{\circ}$，以符合全球离散网格点的空间分布。
+本文采用MERRA 2（Modern Era Retrospective-analysis for Research and Applications 2）气象数据集，MERRA是NASA为卫星提供的在大气再分析资料，致力于天气和气候时间尺度与水循环相关研究，具有较高的空间分辨率和较完整的时间序列范围，气象要素包括平均温、最高温、最低温、相对湿度、降水量、风速和云量，数据时间范围从1982年到2013年共32年，以日为时间步长。数据原始空间分辨率为$0.625^{\circ} \times 0.5^{\circ}$，对其进行重采样转换为$0.5^{\circ} \times 0.5^{\circ}$。
 
 \subsection{土壤数据集}
-主要包括土壤的颗粒组成成分，即沙粒含量、黏粒含量、粉粒含量、土壤深度，由中山大学土壤——大气相互作用研究组开发~\ref{shangguan2014global}。数据的空间分辨率为$0.0085^{\circ} \times 0.0107^{\circ}$，对其进行重采样转换为$0.5^{\circ} \times 0.5^{\circ}$。数据详情参考 \href{http://globalchange.bnu.edu.cn/research/soilw}{http://globalchange.bnu.edu.cn/research/soilw}
+主要包括土壤的颗粒组成成分，即沙粒含量、黏粒含量、粉粒含量、土壤深度，由中山大学土壤——大气相互作用研究组开发~\ref{shangguan2014global}。数据的空间分辨率为$0.0085^{\circ} \times 0.0107^{\circ}$，对其进行重采样转换为$0.5^{\circ} \times 0.5^{\circ}$。数据详情参考\href{http://globalchange.bnu.edu.cn/research/soilw}{http://globalchange.bnu.edu.cn/research/soilw}。
 
 \subsection{植被功能类型数据集}
-% 植被功能类型使用
-生态过程模型普遍采用植被功能类型作为植被基本处理单元，本文所选的三个模型也是如此。由于这三个模型内部对植被功能类型的划分不同，因此对原始数据进行类型映射，如表~\ref{tab:IBIS-PFT-map}, ~\ref{tab:Biome-BGC-PFT-map}, ~\ref{tab:LPJ-PFT-map}所示，分别为三个模型的植被功能类型映射表。
-
-\begin{table}[!htbp]
-    \centering
-    \caption{IBIS模型植被功能类型映射表}
-    \label{tab:IBIB-PFT-map}
-    \begin{threeparttable}
-        \begin{tabular}{lcccccc}
-            \Xhline{1.5pt}
-            \multirow{2}{*}{\textbf{植被功能类型}} & \multicolumn{3}{c}{\textbf{生物量转换时间}} & \multicolumn{2}{c}{\textbf{碳分配系数}} & \multirow{2}{*}{\textbf{比叶面积}} \\ 
-            \cline{2-4} \cline{5-6}
-            & \textbf{叶} & \textbf{根} & \textbf{干} & \textbf{叶} & \textbf{根} &  \\ 
-            \Xhline{1.5pt}
-            \Xhline{1.5pt}
-        \end{tabular}
-        \begin{tablenotes}
-            \footnotesize
-            \item[]数据来源于Foley等~\cite{foley1996integrated}
-        \end{tablenotes}
-    \end{threeparttable}
-\end{table}
-
-\begin{table}[!htbp]
-    \centering
-    \caption{Biome-BGC模型植被功能类型映射表}
-    \label{tab:Biome-BGC-PFT-map}
-    \begin{threeparttable}
-        \begin{tabular}{lcccccc}
-            \Xhline{1.5pt} 
-            \multirow{2}{*}{\textbf{植被功能类型}} & \multicolumn{3}{c}{\textbf{生物量转换时间}} & \multicolumn{2}{c}{\textbf{碳分配系数}} & \multirow{2}{*}{\textbf{比叶面积}} \\ 
-            \cline{2-4} \cline{5-6}
-            & \textbf{叶} & \textbf{根} & \textbf{干} & \textbf{叶} & \textbf{根} &  \\ 
-            \Xhline{1.5pt}
-            \Xhline{1.5pt}
-        \end{tabular}
-        \begin{tablenotes}
-            \footnotesize
-            \item[]数据来源于Foley等~\cite{foley1996integrated}
-        \end{tablenotes}
-    \end{threeparttable}
-\end{table}
-
-\begin{table}[!htbp]
-    \centering
-    \caption{LPJ模型植被功能类型映射表}
-    \label{tab:LPJ-PFT-map}
-    \begin{threeparttable}
-        \begin{tabular}{lcccccc}
-            \Xhline{1.5pt} 
-            \multirow{2}{*}{\textbf{植被功能类型}} & \multicolumn{3}{c}{\textbf{生物量转换时间}} & \multicolumn{2}{c}{\textbf{碳分配系数}} & \multirow{2}{*}{\textbf{比叶面积}} \\ 
-            \cline{2-4} \cline{5-6}
-            & \textbf{叶} & \textbf{根} & \textbf{干} & \textbf{叶} & \textbf{根} &  \\ 
-            \Xhline{1.5pt}
-            \Xhline{1.5pt}
-        \end{tabular}
-        \begin{tablenotes}
-            \footnotesize
-            \item[]数据来源于Foley等~\cite{foley1996integrated}
-        \end{tablenotes}
-    \end{threeparttable}
-\end{table}
+生态过程模型普遍采用植被功能类型作为植被基本处理单元，本文所选的三个模型也是如此，但是这三个模型的分类标准不同，具体如表~\ref{tab:PFTs}。本文使用美国橡树岭国家实验室（ORNL）发布的植被覆盖分类数据，它将植被类型分为32类，在气候区上包括热带、亚热带、温带、寒带，植物类型上包括针叶林、阔叶林、草地、灌木，可以重分类成三种模型需要的分类体系~\cite{matthews1999global}~\cite{matthews1984prescription}，植被类型图如图~\ref{fig:PFT}所示。
 
 \begin{figure}[!htbp]
     \centering
@@ -174,7 +204,8 @@ LPJ（Lund-potsdam-Jena Model，LPJ）~\cite{sitch2003evaluation}模型建立在
 
 \subsection{通量观测数据集}
 % 举例的站点表
-全球通量观测网络（FLUXNET）是一个以全球广泛分布的通量塔为基础的全球通量观测网络。通量观测站点遍布世界主要国家，在北美、欧洲、亚洲、非洲都有它的区域网络存在（如亚洲通量网AsiaFlux、美洲通量网AmeriFlux、中国通量网ChinaFlux）。到如今为止，累计有800多个活跃和历史的通量测定站点，分布在全球大部分气候空间和代表性生物群系中。覆盖的植被功能类型包括热带森林、温带针叶和阔叶森林、寒带森林、农田、草原、灌木丛、苔原和湿地。它在全球范围内连续测量大气状态变量，如温度、湿度、风速、降雨量、大气二氧化碳、植被生产力、生物量等。本文使用的是La Thuile数据集，包括站点每天的温度、降水、光合有效辐射比例（FPAR）、GPP、NEP，共计有231个通量观测站点，累计900余个站点$\cdot$年次数据，作为观测数据集与模型模拟的结果进行站点尺度上的对比。站点分布如图~\ref{fig:Thuile-site-POI}所示。
+全球通量观测网络（FLUXNET）是一个以全球广泛分布的通量塔为基础的全球通量观测网络。通量观测站点遍布世界主要国家，在北美、欧洲、亚洲、非洲都有它的区域网络存在（如亚洲通量网AsiaFlux、美洲通量网AmeriFlux、中国通量网ChinaFlux）。到如今为止，累计有800多个活跃和历史的通量测定站点，分布在全球大部分气候空间和代表性生物群系中。覆盖的植被功能类型包括热带森林、温带针叶和阔叶森林、寒带森林、农田、草原、灌木丛、苔原和湿地。它在全球范围内连续测量大气状态变量，如温度、湿度、风速、降雨量、大气二氧化碳、植被生产力、生物量等。
+FLUXNET的通量数据有三个版本，本文使用的是最新的FLUXNET2015数据集，包括温度、降水、光合有效辐射比例（FPAR）、GPP、NEP等通量数据，共计有231个通量观测站点，累计900余个站点$\cdot$年次，排除误差后还有129个站点，其分布如图~\ref{fig:sites-map}所示。
 
 \begin{figure}[!htbp]
     \centering
@@ -211,40 +242,11 @@ LPJ（Lund-potsdam-Jena Model，LPJ）~\cite{sitch2003evaluation}模型建立在
 % WET     Permanent Wetlands                  永久湿地
 % CRO     Croplands                           农田
 
-\begin{table}[!htbp]
-    \centering
-    \caption{植被功能类型分类表}
-    \label{tab:site-PFT-stat}
-    \begin{threeparttable}
-        \begin{tabular}{lllll}
-            \Xhline{1.5pt}
-            本文分类表 & FLUXNET & Biome-BGC & IBIS & LPJ \\
-            \Xhline{1.5pt}
-            \multirow{2}{*}{常绿针叶林} & \multirow{2}{*}{常绿针叶林} & \multirow{2}{*}{常绿针叶林} & 温带常绿针叶林 & \multirow{13}{*}{有分类体系，但是是根据气象数据和土壤数据计算出来，不做对应} \\
-            &&& 北方常绿针叶林 & \\
-            \multirow{3}{*}{落叶阔叶林} & \multirow{3}{*}{落叶阔叶林} & \multirow{3}{*}{落叶阔叶林} & 热带干旱落叶阔叶林 & \\
-            &&& 北方干旱落叶阔叶林 & \\
-            &&& 温带落叶阔叶林 & \\
-            \multirow{2}{*}{常绿阔叶林} & \multirow{2}{*}{常绿阔叶林}& \multirow{2}{*}{常绿阔叶林} & 热带常绿阔叶林 & \\
-            &&& 温带常绿阔叶林 & \\
-            落叶针叶林 & 落叶针叶林 & 落叶针叶林 & 落叶针叶林 & \\
-            \multirow{3}{*}{草本植物} & 草地 & \multirow{2}{*}{C3草本植物} & \multirow{2}{*}{C3草本植物} & \\
-            & 多树草原 & & & \\
-            & 热带稀树草原 & C4草本植物 & C4草本植物 & \\
-            & 稀疏灌木 & \multirow{2}{*}{灌木} & 常绿灌木 & \\
-            & 郁闭灌木 & & 冷落叶灌木 & \\
-            \Xhline{1.5pt}
-        \end{tabular}
-    \end{threeparttable}
-\end{table}
-
-
-
 \subsection{MODIS GPP/NPP数据集}
 MODIS MOD17 A3提供了时空连续的遥感GPP/NPP产品，MODIS/GPP产品以其他MODIS产品为基础计算而得，时间范围从2000年到2015年，时间分辨率为8天，空间分辨率为$0.0083^{\circ} \times 0.0083^{\circ}$，对其进行重采样转换为$0.5^{\circ} \times 0.5^{\circ}$。本文使用MODIS GPP/NPP 数据集作为全球尺度上的对比验证数据集，与三个模型模拟的结果进行对比分析。
 
-\subsection{其他数据集}
-模型还需要网格点的物理常量数据，包括有格点高程数据、短波反射率等。其中高程数据使用的是DEM数据
+% \subsection{其他数据集}
+% 模型还需要网格点的物理常量数据，包括有格点高程数据、短波反射率等。其中高程数据使用的是DEM数据
 
 % \section{陆地生态系统碳循环模型对比方案分析和归纳}
 % \subsection{基于实验协议的模型对比方案}
@@ -262,4 +264,4 @@ MODIS MOD17 A3提供了时空连续的遥感GPP/NPP产品，MODIS/GPP产品以�
 % 传统的模型对比框架是以数据为基础，不考虑生产数据即模型模拟的过程。
 
 % \section{本章小结}
-% 本章首先从地球系统碳循环和陆地生态系统碳循环两部分分析了碳循环的过程；接着总结了陆地生态系统碳循环模型的基本结构和分类体系，并详细介绍了本文所对比的三个生态过程碳循环模型：IBIS、Biome-BGC和LPJ；最后针对这些模型所需要的数据做出了详细的介绍。
+% 本章首先分析了陆地生态系统碳循环的基本过程，接着总结了陆地生态系统碳循环模型的分类体系和基本结构，并详细介绍了本文所对比的三个生态过程模型：IBIS、Biome-BGC和LPJ；最后针对这些模型所需要的数据做出了详细的介绍。
