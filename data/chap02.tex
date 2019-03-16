@@ -73,7 +73,7 @@
 \subsection{IBIS, Biome-BGC, LPJ模型简介}
 \subsubsection{IBIS模型}
 % 起源、原理、结构、适用条件、输入数据、运行模式
-IBIS全称为集成生物圈模拟器（Integrated BIosphere Simulator），由美国威斯康星——麦迪逊大学Foley等~\cite{foley1996integrated}提出，随后，Kucharik等~\cite{Kucharik2000Testing}对其进行了改进，现在最新版本是IBIS 2.6。模型包括地表模块、土壤地球生物化学模块、植被物候模块和植被动态模块5个模块，属于动态植被类型模型。IBIS模型综合考虑了地球化学过程、地球物理过程和植被动态过程，能够耦合大气环流模式。模型时间步长为1小时，在空间上适用的尺度包括斑块、景观、区域和全球，属于植被动力学模型（DGVM）。模型的基本信息如表~\ref{tab:model-basic-cmp}第2列，输入输出项如表~\ref{tab:model-io-cmp}第4列，模型的植被功能类型综合考虑了气候区（北方、温带、热带）和植被类型（常绿林、落叶林、针叶林、混交林、草地、灌木等），具体划分类别如表~\ref{tab-PFTs}第3列所示。其他详细参数见Foley等~\cite{foley1996integrated}，Kucharik等~\cite{Kucharik2000Testing}
+IBIS全称为集成生物圈模拟器（Integrated BIosphere Simulator），由美国威斯康星——麦迪逊大学Foley等~\cite{foley1996integrated}提出，随后，Kucharik等~\cite{Kucharik2000Testing}对其进行了改进，现在最新版本是IBIS 2.6。模型包括地表模块、土壤地球生物化学模块、植被物候模块和植被动态模块5个模块，属于动态植被类型模型。IBIS模型综合考虑了地球化学过程、地球物理过程和植被动态过程，能够耦合大气环流模式。模型时间步长为1小时，在空间上适用的尺度包括斑块、景观、区域和全球，属于植被动力学模型（DGVM）。模型的基本信息如表~\ref{tab:model-basic-cmp}第2列，输入输出项如表~\ref{tab:model-io-cmp}第4列，模型的植被功能类型综合考虑了气候区（北方、温带、热带）和植被类型（常绿林、落叶林、针叶林、混交林、草地、灌木等），具体划分类别如表~\ref{tab:PFTs}第3列所示。其他详细参数见Foley等~\cite{foley1996integrated}，Kucharik等~\cite{Kucharik2000Testing}
 
 \begin{table}[H]
     \centering
@@ -95,7 +95,7 @@ IBIS全称为集成生物圈模拟器（Integrated BIosphere Simulator），由�
 \end{table}
 
 \subsubsection{Biome-BGC模型}
-Biome-BGC~\cite{thornton1998regional}~\cite{kimball1997simulating}~\cite{white2000parameterization}模型由美国蒙拿大大学森林学院陆地动态数值模拟团队（Numerical Terradynamic Simulation Group，NTSG）基于FOREST-BGC模型改进而来，广泛应用于模拟植被、凋落物、土壤中的碳、氮、水等物质的循环过程~\ref{Thornton2001Modeling}。模型使用静态植被类型，属于生物地球化学循环模型，包括的生理生态过程有光合作用、蒸散发、生态系统呼吸、分解、光合产物的分配以及植物的死亡，基本原理是物质和能量守恒定律，即进入生态系统中的物质和能量，等于离开生态系统的与生态系统中累积的之和。模型的基本信息如表~\ref{tab:model-basic-cmp}第3列，输入输出项如表~\ref{tab:model-io-cmp}第5列，模型的植被功能类型被分为7类，具体如表~\ref{tab-PFTs}第4列所示，每种植被功能类型对应一套生理生态参数。该模型在空间上无明确的限制，适用于区域和全球尺度，模拟时间分辨率为1天。
+Biome-BGC~\cite{thornton1998regional}~\cite{kimball1997simulating}~\cite{white2000parameterization}模型由美国蒙拿大大学森林学院陆地动态数值模拟团队（Numerical Terradynamic Simulation Group，NTSG）基于FOREST-BGC模型改进而来，广泛应用于模拟植被、凋落物、土壤中的碳、氮、水等物质的循环过程~\ref{Thornton2001Modeling}。模型使用静态植被类型，属于生物地球化学循环模型，包括的生理生态过程有光合作用、蒸散发、生态系统呼吸、分解、光合产物的分配以及植物的死亡，基本原理是物质和能量守恒定律，即进入生态系统中的物质和能量，等于离开生态系统的与生态系统中累积的之和。模型的基本信息如表~\ref{tab:model-basic-cmp}第3列，输入输出项如表~\ref{tab:model-io-cmp}第5列，模型的植被功能类型被分为7类，具体如表~\ref{tab:PFTs}第4列所示，每种植被功能类型对应一套生理生态参数。该模型在空间上无明确的限制，适用于区域和全球尺度，模拟时间分辨率为1天。
 
 Biome-BGC模型的运行分为两阶段：spin-up阶段是获取模拟的初始状态，第二步是使用第一阶段的结果参数正式运行。初始状态的获取有两种方法，一是直接输入长期定点观测的参数值，二是运行模型自带的spin-up程序。在spin-up过程中，将模拟起点时的碳氮存量设为极低的值（叶片的碳存量为$0.001kgC m^{-2}$，其他库的碳氮存量均为0），反复模拟数千年，直到连续两年土壤碳差值小于$0.005kgC m^{-2}$，或达到设定的最大迭代年数为止，这时认为系统达到稳定状态~\cite{thornton2005ecosystem}~\cite{pietsch2005bgc}。
 
@@ -138,7 +138,7 @@ Biome-BGC模型的运行分为两阶段：spin-up阶段是获取模拟的初始�
 \end{table}
 
 \subsubsection{LPJ模型}
-LPJ（Lund-potsdam-Jena Dynamic Global Vegetation Model，LPJ）~\cite{sitch2003evaluation}模型建立在Biome3模型的基础上，包括的植被生理过程包括光合作用、呼吸作用、植被冠层能量交换、土壤水平衡等。LPJ模型适用于大尺度、中尺度以及全球尺度范围内的碳循环模拟。LPJ模型的时间步长是1月，Venevsky~\ref{venevsky2007sever}对运行时间步长进行了修改，时间步长变成了1天。为了和IBIS模型与Biome-BGC模型的时间分辨率一致，本文应用的是Venevsky的LPJ-Daily（如无特殊说明，本文后面所说的LPJ均指LPJ-Daily）。模型的基本信息如表~\ref{tab:model-basic-cmp}第4列，输入输出项如表~\ref{tab:model-io-cmp}第6列，植被功能类型分为10种，具体如表~\ref{tab-PFTs}第5列所示。LPJ也属于DGVM，不需要输入初始植被功能类型，并且会输出终止年份的潜在植被功能类型。
+LPJ（Lund-potsdam-Jena Dynamic Global Vegetation Model，LPJ）~\cite{sitch2003evaluation}模型建立在Biome3模型的基础上，包括的植被生理过程包括光合作用、呼吸作用、植被冠层能量交换、土壤水平衡等。LPJ模型适用于大尺度、中尺度以及全球尺度范围内的碳循环模拟。LPJ模型的时间步长是1月，Venevsky~\ref{venevsky2007sever}对运行时间步长进行了修改，时间步长变成了1天。为了和IBIS模型与Biome-BGC模型的时间分辨率一致，本文应用的是Venevsky的LPJ-Daily（如无特殊说明，本文后面所说的LPJ均指LPJ-Daily）。模型的基本信息如表~\ref{tab:model-basic-cmp}第4列，输入输出项如表~\ref{tab:model-io-cmp}第6列，植被功能类型分为10种，具体如表~\ref{tab:PFTs}第5列所示。LPJ也属于DGVM，不需要输入初始植被功能类型，并且会输出终止年份的潜在植被功能类型。
 
 LPJ模型的运行也分为两个阶段：spin-up阶段假设没有植被（全为裸土地）和生物量，进行1000年积分直到植被覆盖和土壤碳达到平衡态；常规运行阶段使用spin-up阶段运行出的平衡态作为初始值进行模拟。与Biome-BGC不同的是，LPJ模型在内部将两个阶段直接串联在一起，不用分两步运行。
 
@@ -193,13 +193,23 @@ LPJ模型的运行也分为两个阶段：spin-up阶段假设没有植被（全�
 主要包括土壤的颗粒组成成分，即沙粒含量、黏粒含量、粉粒含量、土壤深度，由中山大学土壤——大气相互作用研究组开发~\ref{shangguan2014global}。数据的空间分辨率为$0.0085^{\circ} \times 0.0107^{\circ}$，对其进行重采样转换为$0.5^{\circ} \times 0.5^{\circ}$。数据详情参考\href{http://globalchange.bnu.edu.cn/research/soilw}{http://globalchange.bnu.edu.cn/research/soilw}。
 
 \subsection{植被功能类型数据集}
-生态过程模型普遍采用植被功能类型作为植被基本处理单元，本文所选的三个模型也是如此，但是这三个模型的分类标准不同，具体如表~\ref{tab:PFTs}。本文使用美国橡树岭国家实验室（ORNL）发布的植被覆盖分类数据，它将植被类型分为32类，在气候区上包括热带、亚热带、温带、寒带，植物类型上包括针叶林、阔叶林、草地、灌木，可以重分类成三种模型需要的分类体系~\cite{matthews1999global}~\cite{matthews1984prescription}，植被类型图如图~\ref{fig:PFT}所示。
+生态过程模型普遍采用植被功能类型作为植被基本处理单元，本文所选的三个模型也是如此，但是这三个模型的分类标准不同，观测数据使用的IGBP的植被分类标准，Biome-BGC的分类最简单，而IBIS和LPJ两个模型则综合考虑了植被类型和气候分区，他们的分类具体如表~\ref{tab:PFTs}。本文使用柯本——盖格尔气候分类标准，该分类系统由K\"{o}ppen和Geiger等发布，综合考虑了温度、降水、气候带和植被等因素，将气候划分为5个主要的气候组：热带、干旱、温带、大陆和极低，共包括31中植被类型，具体如图~\ref{fig:PFT}所示。本文将其重新聚类，图~\ref{fig:PFT-IBIS}和图~\ref{fig:PFT-Biome-BGC}分别表示IBIS和Biome-BGC使用的植被功能类型。
 
-\begin{figure}[!htbp]
+
+\begin{figure}[!h]
     \centering
     \includegraphics[width=1\textwidth]{PFT}
-    \caption{植被功能类型图}
+    \caption{植被功能类型图（具体参考K\"{o}ppen~\cite{peel2007updated}）}
     \label{fig:PFT}
+\end{figure}
+
+\begin{figure}[!h]
+    \centering
+    \subcaptionbox{IBIS的PFT\label{fig:PFT-IBIS}}{\includegraphics[width=.45\textwidth]{PFT-IBIS}}
+    \hfill
+    \subcaptionbox{Biome-BGC的PFT\label{fig:PFT-Biome-BGC}}{\includegraphics[width=.45\textwidth]{PFT-Biome-BGC}} \\
+    \caption{重分类后的IBIS和Biome-BGC的植被功能类型}
+    \label{fig:carbon-cycling}
 \end{figure}
 
 \subsection{通量观测数据集}
@@ -214,6 +224,7 @@ FLUXNET的通量数据有三个版本，本文使用的是最新的FLUXNET2015�
     \label{fig:sites-map}
 \end{figure}
 
+% TODO 重分类
 \begin{table}[!htbp]
     \centering
     \caption{站点植被功能类型统计表}
