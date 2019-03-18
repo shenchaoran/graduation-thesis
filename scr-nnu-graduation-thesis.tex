@@ -32,11 +32,6 @@
 \usepackage[section]{placeins}
 \usepackage{bigstrut}
     \setlength\bigstrutjot{3pt}
-
-
-% \usepackage{amssymb}
-% \usepackage{tikz}
-% \usepackage{calc}
 \usepackage{xpatch}
 \makeatletter
 \chardef\TPT@@@asteriskcatcode=\catcode`*
@@ -47,6 +42,32 @@
   {}{}
 \catcode`*=\TPT@@@asteriskcatcode
 \makeatother
+
+
+% \makeatletter
+% \newenvironment{tabminted}{%
+%   \let\FV@ListVSpace\relax  
+%   \minted
+% }{%
+%   \endminted
+%   \unskip   
+%   \aftergroup\@tabmintedend
+% }
+% \newcommand*{\tabminted@finalstrut}[1]{%
+%   \ifdim\prevdepth>0pt
+%     \ifdim\dp#1>\prevdepth
+%       \vskip\dimexpr(\dp#1)-\prevdepth\relax
+%     \fi
+%   \else
+%     \vskip\dimexpr(\dp#1)\relax
+%   \fi
+% }
+% \newcommand*{\@tabmintedend}{%
+%   \let\@finalstrut\tabminted@finalstrut
+% }
+% \makeatother
+
+
 % \usepackage[colorlinks=true]{hyperref}
 
 % 定义所有的图片文件在 figures 子目录下

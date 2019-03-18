@@ -41,7 +41,7 @@
 本文基于网络服务开展模型的对比，通过模型资源、数据资源和对比方法及方案的服务化封装、部署、发布、共享和集成，为陆地生态系统碳循环的对比提供了一种新的方案。对于陆地生态系统碳循环模型来说，屏蔽了彼此之间的异构性和复杂性，实现了模型资源的共享，促进了模型的应用推广和发展；对比碳循环相关数据来说，降低了数据收集、存储、管理、处理的繁琐流程；对于模型对比来说，一方面可以将传统的线下对比过程公开化、透明化，使对比过程具有可追溯性、可验证性和易重复性，另一方面对比方案也可以共享出来，在研究不同时空尺度的地区时，可以重用起来。
 
 \section{国内外研究现状综述}
-% 开放式陆地生态系统碳循环模型对比系统的构建涉及多个方面，包括模型和数据资源的深入了解、模型对比评价方法的总结归纳、以及开放式服务化系统架构的搭建。认识地理模型的运行行为特征和数据特征是驱动其模拟计算的前提，剖析前人对比领域模型的统计学方法是丰富对比形式的手段，熟悉开放式服务化系统的框架是构建系统的基础。因此，本文从陆地生态系统碳循环模型的发展历程，前人对碳循环模型的对比评价方法以及开放式服务化系统的框架三个方面进行回顾，分析陆地生态系统碳循环领域地理模型对比的研究现状、存在问题和发展趋势。
+陆地生态系统碳循环模型对比的一系列难点在很大程度上来源于模型的复杂性和异构性，而模型服务的封装发布屏蔽了这一点。因此，本文从现有的陆地生态系统碳循环模型的起源、发展、应用、对比入手，回顾前人在模型对比、地理模型服务、地理数据服务和服务集成应用等方面所做的工作，分析陆地生态系统碳循环领域地理模型对比的研究现状、存在问题和发展趋势。
 
 \subsection{陆地生态系统碳循环模型及其对比}
 % 模型起源-发展-应用-扯到对比-单模型的对比-多模型的对比
@@ -55,7 +55,7 @@ Kimball~\cite{kimball1997biome}使用Biome-BGC模拟北方林地的水通量，�
 
 % 胡瀞予（2011）、NIU Ben~\cite{Niu2017Satellite}等人分别以台湾陆域生态区和青藏高原为研究区域，将生物测定法、Rahman’s方程式以及VPM、PCM、AVM的模拟结果与MOD17数据集相对比，评估其模拟能力。
 
-对于多个模型之间的对比计划，在全球碳循环模型方面，世界气候研究计划开展的CMIP~\cite{meehl2000coupled}~\cite{Taylor2012An}~\cite{eyring2016overview}最为完善，它设计了一系列诊断试验，这些试验包括一些必做项目，比如历史模拟和4个DECK（Diagnostic，Evaluation and Characterization of Klima experiments）试验，参与对比的模式组模拟这些试验，并将结果提交给评委组，通过评审后将对比结果公布出来~\cite{赵宗慈2016CMIP6}。为确保模型最大化地使用相同的驱动数据，CMIP通过地球系统网格联盟（Earth System Grid Federation，ESGF）~\cite{williams2011earth}向模式组提供通用的输入数据（input4MIPs）和观测数据（obs4MIPs）来支持模型的运行和对比；对于陆地碳循环的对比，Cramer等人~\cite{cramer1999comparing}~\cite{kicklighter1999comparing}~\cite{bondeau1999comparing}开展的GAIM项目综合对比了三类陆地生态系统碳循环模型：a). 基于遥感数据的光能利用率模型（CASA，GLO-PEM，SDBM，SIB2和TURC）；b). 静态植被类型模型（Biome-BGC，CARAIB 2.1，CENTURY 4.0，FBM 2.2，HRBM 3.0，KGBM，PLAI 0.2，SILVAN 2.2和TEM 4.0）；c). 动态植被类型模型（BIOME3，DOLY和HYBRID 3.0）。GAIM的对比通过使用相同的驱动数据集，使用统一的可视化工具来保证对比的公平性。
+对于多个模型之间的对比计划，在全球碳循环模型方面，世界气候研究计划开展的CMIP~\cite{meehl2000coupled}~\cite{Taylor2012An}~\cite{eyring2016overview}最为完善，它设计了一系列诊断试验，这些试验包括一些必做项目，比如历史模拟和4个DECK（Diagnostic，Evaluation and Characterization of Klima experiments）试验，参与对比的模式组模拟这些试验，并将结果提交给评委组，通过评审后将对比结果公布出来~\cite{赵宗慈2016CMIP6}。为确保模型最大化地使用相同的驱动数据，CMIP通过地球系统网格联盟（Earth System Grid Federation，ESGF）~\cite{williams2011earth}向模式组提供通用的输入数据（input4MIPs）和观测数据（obs4MIPs）来支持模型的运行和对比；对于陆地碳循环的对比，Cramer等人~\cite{cramer1999comparing}~\cite{kicklighter1999comparing}~\cite{bondeau1999comparing}开展的GAIM项目综合对比了三类共15个陆地生态系统碳循环模型：a). 基于遥感数据的光能利用率模型（CASA，GLO-PEM，SDBM，SIB2和TURC）；b). 静态植被类型模型（Biome-BGC，CARAIB 2.1，CENTURY 4.0，FBM 2.2，HRBM 3.0，KGBM，PLAI 0.2，SILVAN 2.2和TEM 4.0）；c). 动态植被类型模型（BIOME3，DOLY和HYBRID 3.0）。GAIM的对比通过使用相同的驱动数据集，使用统一的可视化工具来保证对比的公平性。
 
 % 对于陆地生态系统碳循环模型模拟结果的验证和对比，前人大多从多个视角进行综合对比，包括对模拟结果的可视化观察对比，使用统计学方法定量地对比等。没有单独的评价手段被认为是优越的，相反的，多种对比技术的结合使用能够为模型模拟能力提供全面评价~\cite{Taylor2012An}。
 
