@@ -1,8 +1,5 @@
-% TODO
-% 数据：封装后的结果图片
-% 模型：封装前后调用的对比
 \chapter{开放式对比资源接入方法}
-本文将数据、模型和对比方法称之为对比资源，这三者的开放性决定了对比结果的准确性、公开性和公平性。其中模型作为对比的对象，是本系统中最重要的要素之一。传统的模型对比方案将模型部署在本地环境运行，针对第\label{sec:cmp-sln}节分析的多对比情景需求，会造成难以共享和重现等问题，本章描述的模型服务化封装、部署和发布对此提出了对策；而数据资源作为支撑模型成功运行的必备要素，传统的基于数据拷贝的方式在这种情景下也不能满足要求，因此本章对数据资源的开放式接入也提出了相应的方案；在这两者的基础之上，将统计学对比方法和可视化对比方法也一并接入到框架之下，实现了模型的开放式对比。
+本文将数据、模型和对比方法称之为对比资源，这三者的开放性决定了对比结果的准确性、公开性和公平性。其中模型作为对比的对象，是本系统中最重要的要素之一。传统的模型对比方案将模型部署在本地环境运行，针对第\ref{sec:cmp-sln-analysis}节分析的多对比情景需求，会造成难以共享和重现等问题，本章描述的模型服务化封装、部署和发布对此提出了对策；而数据资源作为支撑模型成功运行的必备要素，传统的基于数据拷贝的方式在这种情景下也不能满足要求，因此本章对数据资源的开放式接入也提出了相应的方案；在这两者的基础之上，将统计学对比方法和可视化对比方法也通过服务封装发布，实现了对比资源的统一开放式接入。
 
 \section{开放式碳循环数据资源接入方法}
 \label{sec:data-joinup}
@@ -64,15 +61,15 @@
                 \Xhline{1.5pt}
                 数据名称 & 维度 & 变量 \\
                 \Xhline{1.5pt}
-                DEM & 经度、维度 & 高程 \\
+                DEM & 经度、纬度 & 高程 \\
                 \hline
-                MERRA 2 & 经度、维度、时间 & \multicolumn{1}{m{0.4\columnwidth}}{最低温、最高温、平均温、相对湿度、降水、风速、云量} \\
+                MERRA 2 & 经度、纬度、时间 & \multicolumn{1}{m{0.4\columnwidth}}{最低温、最高温、平均温、相对湿度、降水、风速、云量} \\
                 \hline
-                Soil & 经度、维度 & \multicolumn{1}{m{0.4\columnwidth}}{沙粒含量、黏粒含量、粉粒含量} \\
+                Soil & 经度、纬度 & \multicolumn{1}{m{0.4\columnwidth}}{沙粒含量、黏粒含量、粉粒含量} \\
                 \hline
-                PFT & 经度、维度 & 植被类型编号 \\
+                PFT & 经度、纬度 & 植被类型编号 \\
                 \hline
-                全球计算结果 & 经度、维度、时间 & \multicolumn{1}{m{0.4\columnwidth}}{GPP、NPP、NEP、Biomass、ET} \\
+                全球计算结果 & 经度、纬度、时间 & \multicolumn{1}{m{0.4\columnwidth}}{GPP、NPP、NEP、Biomass、ET} \\
                 \Xhline{1.5pt}
             \end{tabular}
         \end{threeparttable}
@@ -127,8 +124,6 @@
 
 \subsubsection{数据编排分析}
 \label{subsubsec:data-arrange}
-由于三个模型对于数据的要求不完全相同，所以合理的数据编排对数据检索、下载、模型运行都是至关重要的。如图~\ref{fig:data-arrange}所示，每套数据集存放在固定的路径下，可由数据库解析到。在运行一个格点时，首先从网格点shapefile的属性表中获取他的编号，再对应到具体的数据集和模型下面，可以获取详细的输入输出文件列表。
-
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=1\textwidth]{data-arrange}
@@ -136,11 +131,11 @@
     \label{fig:data-arrange}
 \end{figure}
 
+由于三个模型对于数据的要求不完全相同，所以合理的数据编排对数据检索、下载、模型运行都是至关重要的。如图~\ref{fig:data-arrange}所示，每套数据集存放在固定的路径下，可由数据库解析到。在运行一个格点时，首先从网格点shapefile的属性表中获取他的编号，再对应到具体的数据集和模型下面，可以获取详细的输入输出文件列表。
+
 \subsection{碳循环相关数据资源描述方法}
 \label{sec:data-desc}
-% TODO: 为什么描述，为了解决上面分析而来的异构性
-
-元数据是关于数据的数据，它主要描述数据的内容、质量、表示方式、空间参照系、管理方式、数据的所有者、数据的提供方式和数据集的其他特征等。地理信息元数据可以用来管理和维护空间数据，方便查询和检索空问数据，为用户提供数据内容，质量状态和相关特性的数据编目，为地理信息共享提供了基础。对于数据的描述，国内外都有很多对应的研究，OGC采用XML Schema（如GOC Simple Feature规范）来描述GML，来支持WPS的运行~\cite{OGC-WPS}。OpenMI（Open Modelling Interface）设计了一套标准接口用于多模型集成耦合时对数据的定义、描述和传递~\cite{MOORE2005279}。乐松山设计的通用数据表达——交换模型（Universal Data Description eXchange Model，UDX），结合数据映射服务和数据重构服务，面向模型集成应用场景可以对数据结构进行结构化、语义化描述~\cite{乐松山2016面向地理模型共享与集成的数据适配方法研究}。
+面对海量异构的数据资源，元数据是帮助人们理解数据最常用的方法，它描述了数据的内容、质量、表示方式、空间参照系、管理方式、数据的所有者、数据的提供方式和数据集的其他特征等，为地理信息的管理、维护和共享提供了基础。对于元数据的描述方法，国内外都有很多对应的研究，OGC采用XML Schema（如GOC Simple Feature规范）来描述GML，来支持WPS的运行~\cite{OGC-WPS}。OpenMI（Open Modelling Interface）设计了一套标准接口用于多模型集成耦合时对数据的定义、描述和传递~\cite{MOORE2005279}。乐松山设计的通用数据表达——交换模型（Universal Data Description eXchange Model，UDX），结合数据映射服务和数据重构服务，面向模型集成应用场景可以对数据结构进行结构化、语义化描述~\cite{乐松山2016面向地理模型共享与集成的数据适配方法研究}。
 
 \begin{figure}[!htbp]
     \centering
@@ -149,15 +144,22 @@
     \label{fig:ModelComparison!4-1-data-description-interface_4}
 \end{figure}
 
-为适应本系统的需求，本文并没有采用这些数据描述标准，而是采用自定义结构进行结构化描述。对于数据的描述分为两部分：领域通用格式数据的描述和自定义结构数据的描述。对于前者，本文设计了如图~\ref{ModelComparison!4-1-data-description-interface_4}所示的描述文档，针对每种格式数据各自的特点，以可扩展的形式对其进行描述。对于自定义结构的数据，本文采用示例数据的形式描述。
+为适应本系统的需求，本文并没有采用这些数据描述标准，而是采用自定义结构进行结构化描述。对于数据的描述分为两部分：领域通用格式数据的描述和自定义结构数据的描述。对于后者，本文采用示例数据的形式描述。对于前者，本文设计了如图~\ref{fig:ModelComparison!4-1-data-description-interface_4}所示的数据描述语言（Data Description Language），对领域通用格式数据进行描述：
 
-如图~\ref{fig:data-desc-example}，对于Table数据的描述，主要包括解析数据的表头和列信息组成，表头信息包括有无表头、跳过行数、分隔符、起始列号、终止列号、步长信息。列信息包括数据缩放因子、偏移量、描述和单位信息组成。
+\begin{enumerate}[(1)]
+    \item NetCDF：通过NetCDFStructure结构表达，包括文件的维度（NCDimension）和变量（NCVariable）列表。其中时间、经度、纬度三个维度和变量都使用``unit''、``start''、``end''、``step''表示其数据在时间和空间上的单位、范围和步长。所有变量都使用``scale''、``offset''对数据进行线性变换，使用``missing\_value''描述缺失数据；
+    \item CSV：通过TableStructure结构表达，主要用来描述头信息和列信息的解析。针对模型输出结果都包含时间列的特性，本文使用``timeUnit''、``timeStart''、``timeEnd''、``timeStep''描述时间单位、范围和步长。``hasHeader''、``skiprows''、``seperator''用来解析表头，``scale''、``offset''、``unit''用来解析列信息；
+    \item Shapefi：通过ShapefileStructure结构表达，其属性表通过指向TableStructure的引用描述，空间参考通过WKT字符串描述。
+\end{enumerate}
+
+图~\ref{fig:data-desc-example}展示了CSV和NetCDF格式的数据描述文档示例，对于CSV数据的描述，主要包括解析数据的表头和列信息组成，表头信息包括有无表头、跳过行数、分隔符、起始列号、终止列号、步长信息。列信息包括数据缩放因子、偏移量、描述和单位信息组成。
 对于NetCDF数据的描述，包括维度和变量信息。他们都包括名称、缺省值、缩放因子、偏移量等信息。
+通过这些时空信息的结构化表达，为数据重构提供了基础支撑。
 
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=1\textwidth]{data-desc-example}
-    \caption{Table和NetCDF数据描述文档示例}
+    \caption{CSV和NetCDF数据描述文档示例}
     \label{fig:data-desc-example}
 \end{figure}
 
@@ -167,7 +169,7 @@
 \label{subsubsec:OGC}
 为实现一套与厂商无关的空间数据互操作规范，开放地理空间信息联盟（OGC）制定了WMS、WFS、WCS服务标准，具体接口如表~\ref{tab:OGC-WMS-WFS-WCS}所示。其中WMS（Web Map Service）利用具有地理空间信息的数据制作地图，在国际规范中，地图是地理数据的可视化表现，WMS返回的地图并非是地图数据，而是地图图像，格式上可以是PNG、GIF、JPEG、SVG等~\cite{OGC-WMS}。WFS（Web Feature Service）通过GML（Geography Markup Language）传递地理空间数据，它支持在基于HTTP协议的分布式计算平台上对地理要素进行增删查改等操作，并在这些操作过程中保证了地理数据变化的一致性~\cite{OGC-WFS}。WCS（Web Coverage Service）在网络上以覆盖（Coverage）的形式共享地理空间数据，能够返回栅格时空范围中任意指定点的值，实现了栅格影像数据集的共享~\cite{OGC-WCS}。
 
-图~\ref{fig:wms-example}是本文发布的图层，图~\ref{fig:wfs-example}是通过WFS查询要素属性的返回结果，图~\ref{fig:wcs-example}是通过WCS下载的全球GPP覆盖。
+图~\ref{fig:wms-example}是本文发布的WMS图层，图~\ref{fig:wfs-example}是通过WFS查询要素属性的返回结果，图~\ref{fig:wcs-example}是通过WCS下载的全球GPP覆盖的HTTP请求头信息。
 
 \begin{table}
     \centering
@@ -234,7 +236,7 @@
 \end{figure}
 
 \subsubsection{数据下载服务}
-数据下载服务主要是针对图~\ref{fig:data-arrange}设计的数据编排方式，在数据下载时，对数据路径进行反编码，查询到具体的数据条目，并通过HTTP协议返回给用户。
+数据下载服务主要是针对图~\ref{fig:data-arrange}设计的数据编排方式，在数据下载时，对数据路径规则进行反编码，查询到具体的数据条目，并通过HTTP协议返回给用户。
 
 % \begin{figure}[!htbp]
 %     \centering
@@ -260,7 +262,7 @@
 
     \item \textbf{数据抽取服务}
     
-    模型输出的数据步长是1天，而观测数据的时间范围往往有1-10年，时间序列过长，而且日间隔的数据噪点过多，通过数据抽取服务可以将其抽取为步长为1月的数据。
+    模型输出的数据步长是1天，而观测数据的时间范围往往有1-10年，时间序列过长，而且日间隔的数据噪点过多，通过数据抽取服务可以对数据进行平滑处理。
     
     \item \textbf{数据重组服务}
     
@@ -302,7 +304,7 @@
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=1\textwidth]{ms-step}
-    \caption{模型资源的接入流程}
+    \caption{模型资源的服务化接入流程}
     \label{fig:ms-step}
 \end{figure}
 
@@ -310,23 +312,22 @@
 % 碳循环模型存在着很强的异构性，其开发语言、运行平台、表现形式和集成过程各不相同，具体如表~\ref{tab:model-language-classify}所示（本文暂不考虑需要用户交互的模型）。所以
 % 从运行角度，模型的异构性最明显的体现在其输入输出接口上，
 
-地理模型的发展和信息技术紧密相关，模型作为可执行应用程序的一种，其异构性最终体现在其运行特征上：
+地理模型的发展和信息技术紧密相关，模型作为可执行应用程序的一种，其异构性有很多体现在其运行特征上，包括：
 \begin{enumerate}[(1)]
     \item \textbf{开发语言：}分为编译型和解释型，编译型包括C、C++、C\#、Fortran、Java等，解释型包括Python、MATLAB、JavaScript等。解释型语言在运行是需要解释器环境；
     \item \textbf{运行平台：}包括Windows、Linux和Unix等；
-    \item \textbf{表现形式：}包括源代码、可执行程序、动态链接库、静态链接看、网络服务；
+    \item \textbf{表现形式：}包括源代码、可执行程序、动态链接库、静态链接库、网络服务；
     \item \textbf{执行流程：}分为简单类型和复杂类型，简单类型不需要集成，复杂类型由多个子过程组成，运行时需要集成；
     \item \textbf{运行接口：}模型的数据读取方式各异，可以简单分为硬耦合方式、配置文件方式和命令行参数三种，每一类下又存在不同的具体标准，如图~\ref{fig:before-encap}，IBIS、Biome-BGC和LPJ的运行接口各不相同，其中IBIS和LPJ通过源代码硬耦合的方式，这种方式在更换数据时需要重新编译，极其不便；Biome-BGC通过将输入数据写在配置文件中，比硬耦合的方式更加灵活，但是不同模型的配置方式往往不同，很难定义统一标准。
+    \begin{figure}[!htbp]
+        \centering
+        \includegraphics[width=1\textwidth]{before-encap}
+        \caption{IBIS、Biome-BGC和LPJ的运行接口}
+        \label{fig:before-encap}
+    \end{figure}
 \end{enumerate}
 
 针对这些运行方面的异构性，模型封装时只有屏蔽这些特征，才能以统一的方式接入到对比框架中。
-
-\begin{figure}[!htbp]
-    \centering
-    \includegraphics[width=1\textwidth]{before-encap}
-    \caption{IBIS、Biome-BGC和LPJ的运行接口}
-    \label{fig:before-encap}
-\end{figure}
 
 % \begin{table}
 %     \centering
@@ -368,19 +369,18 @@
 %     \end{threeparttable}
 % \end{table}
 
-
-
 \subsection{碳循环模型资源描述方法}
 \label{sec:ms-desc}
-模型服务的描述方法是模型服务化的基础。模型服务描述文档应该是面向人的，通过模型服务描述文档提供的信息，模型服务使用者就能够方便地了解和使用模型，并能够理解模型的返回结果；同时模型服务描述文档又是面向机器的，通过模型服务描述文档提供的模型运行输入输出选项，能够判断出模型运行数据的完备性，并在用户发送请求时将模型调用起来。因此，本文将模型服务的描述文档设计为如图~\ref{fig:mdl}。其中AttributeSet表示基本信息描述接口，面向人的理解；Beheavior表示模型的运行行为接口，面向机器理解模型的运行接口；Runtime表示模型的软硬件环境依赖，也是面向机器，表示模型所依赖的软硬件环境信息，从而支持模型能够成功调用起来。
-模型服务描述的难点在于对于模型依赖数据的结构的有效表达和对于运行输入输出的合理描述。对于前者，本文采用第~\ref{sec:data-desc}的方法，即采用领域通用标准数据的描述加上示例数据具体展示的形式，对于后者，将在第~\ref{sec:io-interface}节介绍。
+对模型资源的异构性特征进行结构化描述表达是模型服务化封装发布的基础，模型服务描述文档应该是面向人的，通过模型服务描述文档提供的信息，模型服务使用者就能够方便地了解和使用模型，并能够理解模型的返回结果；同时模型服务描述文档又是面向机器的，通过模型服务描述文档提供的模型运行输入输出选项，能够判断出模型运行数据的完备性，并在用户发送请求时将模型调用起来。因此，本文将模型服务的描述文档设计为如图~\ref{fig:mdl}。其中AttributeSet表示基本信息描述接口，面向人的理解；Process表示模型的运行接口信息，面向机器对模型的调用；Dependencies表示模型的软硬件环境依赖，也是面向机器，表示模型所依赖的软硬件环境信息。
+
+% 模型服务描述的难点在于对于模型依赖数据的结构的有效表达和对于运行输入输出的合理描述。对于前者，本文采用第~\ref{sec:data-desc}的方法，即采用领域通用标准数据的描述加上示例数据具体展示的形式，对于后者，将在第~\ref{sec:io-interface}节介绍。
 
 
-模型描述文档由JSON形式表达，与本文选择的具体技术体系有关：一方面它与MongoDB数据库结构同构，可以直接存储于数据库中，有助于增删查改，另一方面它与后台服务器Node.js天生兼容，解析起来方便。
+% 模型描述文档由JSON形式表达，与本文选择的具体技术体系有关：一方面它与MongoDB数据库结构同构，可以直接存储于数据库中，有助于增删查改，另一方面它与后台服务器Node.js天生兼容，解析起来方便。
 
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=.8\textwidth]{mdl}
+    \includegraphics[width=.5\textwidth]{mdl}
     \caption{模型描述文档设计}
     \label{fig:mdl}
 \end{figure}
@@ -402,7 +402,7 @@
 % 存储路径、文件名、类型（编译、解释）、
 % 两个粒度：单模型运行和多模型集成
 
-运行信息的描述接口如图~\ref{fig:ModelCalculation!4-2-2-model-invoke-interface_0}所示，包括模型的可执行程序文件名、程序类型、解释器类型、输入数据、输出数据和参数（本文将文件型的数据称为输入数据，将Number或String型的数据称为参数）以及各种数据的结构化元数据描述。本文将模型从开发语言上分为编译型和解释型两种，对于解释型的语言，需要记录模型的解释器，在运行时通过解释器调用才能运行。通过运行信息的描述，可以在用户调用时执行execute()函数，并返回子进程的pid，在需要时可以通过kill(pid)杀死进程。
+运行信息的描述接口如图~\ref{fig:ModelCalculation!4-2-2-model-invoke-interface_0}所示，包括模型的可执行程序文件名、程序类型、解释器类型、输入数据、输出数据和参数（本文将文件型的数据称为输入数据，将Number或String型的数据称为参数）以及各种数据的结构化元数据描述。本文将模型从开发语言上分为编译型和解释型两种，对于解释型的语言，需要记录模型的解释器，在运行时通过解释器调用才能运行。通过运行信息的描述，可以在用户调用时执行execute()函数，并返回子进程的pid，在需要时可以通过kill(pid)函数杀死进程。
 
 \begin{figure}[!htbp]
     \centering
@@ -430,16 +430,16 @@
 % 几种方式：模型代理、源码封装
 % 对于执行链的封装
 
-在计算机领域，封装是对实体进行包装或组合形成具有稳定接口的新实体的方法和技术。~\cite{胡迪2015地理模型的服务化封装方法研究}通过封装，可以屏蔽原有程序的实现细节，提高模型的可复用性和可维护性，降低用户的使用难度。封装可以体现在程序设计的各个层次上，如函数、类、模块、组件、系统、可执行程序和Web服务这些粒度上都可以进行封装，本文的封装将模型包装成具有标准接口的控制台应用程序。
+在计算机领域，封装是对实体进行包装或组合形成具有稳定接口的新实体的方法和技术~\cite{胡迪2015地理模型的服务化封装方法研究}。通过封装，可以屏蔽原有程序的实现细节，提高模型的可复用性和可维护性，降低用户的使用难度。封装可以体现在程序设计的各个层次上，如函数、类、模块、组件、系统、可执行程序和Web服务这些粒度上都可以进行封装，本文的封装将模型包装成具有标准接口的控制台应用程序。
 
-模型封装最关键的是运行接口的设计，而模型运行接口的设计本质上是设计一个命令行参数解析标准，将输入输出选项映射给程序内存变量，业界有很多成熟的标准，如libc的getopt/getopt\_long接口、google的gflags接口等。本文采用的getopt/getopt\_long接口，它在很多其他语言上都有对应的移植版本，方便对不同语言模型封装的实现。getopt/getopt\_long接口支持单字符选项、多字符选项和可选参数选项，可以方便地生成帮助信息。通过getopt/getopt\_long的标准化，模型的调用命令可表示为“exeName -a -i="filepath1" -p="10" -o="filepath3"”或“exeName -a --inputFile1="filepath2" --parameter1="10" --outputFile1="filepath3"”。其中选项列表来自于运行信息描述文档，以“-”开头表示单字符选项，以“--”开头表示多字符选项，不带等号的如“-a”为参数选项。对于IBIS的封装，标准化后调用方式可表示为“IBIS --meteorology="meteorology\_file\_path" --soil="soil\_file\_path" --output="output\_file\_save\_path"”。对于解释型的语言，需要在命令前面加上解释器，如Biome-BGC模型的调用方式可表示为“node Biome-BGC.js -a --ini="ini\_config\_path" --met="meteorology\_file\_path" --co2="co2\_file\_path" --epc="PFT\_parameters\_file\_path" --output="output\_file\_path"”。
+模型封装最关键的是运行接口的设计，而模型运行接口的设计本质上是设计一个命令行参数解析标准，将输入输出选项映射给程序内存变量，业界有很多成熟的标准，如libc的getopt/getopt\_long接口、google的gflags接口等。本文采用的getopt/getopt\_long接口，它在很多其他语言上都有对应的移植版本，方便对不同语言模型封装的实现。getopt/getopt\_long接口支持单字符选项、多字符选项和可选参数选项，可以方便地生成帮助信息。通过getopt/getopt\_long的标准化，模型的调用命令可表示为“exeName -a -i=``filepath1'' -p=``10'' -o=``filepath3''”或“exeName -a --inputFile1=``filepath2'' --parameter1=``10'' --outputFile1=``filepath3''”。其中选项列表来自于运行信息描述文档，以“-”开头表示单字符选项，以“--”开头表示多字符选项，不带等号的如“-a”为参数选项。对于IBIS的封装，标准化后调用方式可表示为“IBIS --meteorology="meteorology\_file\_path" --soil="soil\_file\_path" --output="output\_file\_save\_path"”。对于解释型的语言，需要在命令前面加上解释器，如Biome-BGC模型的调用方式可表示为“node Biome-BGC.js -a --ini="ini\_config\_path" --met="meteorology\_file\_path" --co2="co2\_file\_path" --epc="PFT\_parameters\_file\_path" --output="output\_file\_path"”。
 
-模型封装根据有无源码可以分为源码封装和模型代理封装，如图~\ref{fig:source-encap-proxy-encap}所示，源码封装直接对模型输入输出接口做出修改使其标准化，模型代理封装通过写一个模型代理壳将IO标准化，然后通过子进程启动模型完成封装。按照模型是否包含集成分为简单模型封装和包含集成流程的模型的封装。Biome-BGC模型的执行过程包括spin-up模式和正常模式，整个运行过程中有一个简单的串联集成过程，如图~\ref{fig:ms-encap-with-integration}所示，正常模式的运行依赖于spin-up模式，通过Node.js脚本可以非常方便的串联集成。
+模型封装根据有无源码可以分为基于源码的封装和基于模型代理的封装，如图~\ref{fig:source-encap-proxy-encap}所示，源码封装直接对模型输入输出接口做出修改使其标准化，模型代理封装通过写一个模型代理壳将其IO标准化，然后通过fork子进程启动模型完成封装。按照模型是否包含集成分为简单模型封装和包含集成流程的模型的封装。Biome-BGC模型的执行过程分为spin-up模式和正常模式两步，正常模式的运行依赖于spin-up模式，整个运行过程中有一个简单的串联集成过程，如图~\ref{fig:ms-encap-with-integration}所示，通过Node.js脚本可以非常方便的串联集成。
 
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=.8\textwidth]{source-encap-proxy-encap}
-    \caption{源码封装和模型代理封装}
+    \caption{基于源码的封装和基于模型代理的封装}
     \label{fig:source-encap-proxy-encap}
 \end{figure}
 
@@ -450,7 +450,7 @@
     \label{fig:ms-encap-with-integration}
 \end{figure}
 
-如图~\ref{fig:after-encap}所示，IBIS、Biome-BGC和LPJ三个模型封装后的调用方式一致，可以概括为“(interpreter) <main> -p -f=<value> --flag=<value>”。其中“interpreter”为解释器，当程序语言是解释型的时候才需要，“main”是入口程序名，“-p”是参数标识，“-f”是短标识，“--flag”是长标识。参数标识、短标识和长标识在模型运行描述文档中具体体现。
+如图~\ref{fig:after-encap}所示，IBIS、Biome-BGC和LPJ三个模型封装后的调用方式一致，可以概括为``(interpreter) <main> -p -f=<value> --flag=<value>''。其中``interpreter''为解释器，当程序语言是解释型的时候才需要，“main”是入口程序名，“-p”是参数标识，“-f”是短标识，“--flag”是长标识。参数标识、短标识和长标识在模型运行描述文档中具体体现。
 
 \begin{figure}[!htbp]
     \centering
@@ -463,10 +463,10 @@
 \subsubsection{服务部署和发布}
 % 数据库录入条目、服务部署
 % 运行环境
-服务部署和发布是将封装好的模型程序迁移到目标计算节点上的过程，主要包括模型服务描述文档数据库条目的录入和模型运行软硬件环境的匹配。对于模型服务描述文档，本文将数据库设计与第\ref{sec:ms-desc}节的描述接口同构，可以直接录入。对于软件环境。。。。对于硬件环境，本文所用的三个模型对硬件要求都不高，可以直接部署在普通PC机上。
+服务部署和发布是将封装好的模型程序迁移到目标计算节点上的过程，主要包括模型服务描述文档数据库条目的录入和模型运行软硬件环境的匹配。对于模型服务描述文档，本文将数据库设计与第\ref{sec:ms-desc}节的描述接口同构，可以直接录入。对于软件环境，IBIS和LPJ使用gfortran编译的，需要libgfortran的动态链接库；Biome-BGC使用gcc编译，其依赖的软件环境libc是linux系统的底层接口，不需要重新安装。对于硬件环境，本文所用的三个模型对硬件要求都不高，可以直接部署在普通PC机上。
 
 \section{开放式碳循环对比资源接入方法}
-
+% 这一节有点短，不知道该怎么写
 \subsection{碳循环模型对比方法}
 \subsubsection{统计学对比方法}
 \begin{align}
@@ -500,7 +500,7 @@
 
 \item \textbf{决定系数（记为$R^2$）}
 
-决定系数反映因变量的全部变异能通过回归关系被自变量解释的比例，
+决定系数反映因变量的全部变异能通过回归关系被自变量解释的比例，其公式如~\ref{eq:R^2}所示。
 
 \item \textbf{效率系数（Nash-Sutcliffe coefficient，记为$NSE$）}
 
@@ -515,7 +515,7 @@
     \label{eq:SE}
 \end{align}
 
-式中，$F_t$是超级集合合成后的预测值；$\bar{O}$是训练期的平均观测值；$F_{i,t}$是第$i$个模型的预测值；$\bar{F_t}$是第$i$个模式在训练期的平均预测值；$n$是参加建立超级集合的模型数量；$t$是时间；$a_i$是回归系数，代表各个模型的权重。在建立超级集合时，将数据分成训练集和验证集，通过训练集获取式中的各个参数，通过验证集验证超级集合的模拟水平。本文中参与建立超级集合的模型有MODIS MOD17 A3、IBIS、Biome-BGC、LPJ，观测值数据是FLUXNET La Thuile，具体对比结果在第。。。节介绍。
+式中，$F_t$是超级集合合成后的预测值；$\bar{O}$是训练期的平均观测值；$F_{i,t}$是第$i$个模型的预测值；$\bar{F_t}$是第$i$个模式在训练期的平均预测值；$n$是参加建立超级集合的模型数量；$t$是时间；$a_i$是回归系数，代表各个模型的权重。在建立超级集合时，将数据分成训练集和验证集，通过训练集获取式中的各个参数，通过验证集验证超级集合的模拟水平。本文中参与建立超级集合的模型有MODIS MOD17 A3、IBIS、Biome-BGC、LPJ，观测值数据是FLUXNET 2015，具体对比结果见第~\ref{sec:experiments}节。
 
 \end{enumerate}
 
@@ -534,29 +534,35 @@
 \end{figure}
 \begin{enumerate}[(1)]
 \item \textbf{泰勒图}
-% 全部时间范围，每年的序列
 
 泰勒图常用于评价模型的精度，如图~\ref{fig:example-taylor}所示，泰勒图中的散点表示模型，辐射线表示相关系数，横轴线表示标准差，虚线表示均方根误差~\cite{taylor2001summarizing}，泰勒图能够在二维平面上同时呈现三个指标，在IPCC、CMIP5、CMIP6中被广泛应用于多模型模拟能力评估对比。
 
 \item \textbf{时间序列折线图}
 
-如图~\ref{fig:example-timeseries-diagram}所示，时间序列折线图反映的是模拟指标的年度变化趋势，并能够对比模拟值与观测值的趋势差异。
+如图~\ref{fig:example-timeseries-diagram}所示，时间序列折线图反映的是模拟指标的年际或季节变化趋势，能够直观地显示观测指标的走向。
 
 \item \textbf{热力图}
-% 按PFT分类
 
-如图~\ref{fig:example-heatmap}所示，横轴是观测站点，纵轴是模型，横着看能直观地发现同一个模型在不同站点的模拟能力差异，纵着看能直观地发现不同模型对同一个站点的模拟能力差异。
+如图~\ref{fig:example-heatmap}所示，横轴是模型，纵轴是观测站点，横着看能直观地发现不同模型对同一个站点的模拟能力差异，纵着看能直观地发现同一个模型在不同站点的模拟能力差异。
 
-\item \textbf{等值线图和偏差等值线图}
+\item \textbf{地图}
 
-如图~\ref{fig:example-contour}和~\ref{fig:example-bias-contour}分别是等值线图和偏差等值线图，等值线图可以直观地表现GPP的空间分布格局，偏差等值线图则表示的是模型误差的空间分布。
+如图~\ref{fig:example-contour}所示，分别是等值线图和偏差等值线图，等值线图可以直观地表现GPP的空间分布格局，偏差等值线图则表示的是模型误差的空间分布。
+
+\item \textbf{纬向图}
+
+如图~\ref{fig:example-contour}所示，纬向图横轴是纬度，纵轴是观测指标，可以展示出观测指标的纬度分布规律。
 
 \end{enumerate}
 
 \subsection{对比方法接入方法}
+对比方法实质上是数据处理脚本，它以数据重构方法转换过的数据为输入项，对其进行统计学或可视化分析，并输出统计指标和图片。因此，对比方法可以采用和模型一致的封装方法，包括以下几步实现：
 
-从实现层次上来看，对比方法就是一些数据处理程序，他的输出项是统计指标和可视化结果。为方便统计学对比方法和可视化对比方法的实现，本文选择python的科学计算发行版conda作为实现语言，conda有非常便利的CSV和NETCDF数据处理包pandas和netcdf4，以及图表可视化包matplotlib、seaborn和basemap，对实现本文的对比需求是非常合适的选择；从标准接入接口方面，对比方法和第~\ref{sec:model-joinup}节介绍的模型封装接口无异，通过对比方法的描述文档可以完整地描述模型的运行输入输出项，同时getopt标准可以完美地解析输入输出。
-
+\begin{enumerate}[(1)]
+    \item 对比方法的脚本实现。本文选择python的科学计算发行版conda作为开发语言，conda有非常便利的CSV和NETCDF第三方数据解析库pandas和netcdf4，以及图表可视化库matplotlib、seaborn和basemap，对于统计数据处理也非常方便。在编写实现脚本时，通过python的getopt对输入输出项进行标准化，就免去了模型封装的步骤；
+    \item 对比脚本的结构化文档描述。与模型描述方法完全相同；
+    \item 对比方法的部署、发布。与模型描述方法完全相同。
+\end{enumerate}
 
 \section{本章小结}
-本章针对数据、模型和对比方法这三种对比资源在框架下的开放式服务化接入进行了详细的阐述。对于数据资源，从数据格式、尺度、编排三个角度分析了其特征，通过本文设计的结构化描述接口来描述NetCDF、Shapefile和CSV数据，实现了OGC WMS、WFS、WCS、数据下载服务、数据处理服务的发布，为模型成功运行和结果对比提供了基础；对于模型资源，分析了其异构性特征，设计了面向人和机器理解的模型描述接口，并通过运行接口的设计实现了模型服务的封装、部署和发布；对于对比方法，首先详细介绍了本文用到的统计学对比方法和可视化对比方法，在采用模型封装接口将对比方法也封装为开放式服务资源。
+本章针对数据、模型和对比方法这三种对比资源在框架下的开放式服务化接入进行了详细的阐述。对于数据资源，从数据格式、尺度、编排三个角度分析了其特征，通过本文设计的数据描述语言来描述NetCDF、Shapefile和CSV数据，实现了OGC WMS、WFS、WCS、数据下载服务、数据重构服务的发布；对于模型资源，分析了其异构性特征，设计了面向人和机器理解的模型描述接口，并通过运行接口的设计实现了模型服务的封装、部署和发布；对于对比方法，详细介绍了本文用到的统计学对比方法和可视化对比方法，并采用模型封装接口将对比方法也封装为开放式服务资源。

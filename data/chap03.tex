@@ -1,9 +1,9 @@
-\chapter{陆地生态系统碳循环模型开放式对比框架设计}
+\chapter{开放式陆地生态系统碳循环模型对比框架设计}
 \label{chap:arch}
 
-陆地生态系统碳循环模型具有种类多样、参数复杂、难以应用的特点，模拟过程参与的要素众多（如GPP、NPP、NEP、Biomass、LAI等），模拟站点丰富，数据需求量大、难以搜集。这些因素都共同阻碍了碳循环模型的应用和发展，开展模型对比工作往往十分艰巨，像CMIP项目那样，各个模式开发组共同参与进来才能更顺利地完成。但是传统的对比框架也面临着一些问题，它将模型计算和对比过程都放在本地计算机运行，模型难以共享和重用，对比过程不够公开，换一套数据或研究区域就难以重现和重复，这些都是由于基于本地计算的对比框架所导致的。针对这一问题，本章旨在设计一个开放式的对比框架，支持将各种对比资源以微服务的形式开放地接入进来，实现可共享、可重用、公开化的陆地生态系统碳循环模型的对比。
+陆地生态系统碳循环模型具有种类多样、参数复杂、难以应用的特点，模拟过程参与的要素众多（如GPP、NPP、NEP、Biomass、LAI等），模拟站点丰富，数据需求量大、难以搜集。这些因素都共同阻碍了碳循环模型的应用和发展，开展模型对比工作往往十分艰巨，像CMIP项目那样，各个模式开发组共同参与进来才能更顺利地完成。但是传统的对比框架也面临着一些问题，它将模型计算和对比过程都放在本地计算机运行，模型难以共享和重用，对比过程不够公开，换一套数据或研究区域就难以重现和重复，这些都是由于基于本地计算的对比框架所导致的。针对这一问题，本章旨在设计一个开放式的对比框架，支持将各种对比资源以微服务的形式开放地接入进来，实现可共享、可重用、公开化、易操作的陆地生态系统碳循环模型的对比。
 
-本章首先分析了陆地生态系统碳循环模型的对比情景，并从中归纳总结出“对比话题——对比方案——对比任务”的三步流程；其次详细探讨了对比过程中的需要接入的地理资源组件库，包括有模型服务资源库、数据服务资源库、单位量纲资源库、数据处理服务资源库、对比服务资源库，并设计了对应接口来满足相应资源的接入，实现了对比资源的标准一致性和可扩展性；然后设计了分布式的网络系统架构，将整体复杂的系统功能分割为三部分，实现了功能的解耦和系统的稳定性；最后通过科学工作流引擎支持网络环境下对比流程地自动化执行。
+本章首先通过基于微服务的网络架构设计将复杂的系统功能拆分为模型计算层、数据管理层和结果对比层，确保了功能的解耦和系统的稳定；其次为实现三种微服务的管理设计了通用微服务容器，并根据每种微服务的特点在其上扩展，保证了模型对比资源能够以组件的形式接入到系统当中；然后通过对比方案描述语言（CSDL）的设计实现了对比过程的可共享和可重用性；最后通过科学工作流引擎支持网络环境下对比流程地自动化执行。
 本系统的整体架构如图\ref{fig:CMIP-architecture}所示。
 
 \begin{figure}[!htbp]
@@ -125,8 +125,6 @@ API网关也是针对微服务而出现的技术手段，在单体应用中，�
 \end{figure}
 
 \subsubsection{模型资源组件库}
-模型计算容器所承载的众多模型微服务共同组成模型资源组件库，模型资源组件作为模型对比的参与者，在对比框架下具有形同的角色和地位。与封装之前的模型相比，屏蔽了其在调用接口、实现方法、开发语言等方面的异构性。
-模型资源组件库通过表述性状态转移（Representational State Transfer，REST）风格的接口暴露出来，以HTTP请求的POST、DELETE、GET和PUT方法对应对组件资源的增删查改操作~\cite{fielding2000architectural}。其详细接口设计如表~\ref{tab:model-service-API}所示，分别对应图~\ref{fig:model-operation}的第1、2、4、5、6步（第3、7步对应数据操作接口）。其中模型调用接口“/model-service/:msId/invoke”是最重要的，其请求参数如表~\ref{tab:model-invoke-API}所示，在调用时，需要在请求体中附加模型的输入输出，输入项、参数项、输出项的id从“/model-service/:msId”接口返回的描述文档中可以获取，输入项的“value”是上传到服务器的数据id，参数项的“value”是Number或String类型的值，输出项的“value”不用填写。发送请求后，如果调用成功，则返回运行记录的recordId，凭此recordId可以通过“/model-service/record/:recordId”接口请求模型的运行记录，并从中获取运算的结果。
 
 \begin{table}[!htbp]
     \centering
@@ -139,38 +137,17 @@ API网关也是针对微服务而出现的技术手段，在单体应用中，�
         /model-service & GET & 模型服务列表 & 查询模型服务 \\
         /model-service/:msId & GET & 模型描述文档 & 查询模型详情 \\
         /model-service/:msId/invoke & POST & 状态码 & 运行模型 \\ 
-        /model-service/record & GET & 运行记录列表 & 查询模型运行记录 \\
-        /model-service/record/:recordId & GET & 运行记录 & 查询运行记录 \\
+        /model-service/records & GET & 运行记录列表 & 查询模型运行记录 \\
+        /model-service/records/:recordId & GET & 运行记录 & 查询运行记录 \\
         \Xhline{1.5pt}
     \end{tabular}
 \end{table}
-
-% \noindent\begin{tabular}{p{0.5\textwidth}p{0.5\textwidth}}
-% 	\toprule
-% 	A & B\\  
-% 	\midrule 
-% \begin{minted}[tabsize=4]{js}
-% {
-% "id":   "datag", 
-% "value":"dataed"
-% }
-% \end{minted}
-%  &
-% \begin{minted}[tabsize=4]{js}
-% {
-%     "id":   "datag", 
-%     "value":"dataed"
-% }
-% \end{minted}
-% 	\\
-% 	\bottomrule
-% \end{tabular}
 
 \begin{table}[!htbp]
     \centering
     \caption{模型调用接口请求参数}
     \label{tab:model-invoke-API}
-    \begin{tabular}{lp{.7\textwidth}p{.2\textwidth}}
+    \begin{tabular}{lp{.6\textwidth}l}
         \Xhline{1.5pt}
         参数 & 结构 & 描述 \\
         \Xhline{1.5pt}
@@ -178,8 +155,9 @@ API网关也是针对微服务而出现的技术手段，在单体应用中，�
         & 
 \begin{tabminted}[tabsize=4]{js}
 {
-    "id": "data_flag", 
-    "value":"data_id_you_had_uploaded"
+  "id": "IO_flag", 
+  "value":"uploaded_data_id",
+  "description": ""
 }[]
 \end{tabminted}
         & 输入数据列表 \\
@@ -188,8 +166,9 @@ API网关也是针对微服务而出现的技术手段，在单体应用中，�
         &
 \begin{tabminted}[tabsize=4]{js}
 {
-    "id": "data_flag", 
-    "value": "parameter_value"
+  "id": "IO_flag", 
+  "value": "parameter_value",
+  "description": ""
 }[]
 \end{tabminted}
         & 参数列表 \\
@@ -198,37 +177,30 @@ API网关也是针对微服务而出现的技术手段，在单体应用中，�
         &
 \begin{tabminted}[tabsize=4]{js}
 { 
-    "id": "data_flag", 
-    "value": null 
+  "id": "IO_flag", 
+  "value": null ,
+  "description": ""
 }[]
 \end{tabminted}
         & 输出数据列表 \\
         \Xhline{1.5pt}
     \end{tabular}
 \end{table}
-
+模型计算容器所承载的众多模型微服务共同组成模型资源组件库，模型资源组件作为模型对比的参与者，在对比框架下具有形同的角色和地位。与封装之前的模型相比，屏蔽了其在调用接口、实现方法、开发语言等方面的异构性。
+模型资源组件库通过表述性状态转移（Representational State Transfer，REST）风格的接口暴露出来，以HTTP请求的POST、DELETE、GET和PUT方法对组件资源进行增删查改操作~\cite{fielding2000architectural}。其详细接口设计如表~\ref{tab:model-service-API}所示，分别对应图~\ref{fig:model-operation}的第1、2、4、5、6步（第3、7步对应数据操作接口）。其中模型调用接口“/model-service/:msId/invoke”是最重要的，其请求参数如表~\ref{tab:model-invoke-API}所示，在调用时，需要在请求体中附加模型的输入项、参数项、输出项，其id表示数据项标识，从“/model-service/:msId”接口返回的描述文档中可以获取，输入项的“value”是上传到服务器的数据id，参数项的“value”是Number或String类型的值，输出项的“value”不用填写。发送请求后，如果调用成功，则返回运行记录的recordId，凭此recordId可以通过“/model-service/records/:recordId”接口请求模型的运行记录，并从中获取运算的结果。
 
 \subsection{数据管理容器及数据资源组件库}
 \subsubsection{数据管理容器}
-数据管理容器主要提供以下两点功能：
+数据管理容器对外提供数据微服务，主要包括以下两点功能：
 \begin{enumerate}[(1)]
 \item \textbf{数据存储和结果缓存：}数据资源包括各种模型输入数据、对比参照数据和输出数据。模型在运行时从数据管理容器请求输入数据，运行结束后将输出数据存储到数据管理容器。对比任务执行时从数据管理容器请求模型输出数据和对比参考数据，并将对比结果存储到数据服务容器；
-\item \textbf{数据服务的发布：}包括WMS、WFS、WCS、数据上传和下载服务、数据重构服务具体参考第~\ref{sec:data-service}节。
+\item \textbf{数据服务的发布：}包括WMS、WFS、WCS、数据上传和下载服务、数据重构服务，具体参考第~\ref{sec:data-service}节。
 \end{enumerate}
 
 数据管理容器的硬件配置要求是硬盘大，网络带宽高，以方便数据存储和交换。
 
-% \begin{figure}[!htbp]
-%     \centering
-%     \includegraphics[width=1\textwidth]{resource-server}
-%     \caption{数据管理容器功能}
-%     \label{fig:resource-server}
-% \end{figure}
-
 \subsubsection{数据资源组件库}
-数据服务资源库由数据下载服务、数据重构服务和OGC WMS、WFS、WCS三类组成。其中数据下载服务将数据按照多种分类体系发布出去，并提供数据的相关元数据描述文档。数据在模型运行和对比时，往往并不能直接驱动程序的运行，数据重构服务对数据做出转换，它的调用交互模式和模型服务的调用类似，表~\ref{tab:data-service-API}列出了数据服务的详细接口，OGC WMS、WFS、WCS服务的接口和发布在后文第~\ref{subsubsec:OGC}节详细介绍。
-
-\begin{table}[!htbp]
+\noindent\begin{table}[!htbp]
     \centering
     \caption{数据服务API}
     \label{tab:data-service-API}
@@ -237,26 +209,28 @@ API网关也是针对微服务而出现的技术手段，在单体应用中，�
         名称 & 请求方式 & 返回 & 说明 \\
         \Xhline{1.5pt}
         /data & POST & 状态码和数据id & 上传数据 \\
-        /data & GET & 数据列表 & 获取数据列表 \\
+        /data & GET & \multicolumn{1}{m{0.24\columnwidth}}{数据列表，按一定的分类体系组织} & 获取数据列表 \\
         /data/:dataId & GET & 数据文件 & 下载数据 \\
         /data/:dataId/metadata & GET & 元数据文档 & 获取元数据 \\
-        /data-refactor & GET & 数据重构服务列表 & 查询数据重构服务 \\
-        /data-refactor/:id & GET & 重构服务描述 & 查询重构服务详情 \\
-        /data-refactor/:id/invoke & POST & 状态码 & 运行重构服务 \\
-        /data-refactor/record & GET & 运行记录列表 & \multicolumn{1}{m{0.3\columnwidth}}{查询重构服务运行记录} \\
-        /data-refactor/record/:recordId & GET & 运行记录 & 查询运行记录 \\
+        /data-refactor & GET & 数据重构服务列表 & \multicolumn{1}{m{0.18\columnwidth}}{查询数据重构服务} \\
+        /data-refactor/:id & GET & 重构服务描述 & \multicolumn{1}{m{0.18\columnwidth}}{查询重构服务详情} \\
+        /data-refactor/:id/invoke & POST & \multicolumn{1}{m{0.24\columnwidth}}{状态码：200成功，500失败} & 运行重构服务 \\
+        /data-refactor/records & GET & 运行记录列表 & \multicolumn{1}{m{0.18\columnwidth}}{查询重构服务运行记录} \\
+        /data-refactor/records/:recordId & GET & 运行记录详情 & 查询运行记录 \\
         \Xhline{1.5pt}
     \end{tabular}
 \end{table}
+数据服务资源库由数据上传下载服务、数据重构服务和OGC WMS、WFS、WCS三类组成。其中数据下载服务将数据按照多种分类体系发布出去，并提供数据的相关元数据描述文档。数据在模型运行和对比时，往往并不能直接驱动程序的运行，数据重构服务对数据做出转换，它的调用交互模式和模型服务的调用类似，表~\ref{tab:data-service-API}列出了数据服务的详细接口，其中“/data-refactor/:id/invoke”的请求体结构和模型服务调用的请求体一致，OGC WMS、WFS、WCS服务的接口和发布在后文第~\ref{subsubsec:OGC}节详细介绍。
 
 \subsection{模型对比容器及对比资源组件库}
 \subsubsection{模型对比容器}
-对比服务容器的主要功能是将对比任务中包含的计算任务分发给模型计算容器，并把模型计算出来的结果文件和对比参考数据进行对比。他是模型微服务和数据微服务的消费者、对比微服务的生产者。如图~\ref{fig:compare-server-microservice}所示，模型对比的开展主要包括以下几步：
+对比服务容器的主要功能是将对比任务中包含的计算任务分发给模型计算容器，并把模型计算出来的结果文件和对比参考数据进行对比。对比服务容器在物理实体上也是API网关，他是模型微服务和数据微服务的消费者、对比微服务的生产者。如图~\ref{fig:compare-server-microservice}所示，模型对比的开展主要包括以下几步：
 
 \begin{enumerate}[(1)]
 \item 用户在浏览器客户端通过HTTP协议发送对比任务的调用请求；
 \item Node.js的路由器收到请求后，将对比任务中包含的计算任务拆分出来，并通过调用模型计算容器上的模型微服务启动计算任务，并不断轮询监控模型的运行进度；
-\item 当监测到所有模型都运行成功后，从数据管理容器上获取模型运行结果和对比参考数据，然后调用本地的对比方法脚本程序，这些脚本可由JavaScript、Python或Matlab等编写而成；
+\item 当模型微服务运行成功后，将运行结果提交给数据微服务；
+\item 当检测到所有模型都运行成功后，从数据管理容器上获取模型运行结果和对比参考数据，然后启动对比微服务应用程序脚本，这些脚本可由JavaScript、Python或Matlab等编写而成；
 \item 最后将对比脚本的结果文件保存到数据库中，并返回给客户端。
 \end{enumerate}
 
@@ -270,9 +244,8 @@ API网关也是针对微服务而出现的技术手段，在单体应用中，�
 \end{figure}
 
 \subsubsection{单位量纲资源库}
-单位量纲资源库由模型运算过程中涉及到的单位和量纲组成，如图~\ref{fig:ModelComparison!3-2-unit-dimension_5}所示，量纲类Dimension由7个基本物理量组成，他们分别是长度（$L$）、质量（$M$）、时间（$T$）、电流（$I$）、温度（$\Theta$）、物质的量（$N$）、发光强度（$J$）。而单位类Unit则由这7个基本物理量组合表示（对于无量纲的单位为空），它也可以是自定义的单位。在对比要素类ComparisonFeature中用单位来表达它的具体物理意义，对于不同的单位表示法，可以通过量纲分析进行换算。单位量纲只有一个接口，以GET方式请求“/metrics”可以获取单位量纲列表。表~\ref{tab:std-metrics}列出了本文涉及到的对比要素及其所使用的单位。
-
-模型在对比时模拟数据和观测数据的单位量纲一般不完全相同，以GPP为例，IBIS的输出单位是$gC m^{-2} d^{-1}$，Biome-BGC的输出单位是$kgC m^2 d^{-1}$，观测数据的单位是$gC m^{-2} d^{-1}$，在对比时，需要将单位一致化，单位量纲资源库为单位转换提供参考。
+在对比服务容器上，设计了单位量纲库对碳循环要素的语义信息进行描述。在多个模型的输出量之间开展对比时，模拟数据和观测数据的单位量纲一般不完全相同，以GPP为例，IBIS的输出单位是$gC m^{-2} d^{-1}$，Biome-BGC的输出单位是$kgC m^2 d^{-1}$，观测数据的单位是$gC m^{-2} d^{-1}$，在对比时，需要将单位一致化，单位量纲资源库为单位转换提供统一参考。
+单位量纲资源库由模型运算过程中涉及到的单位和量纲组成，如图~\ref{fig:ModelComparison!3-2-unit-dimension_5}所示，量纲类Dimension由7个基本物理量组成，他们分别是长度（$L$）、质量（$M$）、时间（$T$）、电流（$I$）、温度（$\Theta$）、物质的量（$N$）、发光强度（$J$）。而单位类Unit则由这7个基本物理量组合表示（对于无量纲的单位为空），它也可以是自定义的单位。在对比要素类ComparisonFeature中用单位来表达它的具体物理意义，对于不同的单位表示法，可以通过量纲分析进行换算。单位量纲只有一个接口，以GET方式请求“/metrics”可以获取单位量纲列表。表~\ref{tab:std-metrics}列出了本文涉及到的碳循环对比要素及其所使用的单位。
 
 \begin{figure}[!htbp]
     \centering
@@ -293,14 +266,14 @@ API网关也是针对微服务而出现的技术手段，在单体应用中，�
             \Xhline{1.5pt}
             \textbf{名称} & \textbf{单位} & \textbf{最小值} & \textbf{最大值}  \\
             \Xhline{1.5pt}
-            $GPP$ & $gC m^{-2} d^{-1}$ & 0 & 100 \\
-            $NPP$ & $gC m^{-2} d^{-1}$ & 0 & 100 \\
-            $NEP$ & $gC m^{-2} d^{-1}$ & -100 & 100 \\
-            $NEE$ & $gC m^{-2} d^{-1}$ & -100 & 100 \\
+            $GPP$ & $gC m^{-2} d^{-1}$ & 0 & 30 \\
+            $NPP$ & $gC m^{-2} d^{-1}$ & 0 & 30 \\
+            $NEP$ & $gC m^{-2} d^{-1}$ & -30 & 30 \\
+            $NEE$ & $gC m^{-2} d^{-1}$ & -30 & 30 \\
             $Biomass$ & $gC m^{-2} d^{-1}$ & 0 & - \\
-            $R_A$ & $gC m^{-2} d^{-1}$ & 0 & 100 \\
-            $R_H$ & $gC m^{-2} d^{-1}$ & 0 & 100 \\
-            $ET$ & $mm d^{-1}$ & 0 & 100\\
+            $R_A$ & $gC m^{-2} d^{-1}$ & 0 & 30 \\
+            $R_H$ & $gC m^{-2} d^{-1}$ & 0 & 30 \\
+            $ET$ & $mm d^{-1}$ & 0 & 30\\
             $Runoff$ & $mm d^{-1}$ & - & - \\
             $LAI$ & $m^2/m^2$ & 0 & 1 \\
             \Xhline{1.5pt}
@@ -330,7 +303,7 @@ API网关也是针对微服务而出现的技术手段，在单体应用中，�
 \end{table}
 
 \subsubsection{对比服务资源库}
-对比服务资源库分为两类：统计学对比方法和可视化对比方法。他们都接受一条或多条数据为输入，统计学对比方法返回的是统计指标，可视化对比方法返回的是图片结果。表~\ref{tab:cmp-service-API}列出了去详细接口。
+对比服务资源库包括统计学对比方法和可视化对比方法。他们都接受一条或多条数据为输入，统计学对比方法返回的是统计指标，可视化对比方法返回的是图片结果。表~\ref{tab:cmp-service-API}列出了去详细接口，其调用模式与模型微服务一致。
 
 \begin{table}[!htbp]
     \centering
@@ -343,30 +316,30 @@ API网关也是针对微服务而出现的技术手段，在单体应用中，�
         /cmp & GET & 对比服务列表 & 查询对比服务 \\
         /cmp/:cmpId & GET & 对比服务描述文档 & 查询对比服务详情 \\
         /cmp/:cmpId/invoke & POST & 状态码 & 运行对比服务 \\ 
-        /cmp/record & GET & 对比记录列表 & 查询对比服务运行记录 \\
-        /cmp/record/:recordId & GET & 对比结果 & 查询对比结果 \\
+        /cmp/records & GET & 对比记录列表 & 查询对比服务运行记录 \\
+        /cmp/records/:recordId & GET & 对比结果 & 查询对比结果 \\
         \Xhline{1.5pt}
     \end{tabular}
 \end{table}
 
-\section{对比业务抽象和归纳}
-% 对比情景 + 多尺度要求 =》 共享与重用的重要性
-% 对比分析、名词解释
-% topic solution task
-% 案例
-% 意义：可共享 可重用
-% TODO 对比方案具体点：有观测数据、无观测数据
+\section{可共享和重用的对比方案设计}
+\label{sec:cmp-CSDL}
+针对第\ref{sec:cmp-sln-analysis}节的分析，模型对比通常面临着几个维度上的重用需求：
+\begin{enumerate}[(1)]
+    \item 在各种研究情景下可重用，包括有历史模拟情景、未来预测情景、敏感性分析情景和参数校准情景等；
+    \item 在对比参与者上可扩展，当加入新的模型时可重用；
+    \item 在不同的站点和区域上可重现，即在驱动数据配置上可替换。
+\end{enumerate}
 
-在进行对比业务抽象和归纳之前，先对本文中的一些名字做出解释：本文将GPP、NPP、NEP、Biomass、LAI等模拟指标称之为\textbf{对比要素}；将模型对比过程中所需要的所有数据称之为\textbf{对比数据集}，一套对比数据集包括有输入数据集、观测数据集。其中输入数据集由气象数据集、土壤数据集、植被功能类型数据集、DEM数据集等组成，每个具体的数据集可以选择可替换的模块，如气象数据集既可以采用MERRA 2再分析资料，又可以使用CRU再分析资料。在第\ref{sec:model-data}节中具体介绍的数据本文称之为标准对比数据集，作为系统分析的基础原始数据，而在其之上参照表~\ref{tab:future-scene}对数据进行的一系列修改，比如对温度$\pm2^{\circ}C$，对降水$\pm10\%$等，本文称之为衍生对比数据集。每一个模拟情景都有一套相对应的对比数据集。本文将参与对比的模型称之为\textbf{对比参与者}。
+针对这些重用需求，本文将对比流程设计为三步：“对比话题——对比方案——对比任务”，并设计了对比方案描述语言（Comparison Solution Description Language，CSDL），来描述和表达对比流程，如图~\ref{fig:ModelComparison!3-1-topic-solution-task_3}：
 
-\begin{figure}[!htbp]
-    \centering
-    \includegraphics[width=1\textwidth]{cmip-business-abstraction}
-    \caption{陆地生态系统碳循环模型对比业务抽象和归纳}
-    \label{fig:cmip-business-abstraction}
-\end{figure}
+ComparisonTopic表示\textbf{对比话题}，它包含了一系列对比要素（ComparisonFeature），并使用desc和wiki字段描述具体的研究问题、对比情景等。
 
-陆地生态系统碳循环模型在各种情景中可以归纳出三个主要关注点：研究问题、对比方法和模型运行数据的设定。这三点可以抽象为对比话题、对比方案和对比任务三个层次，如图~\ref{fig:cmip-business-abstraction}所示，对比业务的开展对应为对比话题、对比方案和对比任务创建和执行上。其中，\textbf{对比话题}中指明了研究问题、对比情景和对比要素；\textbf{对比方案}配置了对比参与者和对比方法，对比方案不包括具体的输入数据、观测数据和模拟结果，他表示的仅仅是对比的配置项，从而实现对比过程的可共享性、可重用性和可重现性；\textbf{对比任务}描述的是对比方案配置输入数据和观测数据实体的结果。模型在对比任务中开始具体的运算，并将运算结果与观测数据进行统计学对比和可视化对比。1个对比话题可以对应多个对比方案，一个对比方案通过配置不同的标准数据集可以对应多个对比任务。图~\ref{fig:ModelComparison!3-1-topic-solution-task_3}展示了对比话题、对比方案和对比任务的详细接口设计。
+ComparisonSolution表示\textbf{对比方案}，它配置了对比参与者（ComparisonService）和使用的对比方法（ComparisonMethod），同样使用desc和wiki字段详细描述方案的配置。对比方案不包括具体的输入数据、观测数据和结果数据，他表示的仅仅是对比的配置项，从而实现对比过程的可共享性、可重用性和可重现性。
+
+ComparisonTask表示\textbf{对比任务}，它由一系列模型计算任务（CalculationTask）组成，每个模型计算任务中配置了其所需的输入项和参数项。对比任务是可执行的实体，在启动对比时通过科学工作流执行引擎驱动其运行，并实时更新其运行状态（OGMSState）。对比任务实现了在不同站点和区域上的可重用性。
+
+对比话题、对比方案和对比任务的描述文档都包含了创建者（User）和用户交流记录（Conversition），从而更详细地对对比流程进行解释。
 
 \begin{figure}[!htbp]
     \centering
@@ -375,7 +348,7 @@ API网关也是针对微服务而出现的技术手段，在单体应用中，�
     \label{fig:ModelComparison!3-1-topic-solution-task_3}
 \end{figure}
 
-以植被生产力的对比为例，如表\ref{tab:topic-solution-task-example}所示，针对全球历史时期的植被生产力创建一个对比话题，对比要素包括有GPP、NPP、NEP等，这一个话题关联两个对比方案，其中对比参与者相同，都是IBIS、Biome-BGC和LPJ三个模型，第一个方案研究的是站点尺度，它使用的对比方法包括统计学和可视化两大类，通过配置不同的站点数据可以对应231个对比任务；第二个方案研究的是全球范围，它使用的对比方法只有可视化对比方法，只能创建一个相应的对比任务。这样的三层抽象使对比方案可共享与重用，简化了模型对比的难度，并将最后的对比结果公开发布为服务，使对比过程公开透明，更加具有可信度。
+以植被生产力的对比为例，如表\ref{tab:topic-solution-task-example}所示，针对全球历史时期的植被生产力创建一个对比话题，对比要素包括有GPP、NPP、NEP等，这一个话题关联两个对比方案，他们的对比参与者相同，都是IBIS、Biome-BGC和LPJ三个模型，第一个方案在观测站点尺度开展对比，它使用的对比方法包括统计学和可视化两大类，通过配置不同的观测站点数据可以对应231个对比任务；第二个方案研究的是全球尺度，它使用的对比方法只有可视化对比方法，通过配置全球网格输入数据创建一个相应的对比任务。这样的三层抽象使对比方案可共享与重用，简化了模型对比的难度，并将最后的对比结果公开发布为服务，使对比过程公开透明，更加具有可信度。
 
 % TODO 从 pdf 导入吧
 \begin{table}
@@ -388,13 +361,11 @@ API网关也是针对微服务而出现的技术手段，在单体应用中，�
             \multicolumn{2}{c}{\makecell[b]{对比话题}} & \multicolumn{2}{|c|}{\makecell[b]{对比方案}} & \multicolumn{1}{l}{\makecell[b]{对比任务}} \\
             \hline
             模拟情景 & 对比要素 & \makecell{对比参与者} & \makecell{对比方法} & 数据区域 \\
-            
             \Xhline{1.5pt}
-            \multirow{3}{*}{历史情景} & \multirow{3}{2cm}{GPP \quad NPP \quad NEP\ } & \multirow{3}{*}{\makecell{IBIS\\Biome-BGC\\LPJ}} & \multirow{2}{*}{\makecell{统计学对比方法\\可视化对比方法}} & CN-Cha（长白山）站点 \\
-            \cline{5-5}
-            &  &  &  & 其他站点，共231个 \\
+            \multirow{3}{*}{历史情景} & \multirow{3}{2cm}{GPP \quad NPP \quad NEP\ } & \multirow{3}{*}{\makecell{IBIS\\Biome-BGC\\LPJ}} & \multirow{2}{*}{\makecell{统计学对比方法\\可视化对比方法}} & \multirow{2}{*}{231个观测站点} \\
+            &&&&\\
             \cline{4-5}
-            &  &  & 可视化对比方法 & 全球 \\
+            &  &  & 可视化对比方法 & 全球网格点 \\
             \Xhline{1.5pt}
         \end{tabular}
     \end{threeparttable}
@@ -402,7 +373,7 @@ API网关也是针对微服务而出现的技术手段，在单体应用中，�
 
 \section{对比科学工作流引擎}
 \subsection{对比流程分析和归纳}
-图~\ref{fig:workflow-example}展示了传统方法在本地进行对比时的流程，整个流程可以概括为“模型计算——数据重构——结果对比”三步。模型计算过程中对比参与者同时输入数据启动运行；数据重构过程将运算结果转换为标准化数据；结果对比过程使用脚本分析。当加入新的对比参与者时整个对比流程也不会发生变化。
+图~\ref{fig:workflow-example}展示了传统方法在本地进行对比时的流程，整个流程可以概括为“模型计算——数据重构——结果对比”三步。模型计算过程中对比参与者同时输入数据启动运行；数据重构过程将运算结果转换为标准化数据；结果对比过程使用脚本分析。当改变数据集或者加入新的对比参与者时整个对比流程都不会发生变化。
 
 \begin{figure}[!htbp]
     \centering
@@ -412,35 +383,46 @@ API网关也是针对微服务而出现的技术手段，在单体应用中，�
 \end{figure}
 
 \subsection{对比自动化执行引擎}
-%  流程创建：是对工作流过程的抽象表示，定义工作流执行时使用的资源，其依赖关系着重表达了各任务之间从数据生产者到数据消费者的流程，这些资源是指可执行网络服务、数据，对应对比方案
-%  通过流程映射形成可执行的工作流实例，对应对比任务
+% 流程创建：是对工作流过程的抽象表示，定义工作流执行时使用的资源，其依赖关系着重表达了各任务之间从数据生产者到数据消费者的流程，这些资源是指可执行网络服务、数据，对应对比方案
+% 通过流程映射形成可执行的工作流实例，对应对比任务
 % 工作流定义：工作流语言通常用XML这种形式化描述语言，表达组成流程的任务和任务之间的依赖关系，SWF没有标准语言，流程定义只能由各自的流程引擎解析执行
 % 工作流执行：运行时建立网络资源之间的交互关系，将抽象工作流转换成可执行的工作流，建立任务和所需可用资源的映射关系
 % 工作流活动之间的依赖主要表达了多个任务之间的逻辑结构和执行方式，包括顺序、并行、循环、条件
-在微服务架构下，面临着服务集成的问题，科学工作流是服务集成的一个解决方案。 % 具体化，数据传输的流程
+在微服务架构下，由于数据和服务位置分散，面临着难以集成的问题，科学工作流是服务集成的一个解决方案。 % 具体化，数据传输的流程
 工作流管理联盟（Workflow Management Coalition，WfMC）将工作流定义为一类能够完全或者部分自动执行的经营过程，根据一系列过程规则，文档、信息、或任务能够在不同的执行者之间传递、执行。科学工作流是工作流的一种，它主要面向科学实验过程，以数据驱动，用来描述和控制科学实验和过程的执行~\cite{ludascher2006scientific}~\cite{Zhao2009Special}。
 
 科学工作流的生命周期可归纳为一下三点：
 \begin{enumerate}[(1)]
-    \item \textbf{流程创建：}定义工作流执行时所参与的活动，以及数据在活动之间的流向关系，在本文中活动是指各种模型服务、数据重构服务和对比服务。定义出的工作流表达了数据从生产者到消费者之间的流向关系，但还不包括数据实体；
+    \item \textbf{流程创建：}定义工作流执行时所参与的活动，以及数据在活动之间的流向关系，在本文中活动是指各种模型服务、数据重构服务和对比服务。创建出的工作流表达了数据从生产者到消费者之间的流向关系，但还不包括数据实体；
     \item \textbf{流程映射：}绑定活动所需要的数据实体，从而将工作流映射为可执行的工作流实例；
     \item \textbf{流程执行：}解析工作流中活动的依赖关系，并在网络环境下进行运算。
 \end{enumerate}
 
-在本文的对比流程中，工作流模式固定，如图~\ref{fig:workflow}，都是分“模型计算——数据重构——模型对比”三步，所以不再通过图形化界面创建工作流，只需要通过选择对比参与者和对比方法就能够重现出这三部流程，所以本文的工作流通过对比方案表达，流程创建对应对比方案的创建，流程映射对应对比任务的创建，流程执行对应对比任务的执行。
-
-% 每一步都是在网络环境下，有频繁的数据传输交互
+根据上小结的总结，在对比过程中工作流模式固定，都由“模型计算——数据重构——结果对比”三步组成，所以本文不再通过图形化界面创建工作流，只需要通过选择对比参与者和对比方法就能够映射到这三部流程，可以通过第~\ref{sec:cmp-CSDL}设计的对比方案描述文档表达，流程创建对应对比方案（ComparisonSolution）的创建，流程映射对应对比任务（ComparisonTask）的创建，流程执行对应对比任务的执行。
 
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=.5\textwidth]{workflow}
+    \includegraphics[width=1\textwidth]{jpg/ModelComparison!Activity1!3-4workflow_6}
     \caption{开放式对比科学工作流流程图}
     \label{fig:workflow}
 \end{figure}
 
-\section{本章小结}
-开放式对比系统的构建有两个关键问题：一是如何设计一个开放式的对比框架，二是这些对比资源如何接入框架。对于问题一，本章从对比业务、资源组件、网络架构和执行引擎四个角度进行了详细论述，设计的系统框架具有以下特点的：
+图~\ref{fig:workflow}展示了对比工作流的执行流程，整个对比流程包括：
+\begin{enumerate}[(1)]
+    \item 用户通过客户端提交并启动对比任务；
+    \item 工作流引擎将对比任务分解为模型计算任务，分发给模型微服务；
+    \item 模型微服务作为数据微服务的消费者，从数据管理容器上下载输入数据文件，当所有数据准备完成后启动模型开始计算；
+    \item 工作流引擎通过轮询监控模型的运行进度；
+    \item 当所有模型运行结束后，工作流引擎向数据管理容器发送启动请求，调用数据重构服务；
+    \item 数据重构运行结束后开始调用对比脚本；
+    \item 将对比结果保存到数据库中。
+\end{enumerate}
 
+通过对比工作流的驱动，保证了模型对比流程能够按部就班的开展，大大简化了用户操作的复杂性。
+
+% 每一步都是在网络环境下，有频繁的数据传输交互
+\section{本章小结}
+开放式对比系统的构建有两个关键问题：一是如何设计一个开放式的对比框架，二是这些对比资源如何接入框架。对于问题一，本章从网络架构、服务容器和地理资源组件、对比业务、执行引擎四个角度进行了详细论述，设计的系统框架具有以下特点的：
 \begin{enumerate}[(a)]
     \item 模型计算和对比可共享与重用；
     \item 模型计算和对比过程公开化；
