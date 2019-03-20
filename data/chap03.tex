@@ -83,7 +83,7 @@ API网关也是针对微服务而出现的技术手段，在单体应用中，�
 %     \label{fig:ms-server-microservice}
 % \end{figure}
 
-\section{微服务容器和地理资源组件库}
+\section{微服务容器和陆地生态系统碳循环资源组件库}
 本文将微服务容器定义为微服务的承载工具，微服务容器将经过标准化封装的地理资源组件通过REST API暴露出来，提供了从客户端访问这些组件的能力。根据本文对系统功能的划分，将微服务容器划分为三种：数据管理容器、模型计算容器和模型对比容器，如图~\ref{fig:universe-micro-service-container}所示，三种容器有部分通用的功能，包括微服务发布和注销、微服务运行实例管理、消息通知和日志记录、服务器性能监控等，如果没有统一的微服务管理容器，则这些功能在每个微服务组件中都需要建设一遍，而且对外接口变得五花八样，对于API网关来说难以集成。因此，本文通过通用的微服务容器对微服务进行管理。并在其基础上，针对三种微服务的特点，构建了三种各具特色的微服务容器，以实现三类地理资源组件的微服务发布。
 
 \begin{figure}[!htbp]
@@ -93,7 +93,7 @@ API网关也是针对微服务而出现的技术手段，在单体应用中，�
     \label{fig:universe-micro-service-container}
 \end{figure}
 
-\subsection{模型计算容器及模型资源组件库}
+\subsection{模型计算容器及碳循环模型资源组件库}
 \subsubsection{模型计算容器}
 \begin{figure}[!htbp]
     \centering
@@ -124,7 +124,7 @@ API网关也是针对微服务而出现的技术手段，在单体应用中，�
     \label{fig:model-operation}
 \end{figure}
 
-\subsubsection{模型资源组件库}
+\subsubsection{碳循环模型资源组件库}
 
 \begin{table}[!htbp]
     \centering
@@ -189,8 +189,8 @@ API网关也是针对微服务而出现的技术手段，在单体应用中，�
 模型计算容器所承载的众多模型微服务共同组成模型资源组件库，模型资源组件作为模型对比的参与者，在对比框架下具有形同的角色和地位。与封装之前的模型相比，屏蔽了其在调用接口、实现方法、开发语言等方面的异构性。
 模型资源组件库通过表述性状态转移（Representational State Transfer，REST）风格的接口暴露出来，以HTTP请求的POST、DELETE、GET和PUT方法对组件资源进行增删查改操作~\cite{fielding2000architectural}。其详细接口设计如表~\ref{tab:model-service-API}所示，分别对应图~\ref{fig:model-operation}的第1、2、4、5、6步（第3、7步对应数据操作接口）。其中模型调用接口“/model-service/:msId/invoke”是最重要的，其请求参数如表~\ref{tab:model-invoke-API}所示，在调用时，需要在请求体中附加模型的输入项、参数项、输出项，其id表示数据项标识，从“/model-service/:msId”接口返回的描述文档中可以获取，输入项的“value”是上传到服务器的数据id，参数项的“value”是Number或String类型的值，输出项的“value”不用填写。发送请求后，如果调用成功，则返回运行记录的recordId，凭此recordId可以通过“/model-service/records/:recordId”接口请求模型的运行记录，并从中获取运算的结果。
 
-\subsection{数据管理容器及数据资源组件库}
-\subsubsection{数据管理容器}
+\subsection{数据管理容器及碳循环数据资源组件库}
+\subsubsection{碳循环数据管理容器}
 数据管理容器对外提供数据微服务，主要包括以下两点功能：
 \begin{enumerate}[(1)]
 \item \textbf{数据存储和结果缓存：}数据资源包括各种模型输入数据、对比参照数据和输出数据。模型在运行时从数据管理容器请求输入数据，运行结束后将输出数据存储到数据管理容器。对比任务执行时从数据管理容器请求模型输出数据和对比参考数据，并将对比结果存储到数据服务容器；
@@ -199,7 +199,7 @@ API网关也是针对微服务而出现的技术手段，在单体应用中，�
 
 数据管理容器的硬件配置要求是硬盘大，网络带宽高，以方便数据存储和交换。
 
-\subsubsection{数据资源组件库}
+\subsubsection{碳循环数据资源组件库}
 
 \noindent\begin{table}[!htbp]
     \centering
@@ -324,8 +324,9 @@ API网关也是针对微服务而出现的技术手段，在单体应用中，�
     \end{tabular}
 \end{table}
 
-\section{可共享和重用的对比方案设计}
+\section{可共享重用的对比方案设计}
 \label{sec:cmp-CSDL}
+% 3.3 和 3.4 可以考虑合并
 针对第\ref{sec:cmp-sln-analysis}节的分析，模型对比通常面临着几个维度上的重用需求：
 \begin{enumerate}[(1)]
     \item 在各种研究情景下可重用，包括有历史模拟情景、未来预测情景、敏感性分析情景和参数校准情景等；
@@ -373,8 +374,10 @@ ComparisonTask表示\textbf{对比任务}，它由一系列模型计算任务（
     \end{threeparttable}
 \end{table}
 
-\section{对比科学工作流引擎}
+\section{基于科学工作流的对比引擎}
+% 内核（原3.3）-》引擎-》外部应用接口
 \subsection{对比流程分析和归纳}
+% 这一小结不要
 图~\ref{fig:workflow-example}展示了传统方法在本地进行对比时的流程，整个流程可以概括为“模型计算——数据重构——结果对比”三步。模型计算过程中对比参与者同时输入数据启动运行；数据重构过程将运算结果转换为标准化数据；结果对比过程使用脚本分析。当改变数据集或者加入新的对比参与者时整个对比流程都不会发生变化。
 
 \begin{figure}[!htbp]

@@ -1,7 +1,7 @@
 \chapter{原型系统与案例验证}
 \section{原型系统构建}
 % 原型系统功能设计用不用写？
-\subsection{网络结构}
+\subsection{网络架构}
 % TODO 拓扑图
 本文将原型系统部署在4台服务器上，如图~\ref{fig:server-topo}所示，其中“172.21.213.177”服务器是南师大地科院的刀片服务器上的虚拟机，CPU是E5-2630，10个核心，支持10个IBIS模型实例并行运行；“192.168.190.128”服务器是位于本地PC机的虚拟机上，CPU是i7-4770，4个核心，支持Biome-BGC和LPJ共4个实例并行运行；“172.21.212.58”服务器也是南师大地科院的刀片服务器上的虚拟机，硬盘大小200GB，支持大容量数据快速存取；“223.2.35.73”服务器位于本地PC机，CPU是i7-4770，8个核心。这些服务器都位于同一个局域网下，保证了稳定的数据传输速度。
 
@@ -41,7 +41,7 @@
     \label{fig:server-topo}
 \end{figure}
 
-\subsection{微服务容器}
+\subsection{基于微服务的模型和数据容器}
 服务容器作为服务的承载工具，它本身并不处理非常复杂的计算逻辑，而是将CPU密集型操作交给它所容纳的服务，所以服务容器是IO密集型的程序，他需要处理高并发的HTTP请求。Node.js作为异步编程的代表，天生适合这种场景，所以本文选择Node.js作为后台服务容器开发语言，使用MongoDB管理数据。由于Node.js的单线程特性，它本身并不稳定，所以使用PM2进行单台服务节点上Node.js应用的负载均衡。
 
 \begin{figure}[!htbp]
@@ -81,7 +81,7 @@
     \label{fig:api-gateway-children}
 \end{figure}
 
-\subsection{陆地生态系统碳循环模型对比门户网站}
+\subsection{陆地生态系统碳循环模型对比平台}
 面向开放式模型计算和对比的需求，本文构建了一个门户网站，作为共享对比方案和对比结果的入口。一方面可以将对比过程和结果公开化，降低碳循环模型的使用难度，另一方面可以激励模式组的模型通过封装加入进来，促进碳循环研究的发展。门户网站的主要功能模块设计为如图\ref{fig:system-module}，功能模块分为资源模块、对比业务模块、结果展示模块和用户管理模块，其中资源模块包括模型资源和数据资源；对比业务模块则对应于对比话题、对比方案和对比任务；结果展示模块基于所有对比任务的执行结果，将对比结果展示出去；用户模块包括用户的个人资源管理。门户网站的登录、注册和首页如图~\ref{fig:portal-index}所示。
 
 \begin{figure}[!htbp]
@@ -163,62 +163,67 @@
 
 \begin{figure}[!htbp]
     \centering
-    \subcaptionbox{时间序列折线图}{\includegraphics[width=0.49\textwidth]{22641-GPP-Line-chart}}
+    \subcaptionbox{时间序列折线图}{\includegraphics[width=0.325\textwidth]{22641-GPP-Line-chart}}
     \hfill
-    \subcaptionbox{箱图}{\includegraphics[width=0.49\textwidth]{22641-GPP-Box-diagram}} \\
-    \subcaptionbox{泰勒图}{\includegraphics[width=0.6\textwidth]{22641-GPP-Taylor-diagram}}\\
+    \subcaptionbox{箱图}{\includegraphics[width=0.325\textwidth]{22641-GPP-Box-diagram}}
+    \hfill
+    \subcaptionbox{泰勒图}{\includegraphics[width=0.325\textwidth]{22641-GPP-Taylor-diagram}}
     \caption{可视化对比结果}
     \label{fig:visual-cmp-rst}
 \end{figure}
 
 \subsection{基于植被功能类型的多站点差异性对比}
 % 草地、灌木、落叶林、常绿林、混交林
-由于每个站点的观测数据时间范围不同，在不同站点上不能选取相同的时间范围，本研究取模拟时间范围（1982-2013年）和观测站点的最长公共时间区间，将每个站点的模拟结果与观测数据进行对比，最后按照植被功能类型进行统计，得到不同植被功能类型下不同模型模拟的GPP和观测的GPP的平均值差异及相关系数表，如图~\ref{fig:heatmap-GPP-coef}所示，在CSH、ENF、MF三种植被类型中，四个模型模拟的相关系数都在0.6以上，而对EBF的模拟效果最差，相关性在0.21以下，同时，如图~\ref{fig:heatmap-GPP-mean}所示，IBIS模拟的GPP整体偏高2倍左右，总体来看，Biome-BGC和LPJ的模拟结果比MODIS在各种植被功能类型上都更要准确，其中，Biome-BGC无论是从相关性还是从均值分布上模拟能力都是最好的。
-按照表~\ref{tab:site-PFT-stat}所统计的8中站点植被功能类型，将129个站点的分类统计。
-
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=1\textwidth]{scatter-GPP}
-    \caption{129个站点GPP模拟值和观测值分布}
-    \label{fig:api-gateway-children}
+    \begin{minipage}[b]{1\textwidth}
+      \centering
+      \includegraphics[height=.4\textheight]{scatter-GPP}
+      \caption{129个站点GPP模拟值和观测值分布}
+      \label{fig:api-gateway-children}
+    \end{minipage} \\
+    \vspace{5pt}
+    \begin{minipage}[b]{1\textwidth}
+      \centering
+      \subcaptionbox{MEAN\label{fig:bar-GPP-mean}}{\includegraphics[width=.49\textwidth]{bar-GPP-mean}}
+      \hfill
+      \subcaptionbox{STD\label{fig:bar-GPP-std}}{\includegraphics[width=.49\textwidth]{bar-GPP-std}} \\
+      \subcaptionbox{COEF\label{fig:bar-GPP-coef}}{\includegraphics[width=.49\textwidth]{bar-GPP-coef}}
+      \hfill
+      \subcaptionbox{RMSE\label{fig:bar-GPP-rmse}}{\includegraphics[width=.49\textwidth]{bar-GPP-rmse}} \\
+      \caption{IBIS、Biome-BGC、LPJ和MODIS计算的GPP不同植被功能类型的统计指标柱状图}
+      \label{fig:bar-GPP-cmp}
+    \end{minipage}
 \end{figure}
 
-\begin{figure}[!htbp]
-    \centering
-    \subcaptionbox{MEAN\label{fig:bar-GPP-mean}}{\includegraphics[width=.495\textwidth]{bar-GPP-mean}}
-    \hfill
-    \subcaptionbox{STD\label{fig:taylor-GPP-CSH}}{\includegraphics[width=.495\textwidth]{bar-GPP-std}} \\
-    \subcaptionbox{COEF\label{fig:bar-GPP-mean}}{\includegraphics[width=.495\textwidth]{bar-GPP-coef}}
-    \hfill
-    \subcaptionbox{RMSE\label{fig:taylor-GPP-CSH}}{\includegraphics[width=.495\textwidth]{bar-GPP-rmse}} \\
-    \caption{IBIS、Biome-BGC、LPJ和MODIS计算的GPP不同植被功能类型的统计指标柱状图}
-    \label{fig:GPP-cmp-taylor}
-\end{figure}
+由于每个站点的观测数据时间范围不同，在不同站点上不能选取相同的时间范围，本研究取模拟时间范围（1982-2013年）和观测站点的最长公共时间区间，将每个站点的模拟结果与观测数据进行对比，最后按照植被功能类型进行统计，得到不同植被功能类型下不同模型模拟的GPP和观测的GPP的平均值差异及相关系数表，如图~\ref{fig:bar-GPP-coef}所示，在CSH、ENF、MF三种植被类型中，四个模型模拟的相关系数都在0.6以上，而对EBF的模拟效果最差，相关性在0.21以下，同时，如图~\ref{fig:bar-GPP-mean}所示，IBIS模拟的GPP整体偏高2倍左右，总体来看，Biome-BGC和LPJ的模拟结果比MODIS在各种植被功能类型上都更要准确，其中，Biome-BGC无论是从相关性还是从均值分布上模拟能力都是最好的。
+按照表~\ref{tab:site-PFT-stat}所统计的8种植被功能类型，将129个站点的分类统计。
 
-\begin{figure}[!htbp]
-    \centering
-    \subcaptionbox{OSH\label{fig:taylor-GPP-OSH}}{\includegraphics[width=.48\textwidth]{taylor-GPP-OSH}}
-    \hfill
-    \subcaptionbox{CSH\label{fig:taylor-GPP-CSH}}{\includegraphics[width=.48\textwidth]{taylor-GPP-CSH}} \\
-    \subcaptionbox{DBF\label{fig:taylor-GPP-DBF}}{\includegraphics[width=.48\textwidth]{taylor-GPP-DBF}}
-    \hfill
-    \subcaptionbox{EBF\label{fig:taylor-GPP-EBF}}{\includegraphics[width=.48\textwidth]{taylor-GPP-EBF}} \\
-    \subcaptionbox{DNF\label{fig:taylor-GPP-DNF}}{\includegraphics[width=.48\textwidth]{taylor-GPP-DNF}} 
-    \hfill
-    \subcaptionbox{ENF\label{fig:taylor-GPP-ENF}}{\includegraphics[width=.48\textwidth]{taylor-GPP-ENF}} \\
-    \subcaptionbox{GRA\label{fig:taylor-GPP-GRA}}{\includegraphics[width=.48\textwidth]{taylor-GPP-GRA}}
-    \hfill
-    \subcaptionbox{SAV\label{fig:taylor-GPP-SAV}}{\includegraphics[width=.48\textwidth]{taylor-GPP-SAV}}
-    % \hfill
-    % \subcaptionbox{WSA\label{fig:taylor-GPP-WSA}}{\includegraphics[width=.48\textwidth]{taylor-GPP-WSA}} 
-    % \hfill
-    % \subcaptionbox{CRO\label{fig:taylor-GPP-CRO}}{\includegraphics[width=.48\textwidth]{taylor-GPP-CRO}}
-    % \subcaptionbox{MF\label{fig:taylor-GPP-MF}}{\includegraphics[width=.48\textwidth]{taylor-GPP-MF}} \\
-    % \subcaptionbox{WET\label{fig:taylor-GPP-WET}}{\includegraphics[width=.48\textwidth]{taylor-GPP-WET}}
-    \caption{IBIS、Biome-BGC、LPJ和MODIS计算的GPP不同植被功能类型的雷达图}
-    \label{fig:GPP-cmp-taylor}
-\end{figure}
 
+
+% \begin{figure}[!htbp]
+%     \centering
+%     \subcaptionbox{OSH\label{fig:taylor-GPP-OSH}}{\includegraphics[width=.48\textwidth]{taylor-GPP-OSH}}
+%     \hfill
+%     \subcaptionbox{CSH\label{fig:taylor-GPP-CSH}}{\includegraphics[width=.48\textwidth]{taylor-GPP-CSH}} \\
+%     \subcaptionbox{DBF\label{fig:taylor-GPP-DBF}}{\includegraphics[width=.48\textwidth]{taylor-GPP-DBF}}
+%     \hfill
+%     \subcaptionbox{EBF\label{fig:taylor-GPP-EBF}}{\includegraphics[width=.48\textwidth]{taylor-GPP-EBF}} \\
+%     \subcaptionbox{DNF\label{fig:taylor-GPP-DNF}}{\includegraphics[width=.48\textwidth]{taylor-GPP-DNF}} 
+%     \hfill
+%     \subcaptionbox{ENF\label{fig:taylor-GPP-ENF}}{\includegraphics[width=.48\textwidth]{taylor-GPP-ENF}} \\
+%     \subcaptionbox{GRA\label{fig:taylor-GPP-GRA}}{\includegraphics[width=.48\textwidth]{taylor-GPP-GRA}}
+%     \hfill
+%     \subcaptionbox{SAV\label{fig:taylor-GPP-SAV}}{\includegraphics[width=.48\textwidth]{taylor-GPP-SAV}}
+%     % \hfill
+%     % \subcaptionbox{WSA\label{fig:taylor-GPP-WSA}}{\includegraphics[width=.48\textwidth]{taylor-GPP-WSA}} 
+%     % \hfill
+%     % \subcaptionbox{CRO\label{fig:taylor-GPP-CRO}}{\includegraphics[width=.48\textwidth]{taylor-GPP-CRO}}
+%     % \subcaptionbox{MF\label{fig:taylor-GPP-MF}}{\includegraphics[width=.48\textwidth]{taylor-GPP-MF}} \\
+%     % \subcaptionbox{WET\label{fig:taylor-GPP-WET}}{\includegraphics[width=.48\textwidth]{taylor-GPP-WET}}
+%     \caption{IBIS、Biome-BGC、LPJ和MODIS计算的GPP不同植被功能类型的雷达图}
+%     \label{fig:GPP-cmp-taylor}
+% \end{figure}
 
 \subsection{基于全球网格点的时空分布格局对比}
 \subsubsection{时间变化对比}
@@ -239,6 +244,7 @@
 \end{figure}
 
 
+\newpage
 \subsubsection{空间格局对比}
 % TODO 全球总GPP
 从空间格局上来看，Biome-BGC模拟结果与MOD17A2的结果最为接近，而IBIS全球范围内都偏高，而LPJ模拟的整体稍微偏低。从纬度的分布上来看，如图~\ref{fig:GPP-lat}，GPP的分布存在着明显的维度规律，在低纬度GPP最高，在高纬度GPP偏低，GPP在$0^{\circ}$、北纬$20^{\circ}$、南纬$35^{\circ}$存在三个峰值。三个模型中Biome-BGC与MODIS的结果最为一致，而在低纬度与MODIS模拟差异较大。
@@ -256,3 +262,5 @@
     \caption{IBIS、Biome-BGC、LPJ和MODIS的GPP的纬向变化规律}
     \label{fig:GPP-lat}
 \end{figure}
+
+\section{本章小结}

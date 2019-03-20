@@ -6,7 +6,7 @@
 网络空间中的数据按照其组织结构可以分为结构化数据、半结构化数据和非结构化数据，地理模型在运行时强烈依赖于输入数据的结构，所以半结构化和非结构化数据的结构化描述是数据应用时重要部分。
 本节首先从数据格式、尺度、编排三个方面详细地分析了碳循环相关数据资源的特征，对领域通用数据设计了结构化的描述接口，以帮助数据资源介绍、接入、匹配和展示。最后遵循OGC WMS、WFS、WCS标准，使用GeoServer发布碳循环数据服务，实现了空间数据的在线预览和查询检索，对于对比过程中需要进行的数据抽取和重组，设计了数据重构服务以解决数据与模型难以适配的适配问题。
 
-\subsection{碳循环相关数据资源结构特征分析}
+\subsection{碳循环数据资源结构特征分析}
 \subsubsection{数据格式分析}
 碳循环相关数据主要有几种格式：NetCDF、CSV、Shapefile和TXT，如表~\ref{tab:data-format-feature}所示，这些数据都是非结构化的。
 
@@ -133,7 +133,7 @@
 
 由于三个模型对于数据的要求不完全相同，所以合理的数据编排对数据检索、下载、模型运行都是至关重要的。如图~\ref{fig:data-arrange}所示，每套数据集存放在固定的路径下，可由数据库解析到。在运行一个格点时，首先从网格点shapefile的属性表中获取他的编号，再对应到具体的数据集和模型下面，可以获取详细的输入输出文件列表。
 
-\subsection{碳循环相关数据资源描述方法}
+\subsection{碳循环数据资源描述方法}
 \label{sec:data-desc}
 面对海量异构的数据资源，元数据是帮助人们理解数据最常用的方法，它描述了数据的内容、质量、表示方式、空间参照系、管理方式、数据的所有者、数据的提供方式和数据集的其他特征等，为地理信息的管理、维护和共享提供了基础。对于元数据的描述方法，国内外都有很多对应的研究，OGC采用XML Schema（如GOC Simple Feature规范）来描述GML，来支持WPS的运行~\cite{OGC-WPS}。OpenMI（Open Modelling Interface）设计了一套标准接口用于多模型集成耦合时对数据的定义、描述和传递~\cite{MOORE2005279}。乐松山设计的通用数据表达——交换模型（Universal Data Description eXchange Model，UDX），结合数据映射服务和数据重构服务，面向模型集成应用场景可以对数据结构进行结构化、语义化描述~\cite{乐松山2016面向地理模型共享与集成的数据适配方法研究}。
 
@@ -163,7 +163,7 @@
     \label{fig:data-desc-example}
 \end{figure}
 
-\subsection{碳循环相关数据资源的服务化封装}
+\subsection{碳循环数据资源的服务化}
 \label{sec:data-service}
 \subsubsection{WMS、WFS、WCS三种服务的发布}
 \label{subsubsec:OGC}
@@ -423,7 +423,7 @@
 \end{figure}
 \end{enumerate}
 
-\subsection{碳循环模型资源的封装、部署、发布}
+\subsection{碳循环模型资源的服务化}
 \label{subsec:ms-encap}
 \subsubsection{模型封装}
 % 接口设计
@@ -466,7 +466,8 @@
 服务部署和发布是将封装好的模型程序迁移到目标计算节点上的过程，主要包括模型服务描述文档数据库条目的录入和模型运行软硬件环境的匹配。对于模型服务描述文档，本文将数据库设计与第\ref{sec:ms-desc}节的描述接口同构，可以直接录入。对于软件环境，IBIS和LPJ使用gfortran编译的，需要libgfortran的动态链接库；Biome-BGC使用gcc编译，其依赖的软件环境libc是linux系统的底层接口，不需要重新安装。对于硬件环境，本文所用的三个模型对硬件要求都不高，可以直接部署在普通PC机上。
 
 \section{开放式碳循环对比资源接入方法}
-% 这一节有点短，不知道该怎么写
+% 对比方案的 构建=》执行（网络消息传送）=》结果
+% 对比方案的结构化描述、资源映射、服务化
 \subsection{碳循环模型对比方法}
 \subsubsection{统计学对比方法}
 \begin{align}
@@ -524,11 +525,11 @@
     \centering
     \subcaptionbox{泰勒图\label{fig:example-taylor}}{\includegraphics[width=0.47\textwidth]{example-taylor}}
     \hfill
-    \subcaptionbox{时间序列折线图\label{fig:example-timeseries-diagram}}{\includegraphics[width=0.47\textwidth]{example-timeseries-diagram}} \\
-    \subcaptionbox{热力图\label{fig:example-heatmap}}{\includegraphics[width=0.47\textwidth]{example-timeseries-diagram}} \\
-    \subcaptionbox{等值线图\label{fig:example-contour}}{\includegraphics[width=0.47\textwidth]{example-timeseries-diagram}}
+    \subcaptionbox{时间序列折线图\label{fig:example-timeseries-diagram}}{\includegraphics[width=0.47\textwidth]{example-timeseries-diagram}} \\ 
+    \subcaptionbox{地图\label{fig:example-raster-map}}{\includegraphics[width=0.7\textwidth]{raster-map}}\\
+    \subcaptionbox{热力图\label{fig:example-heatmap}}{\includegraphics[width=0.47\textwidth]{heatmap-GPP-coef}}
     \hfill
-    \subcaptionbox{偏差等值线图\label{fig:example-bias-contour}}{\includegraphics[width=0.47\textwidth]{example-timeseries-diagram}}
+    \subcaptionbox{纬向图\label{fig:example-lat}}{\includegraphics[width=0.47\textwidth]{GPP-lat}}
     \caption{可视化对比图表}
     \label{fig:ms-server-microservice}
 \end{figure}
@@ -547,11 +548,11 @@
 
 \item \textbf{地图}
 
-如图~\ref{fig:example-contour}所示，分别是等值线图和偏差等值线图，等值线图可以直观地表现GPP的空间分布格局，偏差等值线图则表示的是模型误差的空间分布。
+如图~\ref{fig:example-raster-map}所示，分别是等值线图和偏差等值线图，等值线图可以直观地表现GPP的空间分布格局，偏差等值线图则表示的是模型误差的空间分布。
 
 \item \textbf{纬向图}
 
-如图~\ref{fig:example-contour}所示，纬向图横轴是纬度，纵轴是观测指标，可以展示出观测指标的纬度分布规律。
+如图~\ref{fig:example-lat}所示，纬向图横轴是纬度，纵轴是观测指标，可以展示出观测指标的纬度分布规律。
 
 \end{enumerate}
 

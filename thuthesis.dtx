@@ -1442,7 +1442,7 @@
 \renewcommand\frontmatter{%
   \if@openright\cleardoublepage\else\clearpage\fi
   \@mainmatterfalse
-  \pagenumbering{Roman}
+  \pagenumbering{arabic}
   \pagestyle{thu@empty}}
 \renewcommand\mainmatter{%
   \if@openright\cleardoublepage\else\clearpage\fi
@@ -2314,6 +2314,7 @@
 % 目录生成命令。
 %    \begin{macrocode}
 \renewcommand\tableofcontents{%
+  \newpage\thispagestyle{thu@headings}%
   \thu@chapter*[]{\contentsname}
   \ifthu@bachelor\xiaosi[1.667]\else\xiaosi[1.65]\fi\@starttoc{toc}\normalsize}
 %    \end{macrocode}
@@ -3519,7 +3520,7 @@
     \ifthu@postdoctor
       \newcommand{\thu@resume@title}{个人简历、发表的学术论文与科研成果}
     \else
-      \newcommand{\thu@resume@title}{个人简历、在学期间发表的学术论文与研究成果}
+      \newcommand{\thu@resume@title}{在读期间发表的学术论文及研究成果}
     \fi
   \fi
 \else
@@ -3529,7 +3530,7 @@
     \ifthu@postdoctor
       \newcommand{\thu@resume@title}{个人简历、发表的学术论文与科研成果}
     \else
-      \newcommand{\thu@resume@title}{个人简历、在学期间发表的学术论文与研究成果}
+      \newcommand{\thu@resume@title}{在读期间发表的学术论文及研究成果}
     \fi
   \fi
 \fi
@@ -3553,7 +3554,7 @@
 % 列表。
 %    \begin{macrocode}
 \newcommand{\researchitem}[1]{%
-  \vspace{32bp}{\sihao\heiti\centerline{#1}}\par\vspace{14bp}}
+  \vspace{32bp}{\sihao\heiti\raggedleft{#1}}\par\vspace{14bp}}
 %    \end{macrocode}
 % \end{macro}
 %
