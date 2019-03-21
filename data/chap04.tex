@@ -135,7 +135,7 @@
 
 \subsection{碳循环数据资源描述方法}
 \label{sec:data-desc}
-面对海量异构的数据资源，元数据是帮助人们理解数据最常用的方法，它描述了数据的内容、质量、表示方式、空间参照系、管理方式、数据的所有者、数据的提供方式和数据集的其他特征等，为地理信息的管理、维护和共享提供了基础。对于元数据的描述方法，国内外都有很多对应的研究，OGC采用XML Schema（如GOC Simple Feature规范）来描述GML，来支持WPS的运行~\cite{OGC-WPS}。OpenMI（Open Modelling Interface）设计了一套标准接口用于多模型集成耦合时对数据的定义、描述和传递~\cite{MOORE2005279}。乐松山设计的通用数据表达——交换模型（Universal Data Description eXchange Model，UDX），结合数据映射服务和数据重构服务，面向模型集成应用场景可以对数据结构进行结构化、语义化描述~\cite{乐松山2016面向地理模型共享与集成的数据适配方法研究}。
+面对海量异构的数据资源，元数据是帮助人们理解数据最常用的方法，它描述了数据的内容、质量、表示方式、空间参照系、管理方式、数据的所有者、数据的提供方式和数据集的其他特征等，为地理信息的管理、维护和共享提供了基础。对于元数据的描述方法，国内外都有很多对应的研究，OGC采用XML Schema（如GOC Simple Feature规范）来描述GML，来支持WPS的运行~\cite{OGC-WPS}。OpenMI（Open Modelling Interface）设计了一套标准接口用于多模型集成耦合时对数据的定义、描述和传递~\cite{MOORE2005279}。乐松山设计的通用数据表达——交换模型（Universal Data Description eXchange Model，UDX），结合数据映射服务和数据重构服务，面向模型集成应用场景可以对数据结构进行结构化、语义化描述~\cite{2016-yuesongshan-phd}。
 
 \begin{figure}[!htbp]
     \centering
@@ -430,7 +430,7 @@
 % 几种方式：模型代理、源码封装
 % 对于执行链的封装
 
-在计算机领域，封装是对实体进行包装或组合形成具有稳定接口的新实体的方法和技术~\cite{胡迪2015地理模型的服务化封装方法研究}。通过封装，可以屏蔽原有程序的实现细节，提高模型的可复用性和可维护性，降低用户的使用难度。封装可以体现在程序设计的各个层次上，如函数、类、模块、组件、系统、可执行程序和Web服务这些粒度上都可以进行封装，本文的封装将模型包装成具有标准接口的控制台应用程序。
+在计算机领域，封装是对实体进行包装或组合形成具有稳定接口的新实体的方法和技术~\cite{2015-hudi-2}。通过封装，可以屏蔽原有程序的实现细节，提高模型的可复用性和可维护性，降低用户的使用难度。封装可以体现在程序设计的各个层次上，如函数、类、模块、组件、系统、可执行程序和Web服务这些粒度上都可以进行封装，本文的封装将模型包装成具有标准接口的控制台应用程序。
 
 模型封装最关键的是运行接口的设计，而模型运行接口的设计本质上是设计一个命令行参数解析标准，将输入输出选项映射给程序内存变量，业界有很多成熟的标准，如libc的getopt/getopt\_long接口、google的gflags接口等。本文采用的getopt/getopt\_long接口，它在很多其他语言上都有对应的移植版本，方便对不同语言模型封装的实现。getopt/getopt\_long接口支持单字符选项、多字符选项和可选参数选项，可以方便地生成帮助信息。通过getopt/getopt\_long的标准化，模型的调用命令可表示为“exeName -a -i=``filepath1'' -p=``10'' -o=``filepath3''”或“exeName -a --inputFile1=``filepath2'' --parameter1=``10'' --outputFile1=``filepath3''”。其中选项列表来自于运行信息描述文档，以“-”开头表示单字符选项，以“--”开头表示多字符选项，不带等号的如“-a”为参数选项。对于IBIS的封装，标准化后调用方式可表示为“IBIS --meteorology="meteorology\_file\_path" --soil="soil\_file\_path" --output="output\_file\_save\_path"”。对于解释型的语言，需要在命令前面加上解释器，如Biome-BGC模型的调用方式可表示为“node Biome-BGC.js -a --ini="ini\_config\_path" --met="meteorology\_file\_path" --co2="co2\_file\_path" --epc="PFT\_parameters\_file\_path" --output="output\_file\_path"”。
 
