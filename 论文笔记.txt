@@ -1,0 +1,48 @@
+interface WorkflowDriver {
+    start()             // 启动对比任务
+    invokeService()     // 调用服务
+    scanProgress()      // 监控服务运行进度和状态
+    isServiceReady()    // 判断服务数据准备情况
+    fetchData()         // 从远程获取数据
+    pushData()          // 将结果数据推送到远程服务器节点
+    addDataStubs()      // 增加数据存根
+}
+
+
+层级关系映射
+对比资源服务的映射
+服务关联
+
+
+NPP: 0-1 kgC m-2 y-1
+GPP: 0-3.5 kgC m-2 y-1
+
+
+
+LBA-DMIP通过制定标准实验协议来开展对比，标准协议主要包括：
+数据协议：
+研究站点的确定，为23个模型提供站点数据，包括经纬度、植被类型、高程、土壤质地、植被生理参数等一系列数据
+大气强迫数据的提供，包括温度、湿度、风速、长波辐射、短波辐射、压强、降水、CO2浓度
+物候信息
+植被结构
+模型的物理和生理初始参数，
+模型输出，规定必须输出GPP、NPP、Re等
+规定数据组织结构为netCDF
+
+
+
+
+
+GPP对比参考文献：
+	GAIM: 
+		Comparing global models of terrestrial net primary productivity (NPP): global pattern and differentiation by major biomes
+		NPP
+		
+	GPP:
+		Spatiotemporal patterns of terrestrial gross primary production: A review
+		基于IBIS模型拟的中国东部南北样带植被——王磊
+		基于IBIS 模型的1960—2006 年中国陆地生态系统碳收支格局研究——杨延征
+		Comparison between remote sensing and a dynamic vegetation model for estimating terrestrial primary production of Africa
+	LBA-DMIP:
+		An International Land-Biosphere Model Benchmarking Activity for the IPCC Fifth Assessment Report (AR5)
+		Overview of the Large-Scale Biosphere–Atmosphere Experiment in Amazonia Data Model Intercomparison Project (LBA-DMIP)
